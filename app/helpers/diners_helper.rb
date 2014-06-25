@@ -1,0 +1,2 @@
+module DinersHelper
+end

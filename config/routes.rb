@@ -1,4 +1,10 @@
 Community::Application.routes.draw do
+  resources :ingredients
+
+  resources :meals
+
+  resources :diners
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

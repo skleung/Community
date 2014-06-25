@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  chef: MyString
+  date: 2014-06-25 16:31:44
+
+two:
+  chef: MyString
+  date: 2014-06-25 16:31:44
