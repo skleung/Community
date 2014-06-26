@@ -1,0 +1,26 @@
+// Place all the styles related to the Welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.centered{
+	position: absolute;
+	left: 50%;
+	width: 300px;
+	margin-left: -150px;
+	top: 50%;
+	height: 200px;
+	text-align: center;
+	margin-top: -100px;
+	font-family: 'ubuntu', sans-serif;
+}
+
+#animate-logo{
+	-webkit-animation-duration: 3s;
+ 	-webkit-animation-delay: 2s;
+ 	-webkit-animation-iteration-count: infinite;
+ 	-moz-animation-duration: 3s;
+ 	-moz-animation-delay: 2s;
+ 	-moz-animation-iteration-count: infinite;
+ 	-o-animation-duration: 3s;
+ 	-o-animation-delay: 2s;
+ 	-o-animation-iteration-count: infinite;
+}

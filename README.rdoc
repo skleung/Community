@@ -13,8 +13,8 @@ Features
 -----
 1. Calculating costs for any given person (and to who!):
 > This involves keeping a relationship with who bought each ingredient, and being able to track who owes what.
-
-2. Tabular entry to add multiple ingredients
+> Basically, we loop through each finished ingredient 
+2. to add multiple ingredients
 3. 
 2. add ability to calculate monthly costs.
 3. 
