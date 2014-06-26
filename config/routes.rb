@@ -1,4 +1,5 @@
 Community::Application.routes.draw do
+  devise_for :diners
   resources :ingredients
 
   resources :meals
