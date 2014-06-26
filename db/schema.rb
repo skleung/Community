@@ -11,13 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625233330) do
+ActiveRecord::Schema.define(version: 20140626000319) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "diners_meals", id: false, force: true do |t|
+    t.integer "diner_id", null: false
+    t.integer "meal_id",  null: false
+  end
+
+  add_index "diners_meals", ["diner_id", "meal_id"], name: "index_diners_meals_on_diner_id_and_meal_id"
+  add_index "diners_meals", ["meal_id", "diner_id"], name: "index_diners_meals_on_meal_id_and_diner_id"
 
   create_table "ingredients", force: true do |t|
     t.string   "name"
@@ -26,6 +34,14 @@ ActiveRecord::Schema.define(version: 20140625233330) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "ingredients_meals", id: false, force: true do |t|
+    t.integer "ingredient_id", null: false
+    t.integer "meal_id",       null: false
+  end
+
+  add_index "ingredients_meals", ["ingredient_id", "meal_id"], name: "index_ingredients_meals_on_ingredient_id_and_meal_id"
+  add_index "ingredients_meals", ["meal_id", "ingredient_id"], name: "index_ingredients_meals_on_meal_id_and_ingredient_id"
 
   create_table "meals", force: true do |t|
     t.string   "chef"
