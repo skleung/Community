@@ -1,29 +1,27 @@
-<%= form_for(@ingredient) do |f| %>
-  <% if @ingredient.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@ingredient.errors.count, "error") %> prohibited this ingredient from being saved:</h2>
-
-      <ul>
-      <% @ingredient.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @ingredient, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
     </div>
-  <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :cost, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :cost, :class => 'text_field' %>
+    </div>
+  </div>
+  <!-- TODO: hide the finished box when we get this working -->
+  <div class="control-group">
+    <%= f.label :finished, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :finished, :class => 'text_field' %>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :cost %><br>
-    <%= f.text_field :cost %>
-  </div>
-  <div class="field">
-    <%= f.label :finished %><br>
-    <%= f.check_box :finished %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                ingredients_path, :class => 'btn' %>
   </div>
 <% end %>
