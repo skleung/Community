@@ -3,11 +3,24 @@
 <head>
   <title>Community</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", "http://fonts.googleapis.com/css?family=Ubuntu:400,700" %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
 
+<header>
+	<div class = "login">
+		<% if params[:name] %>
+		sdf
+			<%= params[:name] %>
+		<% else %>
+		sdf
+			<%= link_to("login" ,"diners/sign_in") %>
+		<% end %>
+	</div>
+</header>
 <%= yield %>
 
 </body>

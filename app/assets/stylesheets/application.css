@@ -11,3 +11,20 @@
  *= require_self
  *= require_tree .
  */
+
+header{
+	background-color: #900000;
+	text-align: center;
+	position: fixed;
+	top:0px;
+	height: 60px;
+	width: 100%;
+	font-family: 'ubuntu', helvetica, sans-serif;
+}
+
+.login{
+	position: relative;
+	left: 80%;
+	font-weight: bold;
+	font-size: 14px;
+}
