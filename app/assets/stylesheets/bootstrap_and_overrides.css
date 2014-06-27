@@ -22,3 +22,20 @@ form{
 label{
 	font-weight: bold;
 }
+
+.form-horizontal .control-label{
+	width: auto;
+	padding-right: 5px;
+}
+
+.form-horizontal .controls{
+	width: auto;
+	padding-left: 5px;
+	margin: 0;
+}
+
+.form-horizontal .form-actions{
+	background-color: inherit;
+	border: 0;
+	padding: 0;
+}

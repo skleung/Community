@@ -24,6 +24,7 @@ class DinersController < ApplicationController
   # POST /diners
   # POST /diners.json
   def create
+    byebug
     @diner = Diner.new(diner_params)
 
     respond_to do |format|
