@@ -1,0 +1,20 @@
+<div class = "container">
+	<div class = "centered">
+		<%byebug%>
+		<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
+		<h2>Cost-splitting made easy</h2>
+		<%= link_to("join the community", "#", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
+	</div>
+
+	<div id="sign_in_form" style="display:none">
+		<%= render :partial => 'form' %>
+	</div>
+	<%= render "devise/shared/links" %>
+
+</div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+  <%= render :partial => 'new.js' %>
+  </script>
+<% end %>
