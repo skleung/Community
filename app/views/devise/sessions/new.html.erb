@@ -2,24 +2,23 @@
 	<div class = "centered" id="welcome">
 		<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
 		<h2>Cost-splitting made easy</h2>
-		<%= link_to("join the community", "#", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
+		<%= link_to("join the community", "/diners/sign_up", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
 	</div>
 
-	<div id="sign_in_form" style="display:none">
-		<%= render :partial => 'form'%>
-		<%= render "devise/shared/links"%>
-	</div>
-	
+	<%= render :partial => 'form'%>
 
 </div>
 
 <% content_for :javascript do %>
 	<script>
-		document.getElementById("sign_in_button").onclick = function(){
-			document.getElementById("sign_in_form").style.display = "block";
-			document.getElementById("welcome").style.display = "none";
+		$("#sign_in_button").click(function(){
+			if ($(this).parent().hasClass("sign_in_buttons")){
+				$(this).hide();
+			}
+			$("#welcome").fadeOut('fast');
+			$("#sign_in_form").slideDown('slow'); //style.display = "fadeIn";
 			return false;
-		};
+		});
 	</script>
 <% end %>
 
