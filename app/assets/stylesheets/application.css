@@ -33,3 +33,9 @@ form{
 	margin-left: 15px;
 }
 
+.sign_in_buttons{
+
+	position: fixed;
+	top: 5px;
+	right: 10px;
+}

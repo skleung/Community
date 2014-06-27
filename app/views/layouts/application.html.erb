@@ -3,7 +3,6 @@
 <head>
   <title>Community</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= stylesheet_link_tag    "http://fonts.googleapis.com/css?family=Open_Sans:400,700", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 
   <%= csrf_meta_tags %>
@@ -12,5 +11,7 @@
 <%= render 'devise/menu/login_items' %>
 <%= yield %>
 
+
+<%= yield :javascript %>
 </body>
 </html>
