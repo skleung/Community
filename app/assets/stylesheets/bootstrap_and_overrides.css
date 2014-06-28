@@ -9,11 +9,11 @@
 
 form{
 	padding: 15px;
-	position: absolute;
+	position: relative;
 	left: 50%;
 	width: 300px;
 	margin-left: -150px;
-	top: 30%;
+	margin-top: 50px;
 	border:1px solid #aaa;
     box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
     border-radius:5px;

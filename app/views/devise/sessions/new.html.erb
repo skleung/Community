@@ -1,24 +1,76 @@
-<div class = "container">
-	<div class = "centered" id="welcome">
+<header>
+	<div id="logo">
 		<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
-		<h2>Cost-splitting made easy</h2>
-		<%= link_to("join the community", "/diners/sign_up", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
 	</div>
+	<div id = "navbar">
+		<%= link_to("home", "/", :name=> "home", :class => 'navbar-item') %>
+		<%= link_to("learn more", "#about", :name=> "about", :class => 'navbar-item') %>
+		<%= link_to("team", "#contact", :name=> "team", :class => 'navbar-item') %>
+		<%= link_to("contact", "#contact", :name=> "contact", :class => 'navbar-item') %>
+	</div>
+</header>
 
+<div class="container">
+	<section class = "selected" id="home">
+		<div class = "wrapper">
+			<h2>cost-splitting made easy</h2>
+			<p>Multiple dinners, inconsistent bills, and irregular schedules making finances a headache for you and your roommates? Community helps you manage group finances easily, whether it be food, chords, rent, or utilities.</p>
+		</div>
+		<%= link_to("sign_up", "/diners/sign_up", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
+	</section>
+
+	<!-- sign-in form -->
 	<%= render :partial => 'form'%>
+	
+	<section class = "hidden" id="about">
+		<div class = "wrapper">
+			<h2>What is community?</h2>
+			<p>We're not NBC's hit TV show, this is a cost-splitting web application that simplifies cost-sharing among friends</p>
+		</div>
+		<%= link_to("Join the Community", "/diners/sign_up", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
+	</section>
 
+	<section class = "hidden" id="team">
+		<div class = "wrapper">
+			<h2>SDK</h2>
+			<p>We're the swaggiest new SDK on the market: </p>
+			<p><b>SDK:</b> <i>noun(s)</i> Sherman, David, and Kevin.</p>
+		</div>
+	</section>
+
+	<section class = "hidden" id="contact">
+		<div class = "wrapper">
+			<p>Broke up with my ex-girl. here's her number: 555-234-5678.</p>
+			<p><b>SIKE</b> that's the wrong NUMBER!</p>
+			<a href = "http://www.youtube.com/watch?v=Iu90z9Akxgk">ref</a>
+		</div>
+	</section>
+
+	<footer>
+		Made with awesomeness. 06/2014.
+	</footer>
 </div>
+
+
 
 <% content_for :javascript do %>
 	<script>
 		$("#sign_in_button").click(function(){
-			if ($(this).parent().hasClass("sign_in_buttons")){
-				$(this).hide();
-			}
-			$("#welcome").fadeOut('fast');
-			$("#sign_in_form").slideDown('slow'); //style.display = "fadeIn";
+			$("section").hide();
+			$("#sign_in_form").show();
+			$("#sign_in_form").addClass("slideUp selected");
 			return false;
 		});
+
+		$(".navbar-item").click(function(e){
+			e.preventDefault(); //prevents default
+			var sectionId = $(this).attr('name');
+			$(".selected").hide();
+			$("#"+sectionId).show();
+
+			$("#"+sectionId).addClass("slideUp selected");
+		});
+
 	</script>
 <% end %>
 
