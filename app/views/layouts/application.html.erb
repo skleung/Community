@@ -8,8 +8,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%= bootstrap_flash %>
 <%= render 'devise/menu/login_items' %>
 <%= yield %>
+
+<script>
+  $("div.alert").fadeOut(5e3, "swing");
+</script>
 
 
 <%= yield :javascript %>
