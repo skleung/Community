@@ -62,6 +62,11 @@
 			return false;
 		});
 
+		<% if @load_login_form %>
+			$("#sign_in_button").click();
+		<% end %>
+
+
 		$(".navbar-item").click(function(e){
 			e.preventDefault(); //prevents default
 			var sectionId = $(this).attr('name');

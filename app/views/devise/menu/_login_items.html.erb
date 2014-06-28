@@ -2,6 +2,6 @@
 	<% if diner_signed_in? %>
 	  <%= link_to('Logout', destroy_diner_session_path, :method => :delete, :class=>"btn btn-default btn-medium" ) %>        
 	<% else %>
-	  <%= link_to('Login', new_diner_session_path , :class=>"btn btn-default btn-medium", :id=>"sign_in_button")  %>  
+	  <%= link_to('Login', new_diner_session_path(login_button: 'true') , :class=>"btn btn-default btn-medium", :id=>"sign_in_button")  %>  
 	<% end %>
 </div>
