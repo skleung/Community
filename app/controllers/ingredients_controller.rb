@@ -14,6 +14,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/new
   def new
+    @diners = Diner.all
     @ingredient = Ingredient.new
   end
 
@@ -25,7 +26,8 @@ class IngredientsController < ApplicationController
   # POST /ingredients.json
   def create
     @ingredient = Ingredient.new(ingredient_params)
-
+    @ingredient.diner_id = params[:ingredient][:diner_id]
+    byebug
     respond_to do |format|
       if @ingredient.save
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully created.' }

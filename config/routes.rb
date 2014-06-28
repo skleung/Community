@@ -1,6 +1,7 @@
 Community::Application.routes.draw do
   get "welcome/index"
-  devise_for :diners #this needs to be at the top of the file.
+  #devise_for :diners #this needs to be at the top of the file.
+  devise_for :diners, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout', :sign_up => "signup"}
 
   resources :ingredients
 
@@ -12,7 +13,7 @@ Community::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'diners#index'
+  root 'meals#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

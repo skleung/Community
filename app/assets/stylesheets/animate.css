@@ -21,13 +21,13 @@ Copyright (c) 2013 Daniel Eden
 }
 
 @keyframes slideUp {
-/*  0% {
+  0% {
     transform: translateY(75%);
-  }*/
+  }
   50%{
     transform: translateY(-8%);
   }
-  /*
+  
   65%{
     transform: translateY(4%);
   }
@@ -39,7 +39,7 @@ Copyright (c) 2013 Daniel Eden
   }     
   100% {
     transform: translateY(0%);
-  } */
+  }
 }
 
 @-webkit-keyframes slideUp {

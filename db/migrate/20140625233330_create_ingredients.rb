@@ -4,7 +4,7 @@ class CreateIngredients < ActiveRecord::Migration
       t.string :name
       t.decimal :cost
       t.boolean :finished
-
+      t.integer :diner_id
       t.timestamps
     end
   end
