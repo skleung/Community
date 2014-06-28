@@ -1,6 +1,7 @@
 <%- model_class = Ingredient -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <div class="alert alert-info" role="alert"><b>Pro-tip:</b> You can use the short-cut key 'n' to create a new ingredient.</div>
 </div>
 <table class="table table-striped">
   <thead>
@@ -38,3 +39,13 @@
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_ingredient_path,
             :class => 'btn btn-primary' %>
+
+<script type="text/javascript">
+$(document).keyup(function(){
+  var NEW_KEY_CODE = 78;
+  if(event.keyCode === NEW_KEY_CODE){
+    window.location.href = "/ingredients/new"; //redirect to new form
+    event.preventDefault();
+  }
+});</script>
+

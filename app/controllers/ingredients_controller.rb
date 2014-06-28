@@ -1,6 +1,7 @@
 class IngredientsController < ApplicationController
   before_action :set_ingredient, only: [:show, :edit, :update, :destroy]
 
+
   # GET /ingredients
   # GET /ingredients.json
   def index
@@ -14,7 +15,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/new
   def new
-    @diners = Diner.all
+    @defaultDinerID = session["warden.user.diner.key"][0][0] || 1
     @ingredient = Ingredient.new
   end
 
@@ -27,7 +28,6 @@ class IngredientsController < ApplicationController
   def create
     @ingredient = Ingredient.new(ingredient_params)
     @ingredient.diner_id = params[:ingredient][:diner_id]
-    byebug
     respond_to do |format|
       if @ingredient.save
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully created.' }
