@@ -1,7 +1,8 @@
 Community::Application.routes.draw do
   get "welcome/index"
   #devise_for :diners #this needs to be at the top of the file.
-  devise_for :diners, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout', :sign_up => "signup"}
+  devise_for :diners, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout', :sign_up => "signup"}, 
+      controllers: { registrations: "registrations", sessions: "sessions" }
 
   resources :ingredients
 
