@@ -1,5 +1,6 @@
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:id =>"sign_in_form", :style => "display: none"}) do |f| %>
+  <%= bootstrap_flash %>
   <div><%= f.label :email %><br />
   <%= f.email_field :email, autofocus: true %></div>
 

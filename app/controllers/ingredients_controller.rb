@@ -15,7 +15,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/new
   def new
-    @defaultDinerID = session["warden.user.diner.key"][0][0] || 1
+    @defaultDinerID = current_diner.id
     @ingredient = Ingredient.new
   end
 

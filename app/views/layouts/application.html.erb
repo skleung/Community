@@ -6,16 +6,18 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 
   <%= csrf_meta_tags %>
+  <%= nav_bar :fixed => :top, :brand => "Community" do %>
+    <%= menu_group do %>
+      <%= menu_item "Meals", meals_path %>
+      <%= menu_item "Diners", diners_path %>
+      <%= menu_item "Ingredients", ingredients_path %>
+    <% end %>
+    <%= render 'devise/menu/login_items' %>
+  <% end %>
 </head>
-<body>
+<body style="padding-top: 50px;">
 <%= bootstrap_flash %>
-<%= render 'devise/menu/login_items' %>
 <%= yield %>
-
-<script>
-  $("div.alert").fadeOut(5e3, "swing");
-</script>
-
 
 <%= yield :javascript %>
 </body>
