@@ -6,6 +6,8 @@ gem 'rails', '4.0.5'
 gem "twitter-bootstrap-rails"
 gem 'devise'
 
+gem 'annotate'
+
 # Use sqlite3 as the database for Active Record
 group :test, :development do
   gem 'sqlite3'
