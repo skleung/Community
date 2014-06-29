@@ -41,6 +41,7 @@ class MealsController < ApplicationController
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update
+    byebug
     respond_to do |format|
       if @meal.update(meal_params)
         format.html { redirect_to @meal, notice: 'Meal was successfully updated.' }
@@ -71,12 +72,17 @@ class MealsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
       setup_ingredients_attributes
-      params.require(:meal).permit(:chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [])
+      params.require(:meal).permit(:chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
     end
 
+    # ingredient_attributes needs to be an array of hashes
     def setup_ingredients_attributes
-      params[:meal][:ingredients_attributes].map! do |str|
-        str.kind_of?(String) ? eval(str) : str
+      if params[:meal][:ingredients_attributes]
+        params[:meal][:ingredients_attributes].map! do |str|
+          str.kind_of?(String) ? eval(str) : str
+        end
       end
+
+      params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
     end
 end

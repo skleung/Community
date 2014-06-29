@@ -5,4 +5,10 @@ class Meal < ActiveRecord::Base
 
   accepts_nested_attributes_for :ingredients, :diners
 
+  def ingredients_attributes=(attributes)
+    attributes.each do |hsh|
+      ingredient = Ingredient.find(hsh["id"])
+      ingredient.update_attributes(hsh)
+    end
+  end
 end
