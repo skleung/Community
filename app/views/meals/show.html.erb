@@ -8,6 +8,15 @@
   <dd><%= @meal.chef %></dd>
   <dt><strong><%= model_class.human_attribute_name(:date) %>:</strong></dt>
   <dd><%= @meal.date %></dd>
+  <dt><strong>Diners:</strong></dt>
+  <% @diners.each do |diner| %>
+    <dd><%= diner.name %></dd>
+  <% end %>
+  <dt><strong>Ingredients:</strong></dt>
+  <% @ingredients.each do |ingredient| %>
+    <dd><%= ingredient.name + ' Finished? ' + (ingredient.finished ? 'yes' : 'no') %></dd>
+  <% end %>
+
 </dl>
 
 <div class="form-actions">

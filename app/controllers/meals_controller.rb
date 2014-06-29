@@ -10,6 +10,8 @@ class MealsController < ApplicationController
   # GET /meals/1
   # GET /meals/1.json
   def show
+    @diners = @meal.diners
+    @ingredients = @meal.ingredients
   end
 
   # GET /meals/new
