@@ -4,4 +4,8 @@ class Meal < ActiveRecord::Base
 	has_and_belongs_to_many :diners
 
   accepts_nested_attributes_for :ingredients, :diners
+
+  def ingredients_attributes=(attributes)
+    byebug
+  end
 end
