@@ -23,6 +23,18 @@
     %>
   </div>
 
+  <div class="control-group">
+    <%= f.label :ingredients, :class => 'control-label' %>
+  </div>
+
+  <% Ingredient.all.each do |ingredient| %>
+    <%= check_box_tag "meal[ingredient_ids][]", ingredient.id %>
+    <span><%= ingredient.name %></span>
+    <%= check_box_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: true }" %>
+    <span>Finished?</span>
+    <br>
+  <% end %>
+
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

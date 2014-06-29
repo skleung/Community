@@ -7,7 +7,14 @@ gem "twitter-bootstrap-rails"
 gem 'devise'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+group :test, :development do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'

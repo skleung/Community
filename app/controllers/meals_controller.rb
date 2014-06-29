@@ -50,6 +50,8 @@ class MealsController < ApplicationController
         format.json { render json: @meal.errors, status: :unprocessable_entity }
       end
     end
+    byebug
+    a=1
   end
 
   # DELETE /meals/1
@@ -70,6 +72,11 @@ class MealsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
-      params.require(:meal).permit(:chef, :date, :diner_ids => [])
+      setup_ingredients_attributes
+      params.require(:meal).permit(:chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [])
+    end
+
+    def setup_ingredients_attributes
+      params[:meal][:ingredients_attributes].map! { |str| eval(str) }
     end
 end
