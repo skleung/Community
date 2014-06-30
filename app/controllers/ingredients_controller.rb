@@ -21,7 +21,10 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/1/edit
   def edit
-  end
+    if current_diner.id != Ingredient.find_by_id(params[:id]).diner_id
+      render action: 'new', notice: 'Only the buyer of this ingredient can edit this item.'
+    end
+  end 
 
   # POST /ingredients
   # POST /ingredients.json
@@ -42,6 +45,7 @@ class IngredientsController < ApplicationController
   # PATCH/PUT /ingredients/1
   # PATCH/PUT /ingredients/1.json
   def update
+
     respond_to do |format|
       if @ingredient.update(ingredient_params)
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully updated.' }

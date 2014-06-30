@@ -29,6 +29,9 @@ class MealsController < ApplicationController
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner
 
+    @meal.errors.add(:base, "SWAG")
+    byebug
+
     respond_to do |format|
       if @meal.save
         format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
@@ -43,7 +46,6 @@ class MealsController < ApplicationController
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update
-    byebug
     respond_to do |format|
       if @meal.update(meal_params)
         format.html { redirect_to @meal, notice: 'Meal was successfully updated.' }

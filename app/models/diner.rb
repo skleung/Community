@@ -32,4 +32,11 @@ class Diner < ActiveRecord::Base
     update_attribute(:name, email) if name.empty?
   end
 	
+  def cost
+    total = 0.0
+    Meal.all.each do |meal|
+      total += meal.cost
+    end
+    total
+  end
 end

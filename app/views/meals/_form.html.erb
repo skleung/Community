@@ -1,4 +1,13 @@
 <%= form_for @meal, :html => { :class => 'form-horizontal' } do |f| %>
+  <% if @meal.errors.any? %>
+    <div class = "alert alert-danger" role="alert">
+      <div><b>Error(s)</b></div>
+      <% @meal.errors.full_messages.each do |msg| %>
+        <li><%=msg%></li>
+      <% end %> 
+    </div> 
+  <% end %>
+
   <div class="control-group">
     <%= f.label :chef, :class => 'control-label' %>
     <div class="controls">
