@@ -31,6 +31,10 @@ class Meal < ActiveRecord::Base
   end 
 
   def cost
-    return 2.0
+    ingredients.sum{|x| x.cost_for_number_of_diners(diners.count) }
+  end
+
+  def all_ingredients_finished?
+    !ingredients.where(finished: false).any?
   end
 end

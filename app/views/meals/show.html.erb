@@ -8,7 +8,9 @@
   <dd><%= @meal.chef %></dd>
   <dt><strong><%= model_class.human_attribute_name(:date) %>:</strong></dt>
   <dd><%= @meal.date %></dd>
-  <dt><strong>Diners:</strong></dt>
+  <dt>Cost</dt>
+  <dd><%= @meal.all_ingredients_finished? ? number_to_currency(@meal.cost) : 'Some ingredients are not finished' %></dd>
+  <dt>Diners:</dt>
   <% @diners.each do |diner| %>
     <dd><%= link_to diner, diner %></dd>
   <% end %>
