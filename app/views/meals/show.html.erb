@@ -10,7 +10,7 @@
   <dd><%= @meal.date %></dd>
   <dt><strong>Diners:</strong></dt>
   <% @diners.each do |diner| %>
-    <dd><%= diner.name %></dd>
+    <dd><%= link_to diner, diner %></dd>
   <% end %>
   <h2>Ingredients in this Meal</h2>
   <table>
@@ -23,7 +23,7 @@
     </tr>
     <% @ingredients.each do |ingredient| %>
       <tr>
-        <td><%= link_to ingredient.name, ingredient %></td>
+        <td><%= link_to ingredient %></td>
         <td><%= ingredient.finished ? 'yes' : 'no' %></td>
         <td><%= ingredient.pieces %></td>
         <td><%= number_to_currency(ingredient.cost) %></td>

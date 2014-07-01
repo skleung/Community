@@ -25,4 +25,8 @@ class Ingredient < ActiveRecord::Base
   def cost_for_number_of_diners(number_of_diners)
     cost*number_of_diners/pieces
   end
+
+  def to_s
+    name
+  end
 end

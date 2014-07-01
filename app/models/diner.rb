@@ -39,4 +39,8 @@ class Diner < ActiveRecord::Base
     end
     total
   end
+
+  def to_s
+    name
+  end
 end

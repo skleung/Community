@@ -6,10 +6,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:cost) %></th>
       <th><%= model_class.human_attribute_name(:finished) %></th>
+      <th>Buyer</th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -17,11 +17,11 @@
   <tbody>
     <% @ingredients.each do |ingredient| %>
       <tr>
-        <td><%= link_to ingredient.id, ingredient_path(ingredient) %></td>
-        <td><%= ingredient.name %></td>
-        <td><%= ingredient.cost %></td>
-        <td><%= ingredient.finished %></td>
-        <td><%=l ingredient.created_at %></td>
+        <td><%= link_to ingredient, ingredient %></td>
+        <td><%= number_to_currency(ingredient.cost) %></td>
+        <td><%= ingredient.finished ? 'Yes' : 'No' %></td>
+        <td><%= link_to ingredient.diner, ingredient.diner %></td>
+        <td><%= l ingredient.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_ingredient_path(ingredient), :class => 'btn btn-mini' %>
