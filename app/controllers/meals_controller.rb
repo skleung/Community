@@ -29,9 +29,6 @@ class MealsController < ApplicationController
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner
 
-    @meal.errors.add(:base, "SWAG")
-    byebug
-
     respond_to do |format|
       if @meal.save
         format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
