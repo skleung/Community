@@ -12,10 +12,25 @@
   <% @diners.each do |diner| %>
     <dd><%= diner.name %></dd>
   <% end %>
-  <dt><strong>Ingredients:</strong></dt>
-  <% @ingredients.each do |ingredient| %>
-    <dd><%= ingredient.name + ' Finished? ' + (ingredient.finished ? 'yes' : 'no') %></dd>
-  <% end %>
+  <h2>Ingredients in this Meal</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Finished</th>
+      <th>Pieces</th>
+      <th>Cost</th>
+      <th>Cost to this Meal</th>
+    </tr>
+    <% @ingredients.each do |ingredient| %>
+      <tr>
+        <td><%= link_to ingredient.name, ingredient %></td>
+        <td><%= ingredient.finished ? 'yes' : 'no' %></td>
+        <td><%= ingredient.pieces %></td>
+        <td><%= number_to_currency(ingredient.cost) %></td>
+        <td><%= ingredient.finished ? number_to_currency(ingredient.cost_for_number_of_diners(@diners.count)) : 'ingredient not finished' %></td>
+      </tr>
+    <% end %>
+  </table>
 
 </dl>
 
