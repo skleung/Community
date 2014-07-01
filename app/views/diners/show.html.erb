@@ -8,6 +8,8 @@
   <dd><%= @diner.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
   <dd><%= @diner.email %></dd>
+  <dt>Cost</dt>
+  <dd><%= number_to_currency @diner.cost %></dd>
 </dl>
 
 <div class="form-actions">

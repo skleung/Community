@@ -31,7 +31,11 @@ class Meal < ActiveRecord::Base
   end 
 
   def cost
-    ingredients.sum{|x| x.cost_for_number_of_diners(diners.count) }
+    ingredients.sum{|ing| ing.cost_for_number_of_diners(diners.count) }
+  end
+
+  def cost_for_single_diner
+    ingredients.sum{|ing| ing.cost_for_number_of_diners(1) }
   end
 
   def all_ingredients_finished?
