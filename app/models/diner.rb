@@ -33,11 +33,7 @@ class Diner < ActiveRecord::Base
   end
 	
   def cost
-    total = 0.0
-    Meal.all.each do |meal|
-      total += meal.cost
-    end
-    total
+    meals.sum { |meal| meal.cost_for_single_diner }
   end
 
   def to_s

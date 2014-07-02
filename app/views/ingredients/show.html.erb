@@ -7,9 +7,31 @@
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @ingredient.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:cost) %>:</strong></dt>
-  <dd><%= @ingredient.cost %></dd>
+  <dd><%= number_to_currency @ingredient.cost %></dd>
   <dt><strong><%= model_class.human_attribute_name(:finished) %>:</strong></dt>
   <dd><%= @ingredient.finished %></dd>
+  <h2>Meals using this Ingredient</h2>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Chef</th>
+      <th>Cost</th>
+      <th>This Ingredient's Contribution to Cost</th>
+    </tr>
+    <% @ingredient.meals.each do |meal| %>
+      <tr>
+        <td><%= link_to meal.id, meal %></td>
+        <td><%= meal.chef %></td>
+        <% if meal.all_ingredients_finished? %>
+          <td><%= number_to_currency(meal.cost) %></td>
+          <td><%= number_to_currency @ingredient.cost_for_number_of_diners(meal.diners.count) %></td>
+        <% else %>
+          <td>Some ingredients are not finished</td>
+          <td>Some ingredients are not finished</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 </dl>
 
 <div class="form-actions">
