@@ -40,6 +40,20 @@ class MealsController < ApplicationController
     end
   end
 
+  def signup
+    @meals = Meal.all
+    @valid_dates = @meals.map{|meal| meal.date}
+
+    #use the above array to validate whether people have signed up for a meal for that date or not
+    #maybe the best way is to PATCH/PUT to the update action...
+    #the tricky part will be how to catch the errors from the update method
+
+    #or we can think about how to do a sign_up post method
+
+    #if not, we want to display an alert asking if they'd like to make a meal on that date instead.
+  end
+
+
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update

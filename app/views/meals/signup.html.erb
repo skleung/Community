@@ -1,0 +1,15 @@
+<%- model_class = Meal -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+
+	<div class="alert alert-info" role="alert">
+		<b>Pro-tip:</b>To create new meals on dates that already have meals, go to the Meals tab.
+	</div>
+
+</div>
+
+
+<h3>Interactive Calendar goes here</h3>
+
+<p>Essentially we want users to be able to click on a calendar and either signup for a meal or create a meal if its not already there. I was thinking an ajax request on each onclick (or on drag) method that would send a patch request to each of the meals that is within their range.</p>
+
