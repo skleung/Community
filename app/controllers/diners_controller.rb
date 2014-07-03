@@ -1,5 +1,7 @@
 class DinersController < ApplicationController
   before_action :set_diner, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_admin!, only: [:new, :create]
+  before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
 
   # GET /diners
   # GET /diners.json
@@ -65,6 +67,10 @@ class DinersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_diner
       @diner = Diner.find(params[:id])
+    end
+
+    def verify_yourself_or_admin!
+      @diner.id == current_diner.id || authenticate_admin!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
