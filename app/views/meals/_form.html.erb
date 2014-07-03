@@ -14,6 +14,14 @@
       <%= f.text_field :chef, :class => 'text_field' %>
     </div>
   </div>
+  <!-- select a owner from diners -->
+  <div class = "control-group">
+    <%= f.label :owner_id, "Owner", :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select(:owner_id , Diner.all, :id, :name, {:selected => @defaultDinerID}) %>
+
+    </div>
+  </div>
   <div class="control-group">
     <%= f.label :date, :class => 'control-label' %>
     <div class="controls">

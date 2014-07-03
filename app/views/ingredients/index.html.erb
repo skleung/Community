@@ -23,13 +23,15 @@
         <td><%= link_to ingredient.diner, ingredient.diner %></td>
         <td><%= l ingredient.created_at %></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_ingredient_path(ingredient), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      ingredient_path(ingredient),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+          <% if verify_yourself_or_admin(ingredient.diner.id) %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_ingredient_path(ingredient), :class => 'btn btn-mini' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        ingredient_path(ingredient),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+          <% end %>
         </td>
       </tr>
     <% end %>

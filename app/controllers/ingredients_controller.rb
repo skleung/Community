@@ -1,6 +1,6 @@
 class IngredientsController < ApplicationController
   before_action :set_ingredient, only: [:show, :edit, :update, :destroy]
-
+  before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
 
   # GET /ingredients
   # GET /ingredients.json
@@ -21,16 +21,13 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/1/edit
   def edit
-    if current_diner.id != Ingredient.find_by_id(params[:id]).diner_id
-      render action: 'new', notice: 'Only the buyer of this ingredient can edit this item.'
-    end
+    @defaultDinerID = @ingredient.diner.id
   end 
 
   # POST /ingredients
   # POST /ingredients.json
   def create
     @ingredient = Ingredient.new(ingredient_params)
-    @ingredient.diner_id = params[:ingredient][:diner_id]
     respond_to do |format|
       if @ingredient.save
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully created.' }
@@ -45,7 +42,6 @@ class IngredientsController < ApplicationController
   # PATCH/PUT /ingredients/1
   # PATCH/PUT /ingredients/1.json
   def update
-
     respond_to do |format|
       if @ingredient.update(ingredient_params)
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully updated.' }
@@ -73,8 +69,12 @@ class IngredientsController < ApplicationController
       @ingredient = Ingredient.find(params[:id])
     end
 
+    def verify_yourself_or_admin!
+      @ingredient.diner.id == current_diner.id || authenticate_admin!
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def ingredient_params
-      params.require(:ingredient).permit(:name, :cost, :finished)
+      params.require(:ingredient).permit(:name, :cost, :finished, :diner_id)
     end
 end

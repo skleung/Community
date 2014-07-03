@@ -1,6 +1,5 @@
 class DinersController < ApplicationController
   before_action :set_diner, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_admin!, only: [:new, :create]
   before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
 
   # GET /diners
@@ -14,29 +13,8 @@ class DinersController < ApplicationController
   def show
   end
 
-  # GET /diners/new
-  def new
-    @diner = Diner.new
-  end
-
   # GET /diners/1/edit
   def edit
-  end
-
-  # POST /diners
-  # POST /diners.json
-  def create
-    @diner = Diner.new(diner_params)
-
-    respond_to do |format|
-      if @diner.save
-        format.html { redirect_to @diner, notice: 'Diner was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @diner }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @diner.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /diners/1
