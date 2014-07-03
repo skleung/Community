@@ -29,6 +29,7 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
+    byebug
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
 
@@ -95,7 +96,7 @@ class MealsController < ApplicationController
     end
 
     def verify_yourself_or_admin!
-      @meal.owner.id == current_diner.id || authenticate_admin!
+      @meal.owner.id == current_diner.id || @meal.chef.id == current_diner.id || authenticate_admin!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

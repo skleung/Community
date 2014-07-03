@@ -16,7 +16,7 @@ class Meal < ActiveRecord::Base
 	has_and_belongs_to_many :ingredients
 	has_and_belongs_to_many :diners
 
-  validate :name, presence: true
+  validate :name, :owner, :chef, :date, presence: true
   validate :has_diners?
   validate :has_ingredients?
   validate :date, uniqueness: true

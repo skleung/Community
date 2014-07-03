@@ -15,10 +15,6 @@ class DinersController < ApplicationController
 
   # GET /diners/1/edit
   def edit
-    if (current_diner.id.to_s != params[:id])
-      redirect_to diners_path, flash: {error: "Error. You cannot change another diner's account." }
-    end
-
   end
 
   # PATCH/PUT /diners/1

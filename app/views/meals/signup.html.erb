@@ -2,9 +2,9 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 
-	<div class="alert alert-info" role="alert">
-		<b>Pro-tip:</b>To create new meals on dates that already have meals, go to the Meals tab.
-	</div>
+  <div class="alert alert-info" role="alert">
+    <b>Pro-tip:</b>To create new meals on dates that already have meals, go to the Meals tab.
+  </div>
 
 </div>
 
@@ -16,30 +16,28 @@
 <h3>Who owes you</h3>
 <table>
 <tr>
-	<th>Name</th>
-	<th>Amount owed</th>
+  <th>Name</th>
+  <th>Amount owed</th>
 </tr>
-<% Diner.all.each do |diner| %>
-	<% if (diner != current_diner) %>
-		<tr>
-			<td><%=link_to diner, diner%></td>
-			<td><%=number_to_currency current_diner.request_payment_from(diner.id)%></td>
-		</tr>
-	<%end%>
+<% Diner.where.not(id: current_diner.id).each do |diner| %>
+  <tr>
+    <td><%= link_to diner.name, diner %></td>
+    <td><%= number_to_currency current_diner.request_payment_from(diner.id) %></td>
+  </tr>
 <%end%>
 </table>
 
 <h3>Who you owe</h3>
 <table>
 <tr>
-	<th>Name</th>
-	<th>Amount owed</th>
+  <th>Name</th>
+  <th>Amount owed</th>
 </tr>
 <% @payments.each do |payment| %>
-	<tr>	
-		<td><%=link_to payment[:diner_name], diners_path(payment[:diner_id]) %></td>
-		<td><%=number_to_currency payment[:owed_amount]%></td>
-	</tr>
+  <tr>  
+    <td><%=link_to payment[:diner_name], diners_path(payment[:diner_id]) %></td>
+    <td><%=number_to_currency payment[:owed_amount]%></td>
+  </tr>
 <%end%>
 </table>
 
