@@ -39,7 +39,7 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               meals_path, :class => 'btn'  %>
-  <% if verify_yourself_or_admin(@meal.owner.id) %>
+  <% if verify_yourself_or_admin(@meal.owner.id) || verify_yourself_or_admin(@meal.chef.id) %>
     <%= link_to t('.edit', :default => t("helpers.links.edit")),
                 edit_meal_path(@meal), :class => 'btn' %>
     <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
