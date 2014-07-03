@@ -18,7 +18,12 @@ diners.each do |diner|
   end
   diner[:password] = '12345678'
   diner[:password_confirmation] = '12345678'
+  diner[:role] = 'user'
   Diner.create!(diner)
+end
+
+if Diner.where(email: 'admin@test.com').count == 0
+  Diner.create!(name: 'admin', email: 'admin@test.com', password: '12345678', password_confirmation: '12345678', role: 'admin')
 end
 
 ingredients = [
