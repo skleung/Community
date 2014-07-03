@@ -1,5 +1,6 @@
 class DinersController < ApplicationController
   before_action :set_diner, only: [:show, :edit, :update, :destroy]
+  before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
 
   # GET /diners
   # GET /diners.json
@@ -12,33 +13,12 @@ class DinersController < ApplicationController
   def show
   end
 
-  # GET /diners/new
-  def new
-    @diner = Diner.new
-  end
-
   # GET /diners/1/edit
   def edit
     if (current_diner.id.to_s != params[:id])
       redirect_to diners_path, flash: {error: "Error. You cannot change another diner's account." }
     end
 
-  end
-
-  # POST /diners
-  # POST /diners.json
-  def create
-    @diner = Diner.new(diner_params)
-
-    respond_to do |format|
-      if @diner.save
-        format.html { redirect_to @diner, notice: 'Diner was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @diner }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @diner.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /diners/1
@@ -70,6 +50,10 @@ class DinersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_diner
       @diner = Diner.find(params[:id])
+    end
+
+    def verify_yourself_or_admin!
+      @diner.id == current_diner.id || authenticate_admin!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

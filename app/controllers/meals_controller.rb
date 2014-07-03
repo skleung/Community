@@ -1,5 +1,6 @@
 class MealsController < ApplicationController
   before_action :set_meal, only: [:show, :edit, :update, :destroy]
+  before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
 
   # GET /meals
   # GET /meals.json
@@ -17,10 +18,12 @@ class MealsController < ApplicationController
   # GET /meals/new
   def new
     @meal = Meal.new
+    @defaultDinerID = current_diner.id
   end
 
   # GET /meals/1/edit
   def edit
+    @defaultDinerID = @meal.owner.id
   end
 
   # POST /meals
@@ -82,6 +85,10 @@ class MealsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_meal
       @meal = Meal.find(params[:id])
+    end
+
+    def verify_yourself_or_admin!
+      @meal.owner.id == current_diner.id || authenticate_admin!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

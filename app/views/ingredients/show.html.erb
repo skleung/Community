@@ -9,9 +9,9 @@
   <dt><strong><%= model_class.human_attribute_name(:cost) %>:</strong></dt>
   <dd><%= number_to_currency @ingredient.cost %></dd>
   <dt><strong><%= model_class.human_attribute_name(:finished) %>:</strong></dt>
-  <dd><%= @ingredient.finished %></dd>
-  <dt><strong>Buyer:</strong></dt>
-  <dd><%= @ingredient.diner.name %></dd>
+  <dd><%= @ingredient.finished ? 'Yes' : 'No' %></dd>
+  <dt>Buyer</dt>
+  <dd><%= link_to @ingredient.diner, @ingredient.diner %></dd>
   <h2>Meals using this Ingredient</h2>
   <table>
     <tr>
@@ -39,11 +39,13 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               ingredients_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_ingredient_path(@ingredient), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              ingredient_path(@ingredient),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  <% if verify_yourself_or_admin(@ingredient.diner.id) %>
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_ingredient_path(@ingredient), :class => 'btn' %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                ingredient_path(@ingredient),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
+  <% end %>
 </div>

@@ -37,11 +37,13 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               diners_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_diner_path(@diner), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              diner_path(@diner),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  <% if verify_yourself_or_admin(@diner.id) %>
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_diner_path(@diner), :class => 'btn' %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                diner_path(@diner),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
+  <% end %>
 </div>

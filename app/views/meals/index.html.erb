@@ -7,6 +7,7 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:chef) %></th>
+      <th>Owner</th>
       <th>All Ingredients Finished?</th>
       <th>Cost</th>
       <th><%= model_class.human_attribute_name(:date) %></th>
@@ -19,18 +20,21 @@
       <tr>
         <td><%= link_to meal.id, meal_path(meal) %></td>
         <td><%= meal.chef %></td>
+        <td><%= link_to meal.owner, meal.owner %></td>
         <td><%= meal.all_ingredients_finished? %></td>
         <td><%= meal.all_ingredients_finished? ? number_to_currency(meal.cost) : 'Some ingredients are not finished' %></td>
         <td><%= meal.date %></td>
         <td><%=l meal.created_at %></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_meal_path(meal), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      meal_path(meal),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+          <% if verify_yourself_or_admin(meal.owner.id) %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_meal_path(meal), :class => 'btn btn-mini' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        meal_path(meal),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+          <% end %>
         </td>
       </tr>
     <% end %>

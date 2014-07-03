@@ -18,7 +18,12 @@ diners.each do |diner|
   end
   diner[:password] = '12345678'
   diner[:password_confirmation] = '12345678'
+  diner[:role] = 'user'
   Diner.create!(diner)
+end
+
+if Diner.where(email: 'admin@test.com').count == 0
+  Diner.create!(name: 'admin', email: 'admin@test.com', password: '12345678', password_confirmation: '12345678', role: 'admin')
 end
 
 ingredients = [
@@ -32,3 +37,16 @@ ingredients.each do |ingredient|
   ingredient[:diner_id] = 1
   Ingredient.where(ingredient).first_or_create!
 end
+
+meals = [
+  { chef: 'ME', date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
+  { chef: 'YOU', date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+]
+
+meals.each do |meal|
+  if Meal.where(chef: meal[:chef], date: meal[:date]).count != 0
+    next
+  end
+  m = Meal.create!(meal)
+end
+
