@@ -28,7 +28,7 @@ class Ingredient < ActiveRecord::Base
         name_with_date = self.name + " (" + duplicate.created_at.to_date.to_s+")"
         duplicate.update_attributes(name: name_with_date)
       end
-      self.name = self.name + " (newly bought)"
+      self.name = self.name + " (newest)"
     end
   end 
 

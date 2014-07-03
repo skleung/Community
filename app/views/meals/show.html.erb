@@ -27,7 +27,7 @@
     </tr>
     <% @ingredients.each do |ingredient| %>
       <tr>
-        <td><%= link_to ingredient %></td>
+        <td><%= link_to ingredient, ingredient %></td>
         <td><%= ingredient.finished ? 'yes' : 'no' %></td>
         <td><%= ingredient.servings %></td>
         <td><%= number_to_currency(ingredient.cost) %></td>

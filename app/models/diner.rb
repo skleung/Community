@@ -46,6 +46,14 @@ class Diner < ActiveRecord::Base
     total_payment
   end
 
+  def pay_others
+    who_you_owe = []
+    Diner.where.not(id: id).each do |other_diner|
+      who_you_owe << {diner_name: other_diner.name, diner_id: other_diner.id, owed_amount: other_diner.request_payment_from(id)}
+    end
+    who_you_owe
+  end
+
   def to_s
     name
   end

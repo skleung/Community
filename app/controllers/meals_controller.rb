@@ -47,6 +47,8 @@ class MealsController < ApplicationController
     @meals = Meal.all
     @valid_dates_for_meals = @meals.map{|meal| meal.date}
     
+    @payments = current_diner.pay_others
+    
     # @meal = Meal.where(:date === date) 
     # @meal.diners += current_diner
     #use the above array to validate whether people have signed up for a meal for that date or not
@@ -99,7 +101,7 @@ class MealsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
       setup_ingredients_attributes
-      params.require(:meal).permit(:name, :chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+      params.require(:meal).permit(:name, :chef_id, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
     end
 
     # ingredient_attributes needs to be an array of hashes

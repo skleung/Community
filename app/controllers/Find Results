@@ -1,0 +1,202 @@
+Searching 332 files for "Chef"
+
+/Users/sleung/Desktop/community/app/controllers/meals_controller.rb:
+  100      def meal_params
+  101        setup_ingredients_attributes
+  102:       params.require(:meal).permit(:name, :chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+  103      end
+  104  
+
+/Users/sleung/Desktop/community/app/models/meal.rb:
+    4  #
+    5  #  id         :integer          not null, primary key
+    6: #  chef       :string(255)
+    7  #  date       :datetime
+    8  #  created_at :datetime
+    .
+   13  class Meal < ActiveRecord::Base
+   14    belongs_to :owner, class_name: "Diner", foreign_key: "owner_id"
+   15:   belongs_to :chef, class_name: "Diner", foreign_key: "chef_id"
+   16  	has_and_belongs_to_many :ingredients
+   17  	has_and_belongs_to_many :diners
+
+/Users/sleung/Desktop/community/app/views/diners/show.html.erb:
+   15      <tr>
+   16        <th>Id</th>
+   17:       <th>Chef</th>
+   18        <th>Cost of Meal</th>
+   19        <th>Cost for Single Diner</th>
+   ..
+   22        <tr>
+   23          <td><%= link_to meal.id, meal %></td>
+   24:         <td><%= meal.chef %></td>
+   25          <% if meal.all_ingredients_finished? %>
+   26            <td><%= number_to_currency meal.cost %></td>
+
+/Users/sleung/Desktop/community/app/views/ingredients/show.html.erb:
+   17      <tr>
+   18        <th>Id</th>
+   19:       <th>Chef</th>
+   20        <th>Cost</th>
+   21        <th>Cost/meal</th>
+   ..
+   24        <tr>
+   25          <td><%= link_to meal.id, meal %></td>
+   26:         <td><%= meal.chef %></td>
+   27          <% if meal.all_ingredients_finished? %>
+   28            <td><%= number_to_currency(meal.cost) %></td>
+
+/Users/sleung/Desktop/community/app/views/meals/_form.html.erb:
+   16    </div>
+   17  
+   18:   <!-- select chef from available diners -->
+   19    <div class = "control-group">
+   20:     <%= f.label :chef_id, "Chef", :class => 'control-label' %>
+   21      <div class="controls">
+   22:       <%= f.collection_select(:chef_id , Diner.all, :id, :name, {:selected => current_diner.id || 1}) %>
+   23  
+   24      </div>
+
+/Users/sleung/Desktop/community/app/views/meals/index.html.erb:
+    7      <tr>
+    8        <th><%= model_class.human_attribute_name(:name) %></th>
+    9:       <th><%= model_class.human_attribute_name(:chef) %></th>
+   10        <th>All Ingredients Finished?</th>
+   11        <th>Cost</th>
+   ..
+   18        <tr>
+   19          <td><%= link_to meal.name, meal_path(meal) %></td>
+   20:         <td><%= link_to meal.chef, meal.chef %></td>
+   21          <td><%= meal.all_ingredients_finished? %></td>
+   22          <td><%= meal.all_ingredients_finished? ? number_to_currency(meal.cost) : 'Some ingredients are not finished' %></td>
+
+/Users/sleung/Desktop/community/app/views/meals/index.json.jbuilder:
+    1  json.array!(@meals) do |meal|
+    2:   json.extract! meal, :id, :chef, :date
+    3    json.url meal_url(meal, format: :json)
+    4  end
+
+/Users/sleung/Desktop/community/app/views/meals/show.html.erb:
+    5  
+    6  <dl class="dl-horizontal">
+    7:   <dt><strong><%= model_class.human_attribute_name(:chef) %>:</strong></dt>
+    8:   <dd><%= link_to @meal.chef, @meal.chef %></dd>
+    9    <dt>Owner</dt>
+   10    <dd><%= link_to @meal.owner, @meal.owner %></dd>
+
+/Users/sleung/Desktop/community/app/views/meals/show.json.jbuilder:
+    1: json.extract! @meal, :id, :chef, :date, :created_at, :updated_at
+    2  
+
+/Users/sleung/Desktop/community/db/schema.rb:
+   65      t.integer  "owner_id"
+   66      t.string   "name"
+   67:     t.integer  "chef_id"
+   68    end
+   69  
+
+/Users/sleung/Desktop/community/db/seeds.rb:
+   40  
+   41  meals = [
+   42:   { chef: 'ME', date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
+   43:   { chef: 'YOU', date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+   44  ]
+   45  
+   46  meals.each do |meal|
+   47:   if Meal.where(chef: meal[:chef], date: meal[:date]).count != 0
+   48      next
+   49    end
+
+/Users/sleung/Desktop/community/db/migrate/20140625233144_create_meals.rb:
+    2    def change
+    3      create_table :meals do |t|
+    4:       t.string :chef
+    5        t.datetime :date
+    6  
+
+/Users/sleung/Desktop/community/db/migrate/20140703150901_remove_chef_from_meal.rb:
+    1: class RemoveChefFromMeal < ActiveRecord::Migration
+    2    def change
+    3:     remove_column :meals, :chef, :string
+    4    end
+    5  end
+
+/Users/sleung/Desktop/community/db/migrate/20140703150943_add_chef_id_to_meal.rb:
+    1: class AddChefIdToMeal < ActiveRecord::Migration
+    2    def change
+    3:     add_column :meals, :chef_id, :integer
+    4    end
+    5  end
+
+/Users/sleung/Desktop/community/test/controllers/meals_controller_test.rb:
+   19    test "should create meal" do
+   20      assert_difference('Meal.count') do
+   21:       post :create, meal: { chef: @meal.chef, date: @meal.date }
+   22      end
+   23  
+   ..
+   36  
+   37    test "should update meal" do
+   38:     patch :update, id: @meal, meal: { chef: @meal.chef, date: @meal.date }
+   39      assert_redirected_to meal_path(assigns(:meal))
+   40    end
+
+/Users/sleung/Desktop/community/test/fixtures/meals.yml:
+    4  #
+    5  #  id         :integer          not null, primary key
+    6: #  chef       :string(255)
+    7  #  date       :datetime
+    8  #  created_at :datetime
+    .
+   14  
+   15  one:
+   16:   chef: MyString
+   17    date: 2014-06-25 16:31:44
+   18  
+   19  two:
+   20:   chef: MyString
+   21    date: 2014-06-25 16:31:44
+   22  
+
+/Users/sleung/Desktop/community/test/models/meal_test.rb:
+    4  #
+    5  #  id         :integer          not null, primary key
+    6: #  chef       :string(255)
+    7  #  date       :datetime
+    8  #  created_at :datetime
+
+38 matches across 17 files
+
+
+Searching 332 files for "permit"
+
+/Users/sleung/Desktop/community/app/controllers/diners_controller.rb:
+   59      # Never trust parameters from the scary internet, only allow the white list through.
+   60      def diner_params
+   61:       params.require(:diner).permit(:name)
+   62      end
+   63  end
+
+/Users/sleung/Desktop/community/app/controllers/ingredients_controller.rb:
+   76      # Never trust parameters from the scary internet, only allow the white list through.
+   77      def ingredient_params
+   78:       params.require(:ingredient).permit(:name, :cost, :finished, :diner_id)
+   79      end
+   80  end
+
+/Users/sleung/Desktop/community/app/controllers/meals_controller.rb:
+  100      def meal_params
+  101        setup_ingredients_attributes
+  102:       params.require(:meal).permit(:name, :chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+  103      end
+  104  
+
+/Users/sleung/Desktop/community/app/controllers/registrations_controller.rb:
+    4  
+    5    def configure_parameters
+    6:     devise_parameter_sanitizer.for(:sign_up) { |diner| diner.permit(:name, :email, :password, :password_confirmation, :remember_me) }
+    7:     devise_parameter_sanitizer.for(:account_update) { |diner| diner.permit(:name, :email, :password, :password_confirmation, :current_password) }
+    8    end
+    9  
+
+5 matches across 4 files
