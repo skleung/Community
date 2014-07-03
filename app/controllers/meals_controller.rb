@@ -45,8 +45,10 @@ class MealsController < ApplicationController
 
   def signup
     @meals = Meal.all
-    @valid_dates = @meals.map{|meal| meal.date}
-
+    @valid_dates_for_meals = @meals.map{|meal| meal.date}
+    
+    # @meal = Meal.where(:date === date) 
+    # @meal.diners += current_diner
     #use the above array to validate whether people have signed up for a meal for that date or not
     #maybe the best way is to PATCH/PUT to the update action...
     #the tricky part will be how to catch the errors from the update method
@@ -54,6 +56,10 @@ class MealsController < ApplicationController
     #or we can think about how to do a sign_up post method
 
     #if not, we want to display an alert asking if they'd like to make a meal on that date instead.
+  end
+
+  def signup_post
+
   end
 
 
