@@ -38,10 +38,8 @@ class Diner < ActiveRecord::Base
 
   def request_payment_from(another_diner_id) 
     total_payment = 0.0
-    self.ingredients.each do |ingredient|
-      if (ingredient[:finished])
-        total_payment += ingredient.payment_owed_by(another_diner_id)
-      end
+    ingredients.where(finished: true).each do |ingredient|
+      total_payment += ingredient.payment_owed_by(another_diner_id)
     end
     total_payment
   end

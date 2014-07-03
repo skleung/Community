@@ -21,8 +21,8 @@
 </tr>
 <% Diner.all.each do |diner| %>
 	<tr>
-		<td><%=diner.name%></td>
-		<td><%=number_to_currency current_diner.request_payment_from(diner.id)%></td>
+		<td><%= link_to diner.name, diner %></td>
+		<td><%= number_to_currency current_diner.request_payment_from(diner.id) %></td>
 	</tr>
 <%end%>
 </table>
