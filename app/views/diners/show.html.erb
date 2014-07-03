@@ -13,15 +13,15 @@
   <h2>Meals <%= @diner.name %> is involved in</h2>
   <table>
     <tr>
-      <th>Id</th>
+      <th>Name</th>
       <th>Chef</th>
       <th>Cost of Meal</th>
       <th>Cost for Single Diner</th>
     </tr>
     <% @diner.meals.each do |meal| %>
       <tr>
-        <td><%= link_to meal.id, meal %></td>
-        <td><%= meal.chef %></td>
+        <td><%= link_to meal.name, meal %></td>
+        <td><%= link_to meal.chef, meal.chef %></td>
         <% if meal.all_ingredients_finished? %>
           <td><%= number_to_currency meal.cost %></td>
           <td><%= number_to_currency meal.cost_for_single_diner %></td>

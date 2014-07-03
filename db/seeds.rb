@@ -39,8 +39,8 @@ ingredients.each do |ingredient|
 end
 
 meals = [
-  #{ chef: 'ME', date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
-  #{ chef: 'YOU', date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+  { name: 'Bread and Lettuce', chef: Diner.first, owner: Diner.first, date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
+  { name: 'Bread', chef: Diner.last, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
 ]
 
 meals.each do |meal|
