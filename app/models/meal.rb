@@ -35,7 +35,6 @@ class Meal < ActiveRecord::Base
   end
 
   def has_ingredients?
-    byebug
     errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
   end 
 
