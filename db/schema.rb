@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703081545) do
+ActiveRecord::Schema.define(version: 20140703150943) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(version: 20140703081545) do
   add_index "ingredients_meals", ["meal_id", "ingredient_id"], name: "index_ingredients_meals_on_meal_id_and_ingredient_id"
 
   create_table "meals", force: true do |t|
-    t.string   "chef"
     t.datetime "date"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "owner_id"
     t.string   "name"
+    t.integer  "chef_id"
   end
 
 end

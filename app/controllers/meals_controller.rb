@@ -99,7 +99,7 @@ class MealsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
       setup_ingredients_attributes
-      params.require(:meal).permit(:chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+      params.require(:meal).permit(:name, :chef, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
     end
 
     # ingredient_attributes needs to be an array of hashes

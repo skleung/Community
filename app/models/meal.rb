@@ -12,26 +12,26 @@
 
 class Meal < ActiveRecord::Base
   belongs_to :owner, class_name: "Diner", foreign_key: "owner_id"
+  belongs_to :chef, class_name: "Diner", foreign_key: "chef_id"
 	has_and_belongs_to_many :ingredients
 	has_and_belongs_to_many :diners
 
   validate :name, presence: true
+  validate :has_diners?
   validate :has_ingredients?
   validate :date, uniqueness: true
 
-  before_create :set_default_name
-
   accepts_nested_attributes_for :ingredients, :diners
-
-  def set_default_name
-    self.name = self.chef.name + "'s meal."
-  end
 
   def ingredients_attributes=(attributes)
     attributes.each do |hsh|
       ingredient = Ingredient.find(hsh["id"])
       ingredient.update_attributes(hsh)
     end
+  end
+
+  def has_diners?
+    errors.add(:base, "A meal must have at least one diner") if !self.diners.any?
   end
 
   def has_ingredients?

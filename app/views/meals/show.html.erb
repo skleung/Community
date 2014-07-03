@@ -5,11 +5,11 @@
 
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:chef) %>:</strong></dt>
-  <dd><%= @meal.chef %></dd>
+  <dd><%= link_to @meal.chef, @meal.chef %></dd>
   <dt>Owner</dt>
   <dd><%= link_to @meal.owner, @meal.owner %></dd>
   <dt><strong><%= model_class.human_attribute_name(:date) %>:</strong></dt>
-  <dd><%= @meal.date %></dd>
+  <dd><%= @meal.date.to_date.to_s %></dd>
   <dt>Cost</dt>
   <dd><%= @meal.all_ingredients_finished? ? number_to_currency(@meal.cost) : 'Some ingredients are not finished' %></dd>
   <dt>Diners:</dt>
@@ -21,9 +21,9 @@
     <tr>
       <th>Name</th>
       <th>Finished</th>
-      <th>Total Servings/th>
-      <th>Cost</th>
-      <th>Cost to this Meal</th>
+      <th>Total Servings</th>
+      <th>Total Cost of Ingredient</th>
+      <th>Cost towards this meal</th>
     </tr>
     <% @ingredients.each do |ingredient| %>
       <tr>

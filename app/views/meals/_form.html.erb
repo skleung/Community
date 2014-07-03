@@ -15,10 +15,12 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :chef, :class => 'control-label' %>
+  <!-- select chef from available diners -->
+  <div class = "control-group">
+    <%= f.label :chef_id, "Chef", :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:chef , Diner.all, :name, :name, {:selected => current_diner.name || 1}) %>
+      <%= f.collection_select(:chef_id , Diner.all, :id, :name, {:selected => current_diner.id || 1}) %>
+
     </div>
   </div>
 
