@@ -37,3 +37,13 @@ ingredients.each do |ingredient|
   ingredient[:diner_id] = 1
   Ingredient.where(ingredient).first_or_create!
 end
+
+meals = [
+  { chef: 'ME', date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
+  { chef: 'YOU', date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+]
+
+meals.each do |meal|
+  m = Meal.where(meal).first_or_create!
+end
+
