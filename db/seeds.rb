@@ -47,6 +47,6 @@ meals.each do |meal|
   if Meal.where(chef: meal[:chef], date: meal[:date]).count != 0
     next
   end
-  m = Meal.where(meal).first_or_create!
+  m = Meal.create!(meal)
 end
 
