@@ -10,13 +10,15 @@
   <dd><%= number_to_currency @ingredient.cost %></dd>
   <dt><strong><%= model_class.human_attribute_name(:finished) %>:</strong></dt>
   <dd><%= @ingredient.finished %></dd>
+  <dt><strong>Buyer:</strong></dt>
+  <dd><%= @ingredient.diner.name %></dd>
   <h2>Meals using this Ingredient</h2>
   <table>
     <tr>
       <th>Id</th>
       <th>Chef</th>
       <th>Cost</th>
-      <th>This Ingredient's Contribution to Cost</th>
+      <th>Cost/meal</th>
     </tr>
     <% @ingredient.meals.each do |meal| %>
       <tr>

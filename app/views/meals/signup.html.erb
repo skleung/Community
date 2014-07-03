@@ -13,3 +13,17 @@
 
 <p>Essentially we want users to be able to click on a calendar and either signup for a meal or create a meal if its not already there. I was thinking an ajax request on each onclick (or on drag) method that would send a patch request to each of the meals that is within their range.</p>
 
+<h3>Who owes you</h3>
+<table>
+<th>
+	<td>Name</td>
+	<td>
+</th>
+<%byebug%>
+<% Diner.all.each do |diner| %>
+	<tr>
+		<td><%=diner.name%></td>
+		<td><%=current_diner.request_payment_from(diner.id)%></td>
+	</tr>
+<%end%>
+</table>

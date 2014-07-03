@@ -24,7 +24,7 @@ class Diner < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 	has_and_belongs_to_many :meals
-	has_many :ingredients
+	has_many :ingredients, :dependent => :destroy
 
   after_create :set_default_name
 
@@ -34,6 +34,16 @@ class Diner < ActiveRecord::Base
 	
   def cost
     meals.sum { |meal| meal.cost_for_single_diner }
+  end
+
+  def request_payment_from(another_diner_id) 
+    total_payment = 0.0
+    self.ingredients.each do |ingredient|
+      if (ingredient[:finished])
+        total_payment += ingredient.payment_owed_by(another_diner_id)
+      end
+    end
+    total_payment
   end
 
   def to_s

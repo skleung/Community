@@ -11,7 +11,7 @@
   <div class="control-group">
     <%= f.label :chef, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :chef, :class => 'text_field' %>
+      <%= f.collection_select(:chef , Diner.all, :id, :name, {:selected => current_diner.id || 1}) %>
     </div>
   </div>
   <div class="control-group">

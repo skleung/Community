@@ -1,6 +1,6 @@
 <%- model_class = Meal -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+  <h1>Meal Summary</h1>
 </div>
 
 <dl class="dl-horizontal">
@@ -19,7 +19,7 @@
     <tr>
       <th>Name</th>
       <th>Finished</th>
-      <th>Pieces</th>
+      <th>Total times used</th>
       <th>Cost</th>
       <th>Cost to this Meal</th>
     </tr>
@@ -27,9 +27,9 @@
       <tr>
         <td><%= link_to ingredient %></td>
         <td><%= ingredient.finished ? 'yes' : 'no' %></td>
-        <td><%= ingredient.pieces %></td>
+        <td><%= ingredient.servings %></td>
         <td><%= number_to_currency(ingredient.cost) %></td>
-        <td><%= ingredient.finished ? number_to_currency(ingredient.cost_for_number_of_diners(@diners.count)) : 'ingredient not finished' %></td>
+        <td><%= ingredient.finished ? number_to_currency(ingredient.cost_for_number_of_diners(@diners.count)) : 'Ingredient not finished' %></td>
       </tr>
     <% end %>
   </table>

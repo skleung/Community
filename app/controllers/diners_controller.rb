@@ -19,6 +19,10 @@ class DinersController < ApplicationController
 
   # GET /diners/1/edit
   def edit
+    if (current_diner.id.to_s != params[:id])
+      redirect_to diners_path, flash: {error: "Error. You cannot change another diner's account." }
+    end
+
   end
 
   # POST /diners
@@ -54,6 +58,7 @@ class DinersController < ApplicationController
   # DELETE /diners/1
   # DELETE /diners/1.json
   def destroy
+    #add admin check here!
     @diner.destroy
     respond_to do |format|
       format.html { redirect_to diners_url }

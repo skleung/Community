@@ -21,12 +21,8 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :finished, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :finished, :class => 'text_field' %>
-    </div>
-  </div>
+    <%= f.hidden_field :finished, :class => 'text_field', :value => false%>
+
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
