@@ -15,15 +15,14 @@
 
 <h3>Who owes you</h3>
 <table>
-<th>
-	<td>Name</td>
-	<td>
-</th>
-<%byebug%>
+<tr>
+	<th>Name</th>
+	<th>Amount owed</th>
+</tr>
 <% Diner.all.each do |diner| %>
 	<tr>
 		<td><%=diner.name%></td>
-		<td><%=current_diner.request_payment_from(diner.id)%></td>
+		<td><%=number_to_currency current_diner.request_payment_from(diner.id)%></td>
 	</tr>
 <%end%>
 </table>

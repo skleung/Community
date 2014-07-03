@@ -15,9 +15,17 @@ class Meal < ActiveRecord::Base
 	has_and_belongs_to_many :ingredients
 	has_and_belongs_to_many :diners
 
+  validate :name, presence: true
   validate :has_ingredients?
+  validate :date, uniqueness: true
+
+  before_create :set_default_name
 
   accepts_nested_attributes_for :ingredients, :diners
+
+  def set_default_name
+    self.name = self.chef.name + "'s meal."
+  end
 
   def ingredients_attributes=(attributes)
     attributes.each do |hsh|
@@ -27,6 +35,7 @@ class Meal < ActiveRecord::Base
   end
 
   def has_ingredients?
+    byebug
     errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
   end 
 

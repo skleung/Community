@@ -12,10 +12,25 @@
 #
 
 class Ingredient < ActiveRecord::Base
-  validates :diner_id, :name, :cost, :presence => true
+  validates :diner_id, :name, :cost, presence: true
+
+  before_create :check_duplicate_names
+    
 
   has_and_belongs_to_many :meals
   belongs_to :diner
+
+  def check_duplicate_names
+    #ensure that the name of the ingredient has an attached date if there's a duplicate name
+    ingredients_with_same_name = Ingredient.select{|ingredient| ingredient.name.downcase.include? self.name.downcase}
+    if (ingredients_with_same_name.length > 0)
+      ingredients_with_same_name.each do |duplicate|
+        name_with_date = self.name + " (" + duplicate.created_at.to_date.to_s+")"
+        duplicate.update_attributes(name: name_with_date)
+      end
+      self.name = self.name + " (newly bought)"
+    end
+  end 
 
   def servings
     # detemines how many 'servings' this ingredient has been split into.

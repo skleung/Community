@@ -30,7 +30,7 @@ class MealsController < ApplicationController
   # POST /meals.json
   def create
     @meal = Meal.new(meal_params)
-    @meal.owner = current_diner
+    @meal.owner = current_diner #owner should always be the guy that's logged in
 
     respond_to do |format|
       if @meal.save
@@ -59,7 +59,6 @@ class MealsController < ApplicationController
   end
 
   def signup_post
-
   end
 
 

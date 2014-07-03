@@ -9,19 +9,19 @@
   <% end %>
 
   <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field(:name, placeholder: "(i.e. chicken fried rice)")%>
+    </div>
+  </div>
+
+  <div class="control-group">
     <%= f.label :chef, :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:chef , Diner.all, :id, :name, {:selected => current_diner.id || 1}) %>
+      <%= f.collection_select(:chef , Diner.all, :name, :name, {:selected => current_diner.name || 1}) %>
     </div>
   </div>
-  <!-- select a owner from diners -->
-  <div class = "control-group">
-    <%= f.label :owner_id, "Owner", :class => 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select(:owner_id , Diner.all, :id, :name, {:selected => @defaultDinerID}) %>
 
-    </div>
-  </div>
   <div class="control-group">
     <%= f.label :date, :class => 'control-label' %>
     <div class="controls">

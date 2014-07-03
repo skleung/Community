@@ -21,7 +21,7 @@
         <td><%= number_to_currency(ingredient.cost) %></td>
         <td><%= ingredient.finished ? 'Yes' : 'No' %></td>
         <td><%= link_to ingredient.diner, ingredient.diner %></td>
-        <td><%= l ingredient.created_at %></td>
+        <td><%= ingredient.created_at.to_date.to_s %></td>
         <td>
           <% if verify_yourself_or_admin(ingredient.diner.id) %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),

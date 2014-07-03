@@ -5,26 +5,22 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:chef) %></th>
-      <th>Owner</th>
       <th>All Ingredients Finished?</th>
       <th>Cost</th>
       <th><%= model_class.human_attribute_name(:date) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @meals.each do |meal| %>
       <tr>
-        <td><%= link_to meal.id, meal_path(meal) %></td>
-        <td><%= meal.chef %></td>
-        <td><%= link_to meal.owner, meal.owner %></td>
+        <td><%= link_to meal.name, meal_path(meal) %></td>
+        <td><%= link_to meal.chef, meal.chef %></td>
         <td><%= meal.all_ingredients_finished? %></td>
         <td><%= meal.all_ingredients_finished? ? number_to_currency(meal.cost) : 'Some ingredients are not finished' %></td>
-        <td><%= meal.date %></td>
-        <td><%=l meal.created_at %></td>
+        <td><%= meal.date.to_date.to_s %></td>
         <td>
           <% if verify_yourself_or_admin(meal.owner.id) %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
