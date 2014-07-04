@@ -1,7 +1,10 @@
 <%- model_class = Ingredient -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-  <div class="alert alert-info" role="alert"><b>Pro-tip:</b> You can use the short-cut key 'n' to create a new ingredient.</div>
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+    <strong>Pro tip: </strong> You can use the short-cut key 'n' to immediately make a new meal.
+  </div>
 </div>
 <table class="table table-striped">
   <thead>

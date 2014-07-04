@@ -1,44 +1,64 @@
 <%- model_class = Meal -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-
-  <div class="alert alert-info" role="alert">
-    <b>Pro-tip:</b>To create new meals on dates that already have meals, go to the Meals tab.
-  </div>
-
+<div class="alert alert-info alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+  <strong>Pro-tip: </strong> Use the navbar to add ingredients and create meals for other people to sign up.
 </div>
 
+<div class="page-header">
+  <h1>Payment summary</h1>
+</div>
 
-<h3>Interactive Calendar goes here</h3>
+<div class = "container">
+    <!-- <div class = "col-md-6">
 
-<p>Essentially we want users to be able to click on a calendar and either signup for a meal or create a meal if its not already there. I was thinking an ajax request on each onclick (or on drag) method that would send a patch request to each of the meals that is within their range.</p>
+    <h3>Sign up for Meals</h3>
 
-<h3>Who owes you</h3>
-<table>
-<tr>
-  <th>Name</th>
-  <th>Amount owed</th>
-</tr>
-<% Diner.where.not(id: current_diner.id).each do |diner| %>
-  <tr>
-    <td><%= link_to diner.name, diner %></td>
-    <td><%= number_to_currency current_diner.request_payment_from(diner.id) %></td>
-  </tr>
-<%end%>
-</table>
+    <%=calendar(:year => Date.today.year, :month => Date.today.month) do |day|
+      if @valid_dates_for_meals.include? day 
+        [day.mday, {:class => "meal"}]
+      else 
+        [day.mday]
+      end
+    end 
+    %>
 
-<h3>Who you owe</h3>
-<table>
-<tr>
-  <th>Name</th>
-  <th>Amount owed</th>
-</tr>
-<% @payments.each do |payment| %>
-  <tr>  
-    <td><%=link_to payment[:diner_name], diners_path(payment[:diner_id]) %></td>
-    <td><%=number_to_currency payment[:owed_amount]%></td>
-  </tr>
-<%end%>
-</table>
+    </div> -->
 
+    <div class = "col-md-6">
+      <h3>Who owes you</h3>
+      <table>
+      <tr>
+        <th>Name</th>
+        <th>Amount owed</th>
+      </tr>
 
+      <% Diner.where.not(id: current_diner.id).each do |diner| %>
+        <tr>
+          <td><%= link_to diner.name, diner %></td>
+          <td><%= number_to_currency current_diner.request_payment_from(diner.id) %></td>
+        </tr>
+      <% end %>
+
+      </table>
+
+      <h3>Who you owe</h3>
+      <table>
+      <tr>
+        <th>Name</th>
+        <th>Amount owed</th>
+      </tr>
+      <% @payments.each do |payment| %>
+        <tr>  
+          <td><%=link_to payment[:diner_name], diners_path(payment[:diner_id]) %></td>
+          <td><%=number_to_currency payment[:owed_amount]%></td>
+        </tr>
+      <% end %>
+      </table>
+    </div>
+</div>
+
+<% content_for :javascript do %>
+  <script>
+    <%= render(:partial => "signup.js") %>
+  </script>
+<% end %>

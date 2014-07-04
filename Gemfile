@@ -31,6 +31,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Calendar helper for views/meals/signup.html.erb
+gem 'calendar_helper', '~> 0.2.6'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
