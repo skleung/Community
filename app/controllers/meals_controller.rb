@@ -45,7 +45,10 @@ class MealsController < ApplicationController
 
   def signup
     @meals = Meal.all
-    @valid_dates_for_meals = @meals.map{|meal| meal.date}
+    @valid_dates = Hash.new #this is a hash of dates to an array of meal id's that are on that date
+    @meals.each do |meal|
+      (@valid_dates[meal.date.to_date] ||= []) << meal.id
+    end
     
     @payments = current_diner.pay_others
     

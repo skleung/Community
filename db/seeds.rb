@@ -10,13 +10,7 @@
 #Production seeds
 
 diners = [
-  { name: 'Alexis', email: 'alexka@stanford.edu' },
-  { name: 'Vivian', email: 'vhare@stanford.edu' },
-  { name: 'Akaash', email: 'akaashn@stanford.edu' },
-  { name: 'Midori', email: 'ng.midori@gmail.com' },
-  { name: 'Brian', email: 'brixu4@stanford.edu' },
-  { name: 'Jonathan', email: 'jonlu@stanford.edu' },
-  { name: 'Lorena', email: 'lorenah1@stanford.edu' }
+  { name: 'Alexis', email: 'alexka@stanford.edu' }
 ]
 
 diners.each do |diner|
