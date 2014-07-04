@@ -29,7 +29,6 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
-    byebug
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
 

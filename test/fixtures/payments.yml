@@ -1,22 +1,23 @@
 # == Schema Information
 #
-# Table name: meals
+# Table name: payments
 #
 #  id         :integer          not null, primary key
-#  date       :datetime
+#  from_id    :integer
+#  to_id      :integer
+#  amount     :decimal(, )
 #  created_at :datetime
 #  updated_at :datetime
-#  owner_id   :integer
-#  name       :string(255)
-#  chef_id    :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  chef: MyString
-  date: 2014-06-25 16:31:44
+  from_id: 1
+  to_id: 1
+  amount: 
 
 two:
-  chef: MyString
-  date: 2014-06-25 16:31:44
+  from_id: 1
+  to_id: 1
+  amount: 

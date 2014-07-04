@@ -1,19 +1,18 @@
 # == Schema Information
 #
-# Table name: meals
+# Table name: payments
 #
 #  id         :integer          not null, primary key
-#  date       :datetime
+#  from_id    :integer
+#  to_id      :integer
+#  amount     :decimal(, )
 #  created_at :datetime
 #  updated_at :datetime
-#  owner_id   :integer
-#  name       :string(255)
-#  chef_id    :integer
 #
 
 require 'test_helper'
 
-class MealTest < ActiveSupport::TestCase
+class PaymentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
