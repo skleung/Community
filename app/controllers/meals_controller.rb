@@ -50,8 +50,17 @@ class MealsController < ApplicationController
       (@valid_dates[meal.date.to_date] ||= []) << meal.id
     end
     
-    @payments = current_diner.pay_others
+    @balances = []
+    Diner.all.each do |d|
+      if d.id != current_diner.id
+        
+        @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id)}
+      end
+    end
     
+    @payments = Payment.where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id)
+
+    @meal = Meal.new
     # @meal = Meal.where(:date === date) 
     # @meal.diners += current_diner
     #use the above array to validate whether people have signed up for a meal for that date or not
@@ -64,9 +73,12 @@ class MealsController < ApplicationController
   end
 
   def signup_post
+
   end
 
+  def settle
 
+  end
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update
@@ -89,6 +101,13 @@ class MealsController < ApplicationController
       format.html { redirect_to meals_url }
       format.json { head :no_content }
     end
+  end
+
+  #for the join meal modal form to retrieve the attendance record for each meal id
+  def get_attendance(meal_ids)
+    #build a boolean attendance record that hashes to each meal date
+    byebug
+
   end
 
   private

@@ -10,7 +10,8 @@
 #Production seeds
 
 diners = [
-  { name: 'Alexis', email: 'alexka@stanford.edu' }
+  { name: 'Alexis', email: 'alexka@stanford.edu' },
+  { name: 'Kev', email: 'swag@swag.com'}
 ]
 
 diners.each do |diner|
@@ -31,6 +32,8 @@ Diner.create!(name: 'Sherman', email: 'skleung@stanford.edu', password: '1234567
 # end
 
 ingredients = [
+  { name: 'Bread', cost: 3.0},
+  { name: 'Lettuce', cost: 5.0},
   { name: 'Panko box #1', cost: 2.99 },
   { name: 'Panko box #2', cost: 2.99 },
   { name: 'Pasta', cost: 1.79 },
@@ -40,7 +43,8 @@ ingredients = [
   { name: 'Romaine bag #1', cost: 2.50},
   { name: 'Romaine bag #2', cost: 2.50},
   { name: 'Crutons', cost: 2.49},
-  { name: 'Shredded Bag of cheese', cost: 2.79}
+  { name: 'Shredded Bag of cheese', cost: 2.79},
+
 ]
 
 ingredients.each do |ingredient|
@@ -48,17 +52,20 @@ ingredients.each do |ingredient|
   Ingredient.where(ingredient).first_or_create!
 end
 
-# Ingredient.first.update_attribute(:finished, true)
+Ingredient.first.update_attribute(:finished, true)
 
-# meals = [
-#   { name: 'Bread and Lettuce', chef: Diner.first, owner: Diner.first, date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
-#   { name: 'Bread', chef: Diner.last, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
-# ]
+meals = [
+  { name: 'Bread and Lettuce', chef: Diner.first, owner: Diner.first, date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
+  { name: 'Bread', chef: Diner.last, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+]
 
-# meals.each do |meal|
-#   if Meal.where(name: meal[:name]).count != 0
-#     next
-#   end
-#   m = Meal.create!(meal)
-# end
+meals.each do |meal|
+  if Meal.where(name: meal[:name]).count != 0
+    next
+  end
+  m = Meal.create!(meal)
+end
 
+Payment.create(from_id: 1, to_id: 2, amount: 100)
+Payment.create(from_id: 2, to_id: 3, amount: 200)
+Payment.create(from_id: 3, to_id: 2, amount: 300)

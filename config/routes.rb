@@ -5,10 +5,11 @@ Community::Application.routes.draw do
       controllers: { registrations: "registrations", sessions: "sessions" }
 
   resources :ingredients
-
   resources :meals
-
   resources :diners
+ 
+  post 'meals/settle' => "meals#settle", as: :settle
+  post 'meals/signup_post' => 'meals#signup_post', as: :signup_meal
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

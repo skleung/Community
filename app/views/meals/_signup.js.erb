@@ -1,0 +1,35 @@
+$(document).ready(function(){
+	var MEAL_CLASS = "meal";
+	$("#create-meal-form").hide()
+	$("#signup-meal-form").hide()
+	//EVENT BINDINGS	
+	$(".calendar").click(function(event){
+		var $target = $(event.target);
+		$(".alert-block").fadeIn();
+		if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
+			//selected a meal
+			$("#signup-meal-form").fadeIn();
+			var meal_ids = $target.attr('data_meal_ids') 
+			console.log('meal ids = '+meal_ids);	
+			//make an ajax call to find out who signed up on that date
+			
+
+		} else {
+			$("#create-meal-form").fadeIn();
+			console.log('creating a meal');
+			//show the meal modal and set the date in emb
+
+		}
+	});
+
+	//Form submits
+	$("create").submit(function(event){
+		//make an ajax call to the server to create a meal on that date.
+		$.ajax({url: "create",
+          data: {type: '<%= params[:type] %>'},
+          type: "POST"});
+	});
+});
+
+
+

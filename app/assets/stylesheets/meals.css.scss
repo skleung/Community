@@ -15,3 +15,37 @@ th,td
 	width: 32%;
 	display: inline-table;
 }
+
+.calendar-form{
+	position: absolute;
+	left: 50%;
+	width: 500px;
+	margin-left: -250px;
+	top: 20%;
+	height: auto;
+	z-index: 10;
+}
+th{
+	width: auto;
+}
+
+#create-meal-form{
+	background-color: white;
+}
+
+.button_to{
+	padding: 0;
+	margin: 0;
+	border: none;
+	width: auto;
+	left: 0px;
+	box-shadow: none;
+}
+
+.green{
+	color: #BDECB6;
+}
+
+.red{
+	color: #FF7878;
+}

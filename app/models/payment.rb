@@ -15,4 +15,5 @@ class Payment < ActiveRecord::Base
   belongs_to :to, class_name: "Diner", foreign_key: "to_id"
 
   validate :from_id, :to_id, :amount, presence: true
+
 end

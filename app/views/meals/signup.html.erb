@@ -16,7 +16,6 @@
     <h3>Signup for Meals</h3>
     <p> Highlighted days represent days that have meals </p>
     <%=calendar(:year => Date.today.year, :month => Date.today.month) do |day|
-
             if @valid_dates.has_key?(day) 
               data_meal_id_string = "#{@valid_dates[day].join(",")}"
               [day.mday, {:class => "meal", :data_meal_ids => data_meal_id_string }]
@@ -28,40 +27,64 @@
 
     </div>
 
-    <div class="col-md-4">
-      <h3>Who owes you</h3>
+ <div class="col-md-4">
+      <h3>Balance Summary</h3>
+      <div class="legend">
+        <div class="green">Amount expected</div>
+        <div class="red">Amount owed</div>
+      </div>
       <table>
       <tr>
         <th>Name</th>
-        <th>Amount owed</th>
+        <th>Amount</th>
+        <th>Actions</th>
       </tr>
-      <% Diner.where.not(id: current_diner.id).each do |diner| %>
-        <tr>
-          <td><%= link_to diner.name, diner %></td>
-          <td><%= number_to_currency current_diner.request_payment_from(diner.id) %></td>
+      <% @balances.each do |balance| %>
+          <% if balance[:balance] > 0 %>
+          <tr>  
+            <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
+            <td><span class="red"><%=number_to_currency balance[:balance]%></span></td>
+            <td><%=button_to "Pay", settle_path,{:class => "btn btn-md btn-primary", :type=>"submit"} %> </td>
+          </tr>
+          <% elsif balance[:balance] < 0%>
+          <tr>
+            <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
+            <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
+            <td></td> <!-- for empty button balance  -->        </tr>
+          <% end %>
         </tr>
       <%end%>
       </table>
     </div>
+  </div>
 
-
-    <div class="col-md-4">
-      <h3>Who you owe</h3>
-        <table>
-        <tr>
-          <th>Name</th>
-          <th>Amount owed</th>
-        </tr>
-        <% @payments.each do |payment| %>
-          <tr>  
-            <td><%=link_to payment[:diner_name], diners_path(payment[:diner_id]) %></td>
-            <td><%=number_to_currency payment[:owed_amount]%></td>
-          </tr>
-        <%end%>
-        </table>
+  <div class="col-md-4">
+      <h3>Payment History</h3>
+      <div class="legend">
+        <div class="green">Amount expected</div>
+        <div class="red">Amount owed</div>
       </div>
+      <table class="table-striped">
+      <tr>
+        <th>Payment</th>
+        <th>Description</th>
+      </tr>
+      <% @balances.each do |balance| %>
+        <tr>  
+          <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
+          <td><span class="red"><%=number_to_currency balance[:balance]%></span></td>
+        </tr>
+      <%end%>
+      </table>
     </div>
   </div>
+
+  <!-- forms -->
+  <div class="calendar-form">
+    <%= render :partial => "join_meal" %>
+    <%= render :partial => "form" %>
+  </div>
+</div>
 <% content_for :javascript do %>
    <script>
      <%= render(:partial => "signup.js") %>

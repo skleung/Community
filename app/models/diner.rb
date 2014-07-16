@@ -37,6 +37,7 @@ class Diner < ActiveRecord::Base
     meals.sum { |meal| meal.cost_for_single_diner }
   end
 
+  #calculates how much another diner owes you
   def request_payment_from(another_diner_id) 
     total_payment = 0.0
     ingredients.where(finished: true).each do |ingredient|
@@ -45,12 +46,34 @@ class Diner < ActiveRecord::Base
     total_payment
   end
 
+  #calculates balance between two diners
+  #if positive, another_diner owes the current diner
+  def balance_between(another_diner_id)
+    total_requested = request_payment_from(another_diner_id)
+    total_paid = 0.0
+    #another_diner pays current diner
+    Payment.where(to_id: id, from_id: another_diner_id).each do |payment|
+      total_paid += payment.amount
+    end
+    #current_diner pays another_diner
+    Payment.where(from_id: id, to_id: another_diner_id).each do |payment|
+      total_paid -= payment.amount
+    end
+    total_requested-total_paid
+  end
+
   def pay_others
     who_you_owe = []
     Diner.where.not(id: id).each do |other_diner|
       who_you_owe << {diner_name: other_diner.name, diner_id: other_diner.id, owed_amount: other_diner.request_payment_from(id)}
     end
     who_you_owe
+  end
+
+  #this method determines how much you owe another diner and settles it by setting your 
+  def settle(diner_owed)
+
+    Payment.create()
   end
 
   def to_s
