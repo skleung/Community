@@ -71,11 +71,9 @@ class Diner < ActiveRecord::Base
   end
 
   #this method determines how much you owe another diner and settles it by setting your 
-  def settle(diner_owed)
-
-    Payment.create()
+  def pay()
+    byebug
   end
-
   def to_s
     name
   end

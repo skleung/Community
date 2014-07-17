@@ -53,12 +53,11 @@ class MealsController < ApplicationController
     @balances = []
     Diner.all.each do |d|
       if d.id != current_diner.id
-        
         @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id)}
       end
     end
     
-    @payments = Payment.where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id)
+    @payments = Payment.where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
 
     @meal = Meal.new
     # @meal = Meal.where(:date === date) 
@@ -72,13 +71,19 @@ class MealsController < ApplicationController
     #if not, we want to display an alert asking if they'd like to make a meal on that date instead.
   end
 
-  def signup_post
-
+  # POST 
+  def pay
+    @payment = Payment.new(pay_params)
+    @payment.from_id = current_diner.id
+    if @payment.save
+      flash[:notice] = "Payment made."
+      redirect_to root_path
+    else
+      format.html { render 'new' }
+      format.json { render json: @payment.errors, status: :unprocessable_entity }
+    end
   end
 
-  def settle
-
-  end
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update
@@ -103,13 +108,6 @@ class MealsController < ApplicationController
     end
   end
 
-  #for the join meal modal form to retrieve the attendance record for each meal id
-  def get_attendance(meal_ids)
-    #build a boolean attendance record that hashes to each meal date
-    byebug
-
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_meal
@@ -118,6 +116,10 @@ class MealsController < ApplicationController
 
     def verify_yourself_or_admin!
       @meal.owner.id == current_diner.id || @meal.chef.id == current_diner.id || authenticate_admin!
+    end
+
+    def pay_params
+      params.permit(:amount, :to_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
