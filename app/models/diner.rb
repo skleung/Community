@@ -38,7 +38,7 @@ class Diner < ActiveRecord::Base
   end
 
   #calculates how much another diner owes you
-  def request_payment_from(another_diner_id) 
+  def request_amount_from(another_diner_id) 
     total_payment = 0.0
     ingredients.where(finished: true).each do |ingredient|
       total_payment += ingredient.payment_owed_by(another_diner_id)
@@ -46,10 +46,18 @@ class Diner < ActiveRecord::Base
     total_payment
   end
 
-  #calculates balance between two diners
+  #calculates how much you owe another diner
+  def get_amount_owed(another_diner_id)
+    another_diner = Diner.find(another_diner_id)
+    another_diner.request_amount_from(id)
+  end
+
+  #calculates balance between two diners: finds balance by looking at all finished ingredients, then adjusts by calculating payments
   #if positive, another_diner owes the current diner
   def balance_between(another_diner_id)
-    total_requested = request_payment_from(another_diner_id)
+    byebug
+    total_requested = request_amount_from(another_diner_id) - get_amount_owed(another_diner_id)
+    
     total_paid = 0.0
     #another_diner pays current diner
     Payment.where(to_id: id, from_id: another_diner_id).each do |payment|
@@ -65,7 +73,7 @@ class Diner < ActiveRecord::Base
   def pay_others
     who_you_owe = []
     Diner.where.not(id: id).each do |other_diner|
-      who_you_owe << {diner_name: other_diner.name, diner_id: other_diner.id, owed_amount: other_diner.request_payment_from(id)}
+      who_you_owe << {diner_name: other_diner.name, diner_id: other_diner.id, owed_amount: other_diner.request_amount_from(id)}
     end
     who_you_owe
   end

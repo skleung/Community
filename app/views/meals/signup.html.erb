@@ -49,7 +49,7 @@
           <% elsif balance[:balance] < 0%>
           <tr>
             <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-            <td><span class="green"><%=number_to_currency -balance[:balance]%></span></td>
+            <td><span class="red"><%=number_to_currency -balance[:balance]%></span></td>
             <td>
               <div class="btn-group">
                 <%= link_to button_tag("Pay", :class => "btn btn-md btn-primary"), pay_path(to_id: balance[:diner_id], amount: balance[:balance]), :method =>"post" %>
