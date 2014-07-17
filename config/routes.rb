@@ -10,6 +10,7 @@ Community::Application.routes.draw do
  
   post 'meals/settle' => "meals#settle", as: :settle
   post 'meals/signup_post' => 'meals#signup_post', as: :signup_meal
+  post 'meals/get_attendence' => 'meals#get_attendance', as: :get_attendence_meal
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

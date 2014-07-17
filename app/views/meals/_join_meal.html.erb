@@ -1,3 +1,10 @@
 <%= form_tag signup_meal_path, :class => "form-horizontal", :id =>"signup-meal-form" do %>
-	
+  <h1>Signup for Meals on <span id="signup-date-display"></span></h1>
+  <%= hidden_field_tag(:date, :nil, id: 'signup-date-param') %>
+	<div id='fill-in-form-join'></div>
+  <div class="form-actions">
+    <%= submit_tag nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                root_path, :class => 'btn' %>
+  </div>
 <% end %>
