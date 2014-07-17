@@ -55,7 +55,6 @@ class Diner < ActiveRecord::Base
   #calculates balance between two diners: finds balance by looking at all finished ingredients, then adjusts by calculating payments
   #if positive, another_diner owes the current diner
   def balance_between(another_diner_id)
-    byebug
     total_requested = request_amount_from(another_diner_id) - get_amount_owed(another_diner_id)
     
     total_paid = 0.0
@@ -79,9 +78,6 @@ class Diner < ActiveRecord::Base
   end
 
   #this method determines how much you owe another diner and settles it by setting your 
-  def pay()
-    byebug
-  end
   def to_s
     name
   end
