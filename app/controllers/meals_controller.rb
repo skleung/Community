@@ -83,7 +83,8 @@ class MealsController < ApplicationController
     current_diner.save
 
     redirect_to root_path, notice: "Successfully saved attendence for #{date.to_date}"
-
+  end
+  
   # POST 
   def pay
     @payment = Payment.new(pay_params)
