@@ -52,7 +52,8 @@
             <td><span class="red"><%=number_to_currency -balance[:balance]%></span></td>
             <td>
               <div class="btn-group">
-                <%= link_to button_tag("Pay", :class => "btn btn-md btn-primary"), pay_path(to_id: balance[:diner_id], amount: balance[:balance]), :method =>"post" %>
+                <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
+                <%= link_to button_tag("Pay", :class => "btn btn-md btn-primary"), pay_path(to_id: balance[:diner_id], amount: amount), :method =>"post" %>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                   <span class="caret"></span>
                 </button>
