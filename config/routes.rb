@@ -9,6 +9,7 @@ Community::Application.routes.draw do
   
   post 'meals/pay' => "meals#pay", as: :pay
   post 'meals/signup_post' => 'meals#signup_post', as: :signup_meal
+  post 'meals/get_attendence' => 'meals#get_attendance', as: :get_attendence_meal
 
   resources :diners
   # The priority is based upon order of creation: first created -> highest priority.

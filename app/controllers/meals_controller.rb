@@ -71,6 +71,20 @@ class MealsController < ApplicationController
     #if not, we want to display an alert asking if they'd like to make a meal on that date instead.
   end
 
+  def signup_post
+    date = DateTime.parse(params['date'])
+    meals_saw = Meal.where(date: date).pluck(:id)
+    meals_checked = params['meal_ids'] || [] # or nothing checked
+    current_meals = current_diner.meal_ids
+    meals_unchecked = meals_saw - meals_checked
+    meals_to_remove = meals_unchecked & current_meals
+
+    current_diner.meal_ids = (current_meals | meals_checked) - meals_to_remove
+    current_diner.save
+
+    redirect_to root_path, notice: "Successfully saved attendence for #{date.to_date}"
+  end
+  
   # POST 
   def pay
     @payment = Payment.new(pay_params)
@@ -79,8 +93,7 @@ class MealsController < ApplicationController
       flash[:notice] = "Payment made."
       redirect_to root_path
     else
-      format.html { render 'new' }
-      format.json { render json: @payment.errors, status: :unprocessable_entity }
+      redirect_to root_path, alert: @payment.errors.full_messages
     end
   end
 
@@ -106,6 +119,36 @@ class MealsController < ApplicationController
       format.html { redirect_to meals_url }
       format.json { head :no_content }
     end
+  end
+
+  def generate_html(meal)
+    "
+    <div>
+      <input id='meal_diners_ids_#{meal.id}' name='meal_ids[]' type='checkbox' #{meal.diners.include?(current_diner) ? 'checked=checked' : ''} value='#{meal.id}'>
+      <b>Are you in?</b>
+      <br>
+      <b>Name:</b> #{meal.name}
+      <br>
+      <b>Chef:</b> #{meal.chef}
+      <br>
+      <b>Current Diners:</b> #{meal.diners.pluck(:name).join(', ')}
+      <br>
+      <b>Ingredients in Meal:</b> #{meal.ingredients.pluck(:name).join(', ')}
+    </div>
+    "
+  end
+
+  #for the join meal modal form to retrieve the attendance record for each meal id
+  def get_attendance
+    #build a boolean attendance record that hashes to each meal date
+    date = DateTime.parse(params['date'])
+    meals = Meal.where(date: date)
+    meals_html = []
+    meals.each do |meal|
+      meals_html << generate_html(meal)
+    end
+    html_string = meals_html.join('')
+    render :text => html_string
   end
 
   private

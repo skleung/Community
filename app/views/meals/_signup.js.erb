@@ -9,9 +9,28 @@ $(document).ready(function(){
 		if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
 			//selected a meal
 			$("#signup-meal-form").fadeIn();
-			var meal_ids = $target.attr('data_meal_ids') 
-			console.log('meal ids = '+meal_ids);	
 			//make an ajax call to find out who signed up on that date
+			$('#signup-date-display').html($target.attr('data-date'));
+			$('#signup-date-param').val($target.attr('data-date'));
+			$("#signup-meal-form").fadeIn();
+
+			$.ajax({
+        type: "POST",
+        dataType: "html",
+        url: '<%= get_attendence_meal_path %>',
+        data: { "date": $target.attr('data-date')},
+        success: function(data){
+          $('#fill-in-form-join').html(data);
+        },
+        error: function(){
+          alert("Something went wrong!");
+        }
+	    });
+
+			// ajax get info
+			// when done create form
+			// on submit send ajax to server
+			// server handles
 			
 
 		} else {
