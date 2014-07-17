@@ -43,14 +43,25 @@
           <% if balance[:balance] > 0 %>
           <tr>  
             <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-            <td><span class="red"><%=number_to_currency balance[:balance]%></span></td>
-            <td><%=button_to "Pay", settle_path,{:class => "btn btn-md btn-primary", :type=>"submit"} %> </td>
+            <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
+            <td> <!--empty --> </td>
           </tr>
           <% elsif balance[:balance] < 0%>
           <tr>
             <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-            <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
-            <td></td> <!-- for empty button balance  -->        </tr>
+            <td><span class="green"><%=number_to_currency -balance[:balance]%></span></td>
+            <td>
+              <div class="btn-group">
+                <%= link_to button_tag("Pay", :class => "btn btn-md btn-primary"), pay_path(to_id: balance[:diner_id], amount: balance[:balance]), :method =>"post" %>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+                <!-- <ul class="dropdown-menu" role="menu">
+                  <li></li>
+                </ul> -->
+              </div>
+            </td>
+          </tr>
           <% end %>
         </tr>
       <%end%>
@@ -60,13 +71,20 @@
     <div class="col-md-4">
       <h3>Payment History</h3>
       <table class="table-striped">
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+        </tr>
       <% @payments.each do |p| %>
-        <tr>  
+        <tr>
+          <td><%= p.created_at.to_date %></td>
+          <td> 
           <% if p.from_id != current_diner.id %>
-          <td> <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%=number_to_currency p.amount %></td>
+          <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%=number_to_currency p.amount %>
           <% else %>
-          <td> <%= link_to(current_diner.name, diner_path(current_diner.id)) %> paid <%=link_to(Diner.find(p.to_id).name, diner_path(p.to_id)) %>  <%=number_to_currency p.amount %></td>
+          <%= link_to(current_diner.name, diner_path(current_diner.id)) %> paid <%=link_to(Diner.find(p.to_id).name, diner_path(p.to_id)) %>  <%=number_to_currency p.amount %>
           <% end %>
+          </td>
         </tr>
       <%end%>
       </table>
@@ -75,12 +93,16 @@
 
   <!-- forms -->
   <div class="calendar-form">
-    <%= render :partial => "join_meal" %>
+    <!-- render join_meal -->
     <%= render :partial => "form" %>
   </div>
 </div>
 <% content_for :javascript do %>
    <script>
+    $("pay-amount-input").click(function(e){
+      console.log('stop?');
+      e.stopPropagation();
+    });
      <%= render(:partial => "signup.js") %>
    </script>
 <% end %>

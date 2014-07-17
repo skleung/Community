@@ -53,12 +53,11 @@ class MealsController < ApplicationController
     @balances = []
     Diner.all.each do |d|
       if d.id != current_diner.id
-        
         @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id)}
       end
     end
     
-    @payments = Payment.where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id)
+    @payments = Payment.where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
 
     @meal = Meal.new
     # @meal = Meal.where(:date === date) 
@@ -84,11 +83,19 @@ class MealsController < ApplicationController
     current_diner.save
 
     redirect_to root_path, notice: "Successfully saved attendence for #{date.to_date}"
+
+  # POST 
+  def pay
+    @payment = Payment.new(pay_params)
+    @payment.from_id = current_diner.id
+    if @payment.save
+      flash[:notice] = "Payment made."
+      redirect_to root_path
+    else
+      redirect_to root_path, alert: @payment.errors.full_messages
+    end
   end
 
-  def settle
-
-  end
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update
@@ -151,6 +158,10 @@ class MealsController < ApplicationController
 
     def verify_yourself_or_admin!
       @meal.owner.id == current_diner.id || @meal.chef.id == current_diner.id || authenticate_admin!
+    end
+
+    def pay_params
+      params.permit(:amount, :to_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
