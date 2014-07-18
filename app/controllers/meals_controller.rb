@@ -125,7 +125,7 @@ class MealsController < ApplicationController
     "
     <div>
       <input id='meal_diners_ids_#{meal.id}' name='meal_ids[]' type='checkbox' #{meal.diners.include?(current_diner) ? 'checked=checked' : ''} value='#{meal.id}'>
-      <b>Are you in?</b>
+      <b>Join</b>
       <br>
       <b>Name:</b> #{meal.name}
       <br>

@@ -1,20 +1,16 @@
 
 <div class="page-header">
   <h1>Dashboard</h1>
-
   <div class="alert alert-info" role="alert">
-    <b>Pro-tip: </b>To create new meals on dates that already have meals, go to the Meals tab.
+    <b>Tip: </b>Create new meals and signup for existing meals by using the calendar.
   </div>
 
-  <div class="alert alert-warning alert-block" style="display:none;"role="alert">
-    <b>Sorry </b>The calendar doesn't quite work yet! Right now the chef will keep track of who ate at what meal. This feature is coming soon!
-  </div>
 </div>
 <div class="container">
   <div class="row">
     <div class = "col-md-4">
-    <h3>Signup for Meals</h3>
-    <p> Highlighted days represent days that have meals </p>
+    <h3>Meal Summary</h3>
+    <p> Highlighted days represent days that have meals. </p>
     <%=calendar(:year => Date.today.year, :month => Date.today.month) do |day|
             if @valid_dates.has_key?(day) 
               data_meal_id_string = "#{@valid_dates[day].join(",")}"
@@ -57,9 +53,15 @@
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                   <span class="caret"></span>
                 </button>
-                <!-- <ul class="dropdown-menu" role="menu">
-                  <li></li>
-                </ul> -->
+                <ul class="dropdown-menu">
+                  <li id="payment-form-wrapper">
+                    <%= form_tag pay_path, :id=>"payment-form" do %>
+                    <%= number_field_tag :amount, nil, :min => 0, :class=>"form-control", step: 0.01 %>
+                    <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
+                    <%= submit_tag nil, :class => 'btn btn-primary' %>
+                  <% end %>
+                  </li>
+                </ul>
               </div>
             </td>
           </tr>
@@ -105,5 +107,8 @@
       e.stopPropagation();
     });
      <%= render(:partial => "signup.js") %>
+     $(".dropdown-menu").click(function(e){
+        e.stopPropagation();//stops the dropdown menu from dissapearing
+     });
    </script>
 <% end %>

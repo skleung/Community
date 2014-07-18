@@ -1,20 +1,20 @@
 $(document).ready(function(){
-	var MEAL_CLASS = "meal";
-	$("#create-meal-form").hide()
-	$("#signup-meal-form").hide()
-	//EVENT BINDINGS	
-	$(".calendar").click(function(event){
-		var $target = $(event.target);
-		$(".alert-block").fadeIn();
-		if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
-			//selected a meal
-			$("#signup-meal-form").fadeIn();
-			//make an ajax call to find out who signed up on that date
-			$('#signup-date-display').html($target.attr('data-date'));
-			$('#signup-date-param').val($target.attr('data-date'));
-			$("#signup-meal-form").fadeIn();
+  var MEAL_CLASS = "meal";
+  $("#create-meal-form").hide()
+  $("#signup-meal-form").hide()
+  //EVENT BINDINGS  
+  $(".calendar").click(function(event){
+    var $target = $(event.target);
+    $(".alert-block").fadeIn();
+    if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
+      //selected a meal
+      $("#signup-meal-form").fadeIn();
+      //make an ajax call to find out who signed up on that date
+      $('#signup-date-display').html($target.attr('data-date'));
+      $('#signup-date-param').val($target.attr('data-date'));
+      $("#signup-meal-form").fadeIn();
 
-			$.ajax({
+      $.ajax({
         type: "POST",
         dataType: "html",
         url: '<%= get_attendence_meal_path %>',
@@ -23,31 +23,25 @@ $(document).ready(function(){
           $('#fill-in-form-join').html(data);
         },
         error: function(){
-          alert("Something went wrong!");
+          alert("Cannot sign up for meal!");
         }
-	    });
+      });
 
-			// ajax get info
-			// when done create form
-			// on submit send ajax to server
-			// server handles
-			
+    } else {
+      $("#create-meal-form").fadeIn();
+      console.log('creating a meal');
+      //show the meal modal and set the date in emb
 
-		} else {
-			$("#create-meal-form").fadeIn();
-			console.log('creating a meal');
-			//show the meal modal and set the date in emb
+    }
+  });
 
-		}
-	});
-
-	//Form submits
-	$("create").submit(function(event){
-		//make an ajax call to the server to create a meal on that date.
-		$.ajax({url: "create",
+  //Form submits
+  $("create").submit(function(event){
+    //make an ajax call to the server to create a meal on that date.
+    $.ajax({url: "create",
           data: {type: '<%= params[:type] %>'},
           type: "POST"});
-	});
+  });
 });
 
 
