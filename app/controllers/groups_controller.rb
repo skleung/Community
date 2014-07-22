@@ -4,11 +4,11 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    @groups = Group.where.not(id: current_diner.groups)
   end
 
   def my_groups
-    @groups = Group.all # TODO
+    @groups = current_diner.groups
     @only_my_groups = true
     render :index
   end
@@ -42,6 +42,7 @@ class GroupsController < ApplicationController
 
     @group.password = params[:password]
     @group.admin = current_diner
+    @group.diners << current_diner
 
     respond_to do |format|
       if @group.save
@@ -62,7 +63,7 @@ class GroupsController < ApplicationController
       return render action: 'edit'
     end
     respond_to do |format|
-      if @group.update(name: params[:name], password: params[:password])
+      if @group.update(name: params[:group][:name], password: params[:group][:password])
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { head :no_content }
       else
@@ -83,7 +84,7 @@ class GroupsController < ApplicationController
   end
 
   def change_current_group
-    current_user.update_attribute(:current_group_id, @group.id)
+    current_diner.update_attribute(:current_group_id, @group.id)
     redirect_to groups_path, notice: "Successfully switched to #{@group.name}"
   end
 

@@ -1,10 +1,11 @@
 <%- model_class = Group -%>
 <div class="page-header">
-  <h1><%= @only_my_groups ? 'Your' : 'All' %> Groups</h1>
+  <h1><%= @only_my_groups ? 'Your' : 'Other' %> Groups</h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>Status</th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:admin) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
@@ -14,13 +15,18 @@
   <tbody>
     <% @groups.each do |group| %>
       <tr>
+        <% if current_diner.current_group_id == group.id %>
+          <td>Current Group</td>
+        <% elsif not group.diners.include? current_diner %>
+          <td><%= link_to 'Join?', attempt_join_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
+        <% else %>
+          <td><%= button_to 'Switch Group?', change_current_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
+        <% end %>
+
         <td><%= link_to group.name, group %></td>
         <td><%= link_to group.admin, group.admin %></td>
         <td><%=l group.created_at %></td>
         <td>
-          <% unless group.diners.include? current_diner %>
-            <%= link_to 'Join Group', attempt_join_group_path(group), :class => 'btn btn-mini btn-primary' %>
-          <% end %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_group_path(group), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

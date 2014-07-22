@@ -14,6 +14,8 @@ require 'bcrypt'
 class Group < ActiveRecord::Base
   include BCrypt
 
+  validates :password_hash, :admin_id, :name, presence: true
+
   has_and_belongs_to_many :diners
 
   belongs_to :admin, class_name: "Diner", foreign_key: "admin_id"
@@ -25,10 +27,5 @@ class Group < ActiveRecord::Base
   def password=(new_password)
     @password = Password.create(new_password)
     self.password_hash = @password
-  end
-
-  def add_to_group(diner_id, attempt)
-    if attempt == password
-    end
   end
 end
