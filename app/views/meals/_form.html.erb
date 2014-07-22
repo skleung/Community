@@ -47,10 +47,11 @@
   </div>
 
   <% Ingredient.all.each do |ingredient| %>
-    <%= check_box_tag "meal[ingredient_ids][]", ingredient.id, @meal.ingredients.include?(ingredient) %>
-    <span><%= ingredient.name %></span>
-    <%= hidden_field_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: false }" %>
-    <% if !ingredient.finished %>
+    <% if !ingredient.finished %>  
+      <%= check_box_tag "meal[ingredient_ids][]", ingredient.id, @meal.ingredients.include?(ingredient) %>
+      <span><%= ingredient.name %></span>
+      <%= hidden_field_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: false }" %>
+      
       <%= check_box_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: true }", ingredient.finished %>
     <% end %>
     <span>Finished?</span>

@@ -47,7 +47,7 @@
     <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                 ingredient_path(@ingredient),
                 :method => 'delete',
-                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure? Removing this ingredient will modify the amount charged.')) },
                 :class => 'btn btn-danger' %>
   <% end %>
 </div>
