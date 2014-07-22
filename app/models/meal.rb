@@ -19,7 +19,7 @@ class Meal < ActiveRecord::Base
 
   validate :name, :owner, :chef, :date, presence: true
   validate :has_diners?
-  validate :has_ingredients?
+  # validate :has_ingredients?
   validate :date, uniqueness: true
 
   accepts_nested_attributes_for :ingredients, :diners
@@ -36,7 +36,7 @@ class Meal < ActiveRecord::Base
   end
 
   def has_ingredients?
-    errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
+    # errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
   end 
 
   def cost
