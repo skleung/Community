@@ -1,6 +1,6 @@
 Community::Application.routes.draw do
   get "welcome/index"
-  get 'groups/my' => "groups#my_groups", as: :my_groups
+  get 'my_groups' => "groups#my_groups", as: :my_groups
   get 'group/attempt/:id' => "groups#attempt_to_join_group", as: :attempt_join_group
   post 'group/attempt/:id' => "groups#join_group", as: :attempt_join_group_post
   #devise_for :diners #this needs to be at the top of the file.

@@ -29,6 +29,8 @@ class Diner < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_many :ingredients, :dependent => :destroy
 
+  belongs_to :current_group, class_name: "Group", foreign_key: "current_group_id"
+
 
   after_create :set_default_name
 

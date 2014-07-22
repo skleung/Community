@@ -12,6 +12,7 @@
       <%= menu_item "Diners", diners_path %>
       <%= menu_item "Ingredients", ingredients_path %>
       <%= menu_item "Groups", groups_path %>
+      <%= menu_item "Current Group: #{current_diner.current_group.name}", my_groups_path %>
     <% end %>
     <%= render 'devise/menu/login_items' %>
   <% end %>

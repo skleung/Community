@@ -1,5 +1,10 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :change_current_group, :attempt_to_join_group, :join_group]
+  before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
+
+  def verify_yourself_or_admin!
+    @group.id == current_diner.id || authenticate_admin!
+  end
 
   # GET /groups
   # GET /groups.json
@@ -84,8 +89,11 @@ class GroupsController < ApplicationController
   end
 
   def change_current_group
+    unless current_diner.groups.include? @group
+      return redirect_to my_groups_path, error: "You don't appear to be in #{@group.name}"
+    end
     current_diner.update_attribute(:current_group_id, @group.id)
-    redirect_to groups_path, notice: "Successfully switched to #{@group.name}"
+    redirect_to my_groups_path, notice: "Successfully switched to #{@group.name}"
   end
 
   def attempt_to_join_group
