@@ -17,6 +17,7 @@
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
 #  role                   :string(255)
+#  current_group_id       :integer
 #
 
 require 'test_helper'

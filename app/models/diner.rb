@@ -17,6 +17,7 @@
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
 #  role                   :string(255)
+#  current_group_id       :integer
 #
 
 class Diner < ActiveRecord::Base
@@ -25,7 +26,9 @@ class Diner < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 	has_and_belongs_to_many :meals
-	has_many :ingredients, :dependent => :destroy
+  has_and_belongs_to_many :groups
+  has_many :ingredients, :dependent => :destroy
+
 
   after_create :set_default_name
 

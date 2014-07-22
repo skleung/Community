@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  id            :integer          not null, primary key
+#  admin_id      :integer
+#  password_hash :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  name          :string(255)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  admin_id: 1
+  password_hash: MyString
+
+two:
+  admin_id: 1
+  password_hash: MyString
