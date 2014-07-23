@@ -11,7 +11,9 @@
 
 diners = [
   { name: 'Alexis', email: 'alexka@stanford.edu' },
-  { name: 'Kev', email: 'swag@swag.com'}
+  { name: 'Kev', email: 'swag@swag.com'},
+  { name: 'So-def', email: 'a@b.com'},
+  { name: 'Mike', email: 'a@a.com'}
 ]
 
 diners.each do |diner|
@@ -69,3 +71,11 @@ end
 Payment.create(from_id: 1, to_id: 2, amount: 100)
 Payment.create(from_id: 2, to_id: 3, amount: 200)
 Payment.create(from_id: 3, to_id: 2, amount: 300)
+
+first = Group.create(admin: Diner.first, password: '12345678', name: 'first group')
+second = Group.create(admin: Diner.last, password: '12345678', name: 'second group')
+
+first.diner_ids = [1, 2, 3]
+first.save
+second.diner_ids = [1, 4, 5]
+second.save
