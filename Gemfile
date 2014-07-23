@@ -19,6 +19,8 @@ group :production do
   gem 'pg'
 end
 
+gem "bullet", :group => "development"
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
 
@@ -35,6 +37,7 @@ gem 'calendar_helper', '~> 0.2.6'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
