@@ -5,7 +5,7 @@ class DinersController < ApplicationController
   # GET /diners
   # GET /diners.json
   def index
-    @diners = Diner.all
+    @diners = Diner.where(id: current_group_ids).all
   end
 
   # GET /diners/1
@@ -45,7 +45,7 @@ class DinersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_diner
-      @diner = Diner.find(params[:id])
+      @diner = Diner.where(id: current_group_ids).find(params[:id])
     end
 
     def verify_yourself_or_admin!

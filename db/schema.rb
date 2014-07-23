@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722132635) do
+ActiveRecord::Schema.define(version: 20140723150524) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140722132635) do
     t.integer  "diner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
 
   create_table "ingredients_meals", id: false, force: true do |t|
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140722132635) do
     t.integer  "owner_id"
     t.string   "name"
     t.integer  "chef_id"
+    t.integer  "group_id"
   end
 
   create_table "payments", force: true do |t|
@@ -90,6 +92,7 @@ ActiveRecord::Schema.define(version: 20140722132635) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
 
 end

@@ -6,13 +6,15 @@
 #  name       :string(255)
 #  cost       :decimal(, )
 #  finished   :boolean
+#  diner_id   :integer
 #  created_at :datetime
 #  updated_at :datetime
-#  diner_id   :integer
+#  group_id   :integer
 #
 
 class Ingredient < ActiveRecord::Base
   validates :diner_id, :name, :cost, presence: true
+  belongs_to :group
 
   before_create :check_duplicate_names
     
@@ -30,7 +32,7 @@ class Ingredient < ActiveRecord::Base
       end
       self.name = self.name + " (newest)"
     end
-  end 
+  end
 
   def servings
     # detemines how many 'servings' this ingredient has been split into.

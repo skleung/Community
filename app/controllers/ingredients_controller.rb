@@ -5,7 +5,7 @@ class IngredientsController < ApplicationController
   # GET /ingredients
   # GET /ingredients.json
   def index
-    @ingredients = Ingredient.includes(:diner).all
+    @ingredients = Ingredient.where(group: current_group).includes(:diner).all
   end
 
   # GET /ingredients/1
@@ -28,6 +28,7 @@ class IngredientsController < ApplicationController
   # POST /ingredients.json
   def create
     @ingredient = Ingredient.new(ingredient_params)
+    @ingredient.group = current_group
     respond_to do |format|
       if @ingredient.save
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully created.' }
@@ -66,7 +67,7 @@ class IngredientsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ingredient
-      @ingredient = Ingredient.find(params[:id])
+      @ingredient = Ingredient.where(group: current_group).find(params[:id])
     end
 
     def verify_yourself_or_admin!

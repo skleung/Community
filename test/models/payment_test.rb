@@ -8,6 +8,7 @@
 #  amount     :decimal(, )
 #  created_at :datetime
 #  updated_at :datetime
+#  group_id   :integer
 #
 
 require 'test_helper'

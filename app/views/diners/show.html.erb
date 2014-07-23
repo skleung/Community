@@ -18,7 +18,7 @@
       <th>Cost of Meal</th>
       <th>Cost for Single Diner</th>
     </tr>
-    <% @diner.meals.each do |meal| %>
+    <% @diner.meals.where(group: current_group).each do |meal| %>
       <tr>
         <td><%= link_to meal.name, meal %></td>
         <td><%= link_to meal.chef, meal.chef %></td>

@@ -9,11 +9,13 @@
 #  owner_id   :integer
 #  name       :string(255)
 #  chef_id    :integer
+#  group_id   :integer
 #
 
 class Meal < ActiveRecord::Base
   belongs_to :owner, class_name: "Diner", foreign_key: "owner_id"
   belongs_to :chef, class_name: "Diner", foreign_key: "chef_id"
+  belongs_to :group
 	has_and_belongs_to_many :ingredients
 	has_and_belongs_to_many :diners
 
