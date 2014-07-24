@@ -31,7 +31,6 @@ class MealsController < ApplicationController
   def create
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
-    @meal.group = current_group
 
     respond_to do |format|
       if @meal.save
@@ -159,11 +158,13 @@ class MealsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
       setup_ingredients_attributes
-      params.require(:meal).permit(:name, :chef_id, :date, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+      params.require(:meal).permit(:name, :chef_id, :date, :group_id, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
     end
 
     # ingredient_attributes needs to be an array of hashes
     def setup_ingredients_attributes
+      params[:meal][:group_id] = current_group.id
+
       if params[:meal][:ingredients_attributes]
         params[:meal][:ingredients_attributes].map! do |str|
           str.kind_of?(String) ? eval(str) : str

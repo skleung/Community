@@ -24,14 +24,21 @@ class Meal < ActiveRecord::Base
   # validate :has_ingredients?
   validate :date, uniqueness: true
 
+  validate :check_group_id_of_ingredients
+
   accepts_nested_attributes_for :ingredients, :diners
 
-  def check_group_id(ingredient)
-    raise ActiveRecord::Rollback if ingredient.group_id != group_id
+  def check_group_id_of_ingredients
+    if (ingredients.reject { |ing| ing.group_id == group_id }).any?
+      errors.add(:base, "Group ID doesn't line up!")
+      # nuke the relation
+      ingredients.clear
+    end
   end
 
   def ingredients_attributes=(attributes)
     attributes.each do |hsh|
+      #MAKE SURE THIS IS OK
       ingredient = Ingredient.find(hsh["id"])
       ingredient.update_attributes(hsh)
     end
