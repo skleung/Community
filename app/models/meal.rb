@@ -29,6 +29,8 @@ class Meal < ActiveRecord::Base
   accepts_nested_attributes_for :ingredients, :diners
 
   def check_group_id_of_ingredients
+    # TODO
+    # this if statement should really be done at database level
     if (ingredients.reject { |ing| ing.group_id == group_id }).any?
       errors.add(:base, "Group ID doesn't line up!")
       # nuke the relation
@@ -36,10 +38,14 @@ class Meal < ActiveRecord::Base
     end
   end
 
+  # TODO
+  # this function is terribly inefficient, luckily its only called
+  # on meal create/update.  Should see if there is a way to do this in
+  # single db tranaction
   def ingredients_attributes=(attributes)
     attributes.each do |hsh|
-      #MAKE SURE THIS IS OK
       ingredient = Ingredient.find(hsh["id"])
+      return if ingredient.group_id != group_id # deny the update.
       ingredient.update_attributes(hsh)
     end
   end

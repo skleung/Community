@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
   end
 
   def my_groups
-    @groups = current_diner.groups.includes(:diners, :admin)
+    @groups = current_diner.groups.includes(:admin)
     @only_my_groups = true
     render :index
   end
