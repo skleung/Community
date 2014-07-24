@@ -5,7 +5,7 @@ class MealsController < ApplicationController
   # GET /meals
   # GET /meals.json
   def index
-    @meals = Meal.includes(:chef, :owner)
+    @meals = Meal.where(group: current_group).includes(:chef, :owner).all
   end
 
   # GET /meals/1
@@ -31,6 +31,7 @@ class MealsController < ApplicationController
   def create
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
+    @meal.group = current_group
 
     respond_to do |format|
       if @meal.save
@@ -44,36 +45,25 @@ class MealsController < ApplicationController
   end
 
   def signup
-    @meals = Meal.all
+    @meals = Meal.where(group: current_group).all
     @valid_dates = Hash.new #this is a hash of dates to an array of meal id's that are on that date
     @meals.each do |meal|
       (@valid_dates[meal.date.to_date] ||= []) << meal.id
     end
     
     @balances = []
-    Diner.all.each do |d|
-      if d.id != current_diner.id
-        @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id)}
-      end
+    Diner.where(id: current_group_ids).where.not(id: current_diner.id).each do |d|
+      @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id, current_group.id)}
     end
     
-    @payments = Payment.where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
+    @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
 
     @meal = Meal.new
-    # @meal = Meal.where(:date === date) 
-    # @meal.diners += current_diner
-    #use the above array to validate whether people have signed up for a meal for that date or not
-    #maybe the best way is to PATCH/PUT to the update action...
-    #the tricky part will be how to catch the errors from the update method
-
-    #or we can think about how to do a sign_up post method
-
-    #if not, we want to display an alert asking if they'd like to make a meal on that date instead.
   end
 
   def signup_post
     date = DateTime.parse(params['date'])
-    meals_saw = Meal.where(date: date).pluck(:id)
+    meals_saw = Meal.where(date: date, group: current_group).pluck(:id)
     meals_checked = params['meal_ids'] || [] # or nothing checked
     current_meals = current_diner.meal_ids
     meals_unchecked = meals_saw - meals_checked
@@ -89,6 +79,7 @@ class MealsController < ApplicationController
   def pay
     @payment = Payment.new(pay_params)
     @payment.from_id = current_diner.id
+    @payment.group = current_group
     if @payment.save
       flash[:notice] = "Payment made."
       redirect_to root_path
@@ -142,7 +133,7 @@ class MealsController < ApplicationController
   def get_attendance
     #build a boolean attendance record that hashes to each meal date
     date = DateTime.parse(params['date'])
-    meals = Meal.where(date: date)
+    meals = Meal.where(date: date, group: current_group)
     meals_html = []
     meals.each do |meal|
       meals_html << generate_html(meal)
@@ -154,7 +145,7 @@ class MealsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_meal
-      @meal = Meal.find(params[:id])
+      @meal = Meal.where(group: current_group).find(params[:id])
     end
 
     def verify_yourself_or_admin!

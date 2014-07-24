@@ -9,6 +9,7 @@
 #  owner_id   :integer
 #  name       :string(255)
 #  chef_id    :integer
+#  group_id   :integer
 #
 
 require 'test_helper'

@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h1>Joining Group <%= link_to @group.name, @group %></h1>
+  <h2>Group admin is: <%= link_to @group.admin, @group.admin %>
+</div>
+
+<%= form_for attempt_join_group_post_path(@group), :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :password, :class => 'control-label' %>
+    <div class="controls">
+      <%= password_field_tag :password %>
+    </div>
+  </div>
+
+  <%= f.submit 'Join Group', :class => 'btn btn-primary' %>
+<% end %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              groups_path, :class => 'btn'  %>
+</div>

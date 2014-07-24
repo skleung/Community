@@ -6,9 +6,10 @@
 #  name       :string(255)
 #  cost       :decimal(, )
 #  finished   :boolean
+#  diner_id   :integer
 #  created_at :datetime
 #  updated_at :datetime
-#  diner_id   :integer
+#  group_id   :integer
 #
 
 require 'test_helper'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703184408) do
+ActiveRecord::Schema.define(version: 20140723150524) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
@@ -28,10 +28,19 @@ ActiveRecord::Schema.define(version: 20140703184408) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "role"
+    t.integer  "current_group_id"
   end
 
   add_index "diners", ["email"], name: "index_diners_on_email", unique: true
   add_index "diners", ["reset_password_token"], name: "index_diners_on_reset_password_token", unique: true
+
+  create_table "diners_groups", id: false, force: true do |t|
+    t.integer "diner_id", null: false
+    t.integer "group_id", null: false
+  end
+
+  add_index "diners_groups", ["diner_id", "group_id"], name: "index_diners_groups_on_diner_id_and_group_id"
+  add_index "diners_groups", ["group_id", "diner_id"], name: "index_diners_groups_on_group_id_and_diner_id"
 
   create_table "diners_meals", id: false, force: true do |t|
     t.integer "diner_id", null: false
@@ -41,6 +50,14 @@ ActiveRecord::Schema.define(version: 20140703184408) do
   add_index "diners_meals", ["diner_id", "meal_id"], name: "index_diners_meals_on_diner_id_and_meal_id"
   add_index "diners_meals", ["meal_id", "diner_id"], name: "index_diners_meals_on_meal_id_and_diner_id"
 
+  create_table "groups", force: true do |t|
+    t.integer  "admin_id"
+    t.string   "password_hash"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ingredients", force: true do |t|
     t.string   "name"
     t.decimal  "cost"
@@ -48,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140703184408) do
     t.integer  "diner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
 
   create_table "ingredients_meals", id: false, force: true do |t|
@@ -65,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140703184408) do
     t.integer  "owner_id"
     t.string   "name"
     t.integer  "chef_id"
+    t.integer  "group_id"
   end
 
   create_table "payments", force: true do |t|
@@ -73,6 +92,7 @@ ActiveRecord::Schema.define(version: 20140703184408) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
 
 end

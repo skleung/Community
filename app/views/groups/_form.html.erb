@@ -1,0 +1,47 @@
+<%= form_for @group, :html => { :class => 'form-horizontal' } do |f| %>
+<% if @group.errors.any? %>
+    <div class = "alert alert-danger" role="alert">
+      <div><b>Error(s)</b></div>
+      <% @group.errors.full_messages.each do |msg| %>
+        <li><%=msg%></li>
+      <% end %> 
+    </div> 
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :password, :class => 'control-label' %>
+    <div class="controls">
+      <%= password_field :password, nil %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :password_confirmation, :class => 'control-label' %>
+    <div class="controls">
+      <%= password_field :password_confirmation, nil %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :diners_to_be_in_group, :class => 'control-label' %>
+  </div>
+  <div>
+    <%= 
+      f.collection_check_boxes :diner_ids, Diner.where.not(id: current_diner).all, :id, :name do |diner|
+        diner.label { diner.check_box + " " + diner.text }
+      end
+    %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                groups_path, :class => 'btn' %>
+  </div>
+<% end %>

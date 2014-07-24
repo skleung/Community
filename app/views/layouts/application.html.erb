@@ -11,6 +11,12 @@
       <%= menu_item "Meals", meals_path %>
       <%= menu_item "Diners", diners_path %>
       <%= menu_item "Ingredients", ingredients_path %>
+      <%= menu_item "Groups", groups_path %>
+      <% if current_diner && current_group %>
+        <%= menu_item "Current Group: #{current_group.name}", my_groups_path %>
+      <% else %>
+        <%= menu_item "Your Groups", my_groups_path %>
+      <% end %>
     <% end %>
     <%= render 'devise/menu/login_items' %>
   <% end %>

@@ -11,7 +11,9 @@
 
 diners = [
   { name: 'Alexis', email: 'alexka@stanford.edu' },
-  { name: 'Kev', email: 'swag@swag.com'}
+  { name: 'Kev', email: 'swag@swag.com'},
+  { name: 'So-def', email: 'a@b.com'},
+  { name: 'Mike', email: 'a@a.com'}
 ]
 
 diners.each do |diner|
@@ -26,6 +28,15 @@ end
 
 Diner.create!(name: 'Sherman', email: 'skleung@stanford.edu', password: '12345678', password_confirmation: '12345678', role: 'admin')
 
+first = Group.create(admin: Diner.first, password: '12345678', name: 'first group')
+second = Group.create(admin: Diner.last, password: '12345678', name: 'second group')
+
+first.password = '12345678'
+first.diner_ids = [1, 2, 3]
+first.save
+second.password = '12345678'
+second.diner_ids = [1, 4, 5]
+second.save
 
 # if Diner.where(email: 'admin@test.com').count == 0
 #   Diner.create!(name: 'admin', email: 'admin@test.com', password: '12345678', password_confirmation: '12345678', role: 'admin')
@@ -49,6 +60,7 @@ ingredients = [
 
 ingredients.each do |ingredient|
   ingredient[:diner_id] = 1
+  ingredient[:group_id] = 1
   Ingredient.where(ingredient).first_or_create!
 end
 
@@ -56,16 +68,17 @@ Ingredient.first.update_attribute(:finished, true)
 
 meals = [
   { name: 'Bread and Lettuce', chef: Diner.first, owner: Diner.first, date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
-  { name: 'Bread', chef: Diner.last, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+  { name: 'Lettuce', chef: Diner.last, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
 ]
 
 meals.each do |meal|
   if Meal.where(name: meal[:name]).count != 0
     next
   end
+  meal[:group_id] = 1
   m = Meal.create!(meal)
 end
 
-Payment.create(from_id: 1, to_id: 2, amount: 100)
-Payment.create(from_id: 2, to_id: 3, amount: 200)
-Payment.create(from_id: 3, to_id: 2, amount: 300)
+Payment.create(from_id: 1, to_id: 2, amount: 100, group: Group.first)
+Payment.create(from_id: 2, to_id: 3, amount: 200, group: Group.first)
+Payment.create(from_id: 3, to_id: 2, amount: 300, group: Group.first)
