@@ -16,8 +16,8 @@ class Meal < ActiveRecord::Base
   belongs_to :owner, class_name: "Diner", foreign_key: "owner_id"
   belongs_to :chef, class_name: "Diner", foreign_key: "chef_id"
   belongs_to :group
-	has_and_belongs_to_many :ingredients
-	has_and_belongs_to_many :diners
+  has_and_belongs_to_many :ingredients, before_add: :check_group_id
+  has_and_belongs_to_many :diners
 
   validate :name, :owner, :chef, :date, presence: true
   validate :has_diners?
@@ -25,6 +25,10 @@ class Meal < ActiveRecord::Base
   validate :date, uniqueness: true
 
   accepts_nested_attributes_for :ingredients, :diners
+
+  def check_group_id(ingredient)
+    raise ActiveRecord::Rollback if ingredient.group_id != group_id
+  end
 
   def ingredients_attributes=(attributes)
     attributes.each do |hsh|
