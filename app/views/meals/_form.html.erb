@@ -35,8 +35,8 @@
   <%= f.label :diners_attending, :class => 'control-label' %>
   </div>
   <div>
-    <%= 
-      f.collection_check_boxes :diner_ids, Diner.all, :id, :name do |diner|
+    <%=
+      f.collection_check_boxes :diner_ids, Diner.where(id: current_group_ids).all, :id, :name do |diner|
         diner.label { diner.check_box + " " + diner.text }
       end
     %>
@@ -46,15 +46,13 @@
     <%= f.label :ingredients, :class => 'control-label' %>
   </div>
 
-  <% Ingredient.all.each do |ingredient| %>
-    <% if !ingredient.finished %>  
-      <%= check_box_tag "meal[ingredient_ids][]", ingredient.id, @meal.ingredients.include?(ingredient) %>
-      <span><%= ingredient.name %></span>
-      <%= hidden_field_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: false }" %>
-      <%= check_box_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: true }", ingredient.finished %>
-      <span>Finished?</span>
-      </br>
-    <% end %>
+  <% Ingredient.where(group: current_group, finished: [false, nil]).all.each do |ingredient| %>
+    <%= check_box_tag "meal[ingredient_ids][]", ingredient.id, @meal.ingredients.include?(ingredient) %>
+    <span><%= ingredient.name %></span>
+    <%= hidden_field_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: false }" %>
+    <%= check_box_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: true }", ingredient.finished %>
+    <span>Finished?</span>
+    </br>
   <% end %>
 
   <div class="form-actions">

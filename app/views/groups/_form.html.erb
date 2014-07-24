@@ -28,6 +28,17 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :diners_to_be_in_group, :class => 'control-label' %>
+  </div>
+  <div>
+    <%= 
+      f.collection_check_boxes :diner_ids, Diner.where.not(id: current_diner).all, :id, :name do |diner|
+        diner.label { diner.check_box + " " + diner.text }
+      end
+    %>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

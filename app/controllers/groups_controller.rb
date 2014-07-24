@@ -2,6 +2,8 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :change_current_group, :attempt_to_join_group, :join_group]
   before_filter :verify_yourself_or_admin!, only: [:edit, :update, :destroy]
 
+  skip_before_filter :check_group!
+
   def verify_yourself_or_admin!
     @group.id == current_diner.id || authenticate_admin!
   end
@@ -47,7 +49,7 @@ class GroupsController < ApplicationController
 
     @group.password = params[:password]
     @group.admin = current_diner
-    @group.diners << current_diner
+    @group.diner_ids = params[:group][:diner_ids] << current_diner.id
 
     respond_to do |format|
       if @group.save
