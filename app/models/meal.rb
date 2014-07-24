@@ -16,7 +16,7 @@ class Meal < ActiveRecord::Base
   belongs_to :owner, class_name: "Diner", foreign_key: "owner_id"
   belongs_to :chef, class_name: "Diner", foreign_key: "chef_id"
   belongs_to :group
-  has_and_belongs_to_many :ingredients, before_add: :check_group_id
+  has_and_belongs_to_many :ingredients
   has_and_belongs_to_many :diners
 
   validate :name, :owner, :chef, :date, presence: true

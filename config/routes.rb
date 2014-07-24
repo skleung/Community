@@ -5,7 +5,7 @@ Community::Application.routes.draw do
   post 'group/attempt/:id' => "groups#join_group", as: :attempt_join_group_post
   #devise_for :diners #this needs to be at the top of the file.
   devise_for :diners, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout', :sign_up => "signup"}, 
-      controllers: { registrations: "registrations", sessions: "sessions" }
+      controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
 
   resources :ingredients
   resources :meals
