@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140723150524) do
+ActiveRecord::Schema.define(version: 20140724041357) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20140723150524) do
     t.integer "group_id", null: false
   end
 
-  add_index "diners_groups", ["diner_id", "group_id"], name: "index_diners_groups_on_diner_id_and_group_id"
+  add_index "diners_groups", ["diner_id", "group_id"], name: "index_diners_groups_on_diner_id_and_group_id", unique: true
   add_index "diners_groups", ["group_id", "diner_id"], name: "index_diners_groups_on_group_id_and_diner_id"
 
   create_table "diners_meals", id: false, force: true do |t|
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20140723150524) do
     t.integer "meal_id",  null: false
   end
 
-  add_index "diners_meals", ["diner_id", "meal_id"], name: "index_diners_meals_on_diner_id_and_meal_id"
+  add_index "diners_meals", ["diner_id", "meal_id"], name: "index_diners_meals_on_diner_id_and_meal_id", unique: true
   add_index "diners_meals", ["meal_id", "diner_id"], name: "index_diners_meals_on_meal_id_and_diner_id"
 
   create_table "groups", force: true do |t|
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20140723150524) do
     t.integer "meal_id",       null: false
   end
 
-  add_index "ingredients_meals", ["ingredient_id", "meal_id"], name: "index_ingredients_meals_on_ingredient_id_and_meal_id"
+  add_index "ingredients_meals", ["ingredient_id", "meal_id"], name: "index_ingredients_meals_on_ingredient_id_and_meal_id", unique: true
   add_index "ingredients_meals", ["meal_id", "ingredient_id"], name: "index_ingredients_meals_on_meal_id_and_ingredient_id"
 
   create_table "meals", force: true do |t|
