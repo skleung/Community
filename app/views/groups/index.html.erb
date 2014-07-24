@@ -16,11 +16,11 @@
     <% @groups.each do |group| %>
       <tr>
         <% if current_diner.current_group_id == group.id %>
-          <td>Current Group</td>
-        <% elsif not group.diners.include? current_diner %>
-          <td><%= link_to 'Join?', attempt_join_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
-        <% else %>
+          <td><%= link_to 'Current Group', diners_path %></td>
+        <% elsif @only_my_groups %>
           <td><%= button_to 'Switch Group?', change_current_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
+        <% else %>
+          <td><%= link_to 'Join?', attempt_join_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
         <% end %>
 
         <td><%= link_to group.name, group %></td>
