@@ -49,6 +49,7 @@ class DinersController < ApplicationController
     end
 
     def verify_yourself_or_admin!
+      # can only modify other diners if you are global admin
       @diner.id == current_diner.id || authenticate_admin!
     end
 

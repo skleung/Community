@@ -27,7 +27,7 @@
         <td><%= link_to group.admin, group.admin %></td>
         <td><%=l group.created_at %></td>
         <td>
-        <% if verify_yourself_or_admin(group.id) %>
+        <% if verify_yourself_or_admin(group.admin.id) %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
                         edit_group_path(group), :class => 'btn btn-mini' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

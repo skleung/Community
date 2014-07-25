@@ -23,7 +23,7 @@
         <td><%= link_to ingredient.diner, ingredient.diner %></td>
         <td><%= ingredient.created_at.to_date.to_s %></td>
         <td>
-          <% if verify_yourself_or_admin(ingredient.diner.id) %>
+          <% if verify_yourself_or_group_admin(ingredient.diner.id) %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
                         edit_ingredient_path(ingredient), :class => 'btn btn-mini' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

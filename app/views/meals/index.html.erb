@@ -22,7 +22,7 @@
         <td><%= meal.all_ingredients_finished? ? number_to_currency(meal.cost) : 'Some ingredients are not finished' %></td>
         <td><%= meal.date.to_date.to_s %></td>
         <td>
-          <% if verify_yourself_or_admin(meal.owner.id) || verify_yourself_or_admin(meal.chef.id) %>
+          <% if verify_yourself_or_group_admin(meal.owner.id) || verify_yourself_or_group_admin(meal.chef.id) %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
                         edit_meal_path(meal), :class => 'btn btn-mini' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

@@ -71,7 +71,8 @@ class IngredientsController < ApplicationController
     end
 
     def verify_yourself_or_admin!
-      @ingredient.diner.id == current_diner.id || authenticate_admin!
+      # can modify ingredients if you are the diner (buyer), the group admin, or global admin
+      @ingredient.diner.id == current_diner.id || @ingredient.group.admin == current_diner || authenticate_admin!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

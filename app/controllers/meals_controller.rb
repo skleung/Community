@@ -148,7 +148,8 @@ class MealsController < ApplicationController
     end
 
     def verify_yourself_or_admin!
-      @meal.owner.id == current_diner.id || @meal.chef.id == current_diner.id || authenticate_admin!
+      # you can modify meals if you are the owner, chef, admin of the group, or global admin
+      @meal.owner == current_diner || @meal.chef == current_diner || @meal.group.admin == current_diner || authenticate_admin!
     end
 
     def pay_params
