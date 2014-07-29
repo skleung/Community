@@ -22,7 +22,7 @@
       <th>Cost</th>
       <th>Cost to Meal</th>
     </tr>
-    <% @ingredient.meals.each do |meal| %>
+    <% @ingredient.meals.includes(:chef).each do |meal| %>
       <tr>
         <td><%= link_to meal.name, meal %></td>
         <td><%= link_to meal.chef, meal.chef %></td>
