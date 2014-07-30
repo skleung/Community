@@ -107,6 +107,7 @@ class GroupsController < ApplicationController
     end
 
     @group.diners << current_diner
+    current_diner.update_attribute(:current_group_id, @group.id)
     redirect_to my_groups_path, notice: "Successfully joined group #{@group.name}"
   end
 
