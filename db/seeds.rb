@@ -11,6 +11,7 @@
 
 diners = [
   { name: 'Alexis', email: 'alexka@stanford.edu' },
+  { name: 'Kevin', email: 'kacasey@berkeley.edu'},
   { name: 'Kev', email: 'swag@swag.com'},
   { name: 'So-def', email: 'a@b.com'},
   { name: 'Mike', email: 'a@a.com'}
