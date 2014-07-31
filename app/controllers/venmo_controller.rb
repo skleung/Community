@@ -46,14 +46,23 @@ class VenmoController < ApplicationController
   end
 
   def make_venmo_payment(to_venmo_id, amount)
-    #url = "https://api.venmo.com/v1/payments"
-    url = "https://sandbox-api.venmo.com/v1/payments"
-    params = {
-      "access_token" => current_diner.venmo_token,
-      "user_id" => 145434160922624933,#to_venmo_id,
-      "amount" => 0.10,#amount,
-      "note" => "test community payment"
-    }
+    if ENV['VENMO_STATUS'] == 'ACTIVE'
+      url = "https://api.venmo.com/v1/payments"
+      params = {
+        "access_token" => current_diner.venmo_token,
+        "user_id" => to_venmo_id,
+        "amount" => amount,
+        "note" => "Community App Payment"
+      }
+    else
+      url = "https://sandbox-api.venmo.com/v1/payments"
+      params = {
+        "access_token" => current_diner.venmo_token,
+        "user_id" => 145434160922624933,#to_venmo_id,
+        "amount" => 0.10,#amount,
+        "note" => "test community payment"
+      }
+    end
     JSON.parse(Net::HTTP.post_form(URI.parse(url), params).body)
   end
 

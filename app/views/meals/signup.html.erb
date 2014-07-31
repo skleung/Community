@@ -54,8 +54,10 @@
             <td>
               <div class="btn-group">
                 <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
+                <% if balance[:venmo_token] %>
+                  <%= link_to button_tag("Pay With Venmo", :class => "btn btn-md btn-primary"), pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post" %>
+                <% end %>
                 <%= link_to button_tag("Pay", :class => "btn btn-md btn-primary"), pay_path(to_id: balance[:diner_id], amount: amount), :method =>"post" %>
-                <%= link_to button_tag("Pay With Venmo", :class => "btn btn-md btn-primary"), pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post" %>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                   <span class="caret"></span>
                 </button>

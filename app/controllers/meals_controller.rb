@@ -52,7 +52,7 @@ class MealsController < ApplicationController
     
     @balances = []
     Diner.where(id: current_group_ids).where.not(id: current_diner.id).each do |d|
-      @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id, current_group.id)}
+      @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id, current_group.id), venmo_token: d.venmo_token}
     end
     
     @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
