@@ -80,8 +80,7 @@ class MealsController < ApplicationController
     @payment.from_id = current_diner.id
     @payment.group = current_group
     if @payment.save
-      flash[:notice] = "Payment made."
-      redirect_to root_path
+      redirect_to root_path, notice: "Payment made."
     else
       redirect_to root_path, alert: @payment.errors.full_messages
     end

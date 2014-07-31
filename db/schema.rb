@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724041357) do
+ActiveRecord::Schema.define(version: 20140731014236) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20140724041357) do
     t.string   "last_sign_in_ip"
     t.string   "role"
     t.integer  "current_group_id"
+    t.string   "venmo_token"
+    t.string   "venmo_refresh_token"
   end
 
   add_index "diners", ["email"], name: "index_diners_on_email", unique: true

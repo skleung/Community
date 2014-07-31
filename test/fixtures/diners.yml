@@ -18,6 +18,8 @@
 #  last_sign_in_ip        :string(255)
 #  role                   :string(255)
 #  current_group_id       :integer
+#  venmo_token            :string(255)
+#  venmo_refresh_token    :string(255)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

@@ -19,6 +19,9 @@ Community::Application.routes.draw do
   post 'meals/signup_post' => 'meals#signup_post', as: :signup_meal
   post 'meals/get_attendence' => 'meals#get_attendance', as: :get_attendence_meal
 
+  post 'venmo/pay' => 'venmo#pay', as: :pay_with_venmo
+  get 'venmo_oauth' => 'venmo#oauth', as: :venmo_oauth
+
   resources :diners
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
