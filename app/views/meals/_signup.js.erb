@@ -30,7 +30,7 @@ $(document).ready(function(){
       });
 
     } else {
-      $("#create-meal-form").fadeIn();
+      $("#create-meal-form").modal();
       var parts = $target.attr('data-date').split("-");
       var dt = new Date(parseInt(parts[0], 10), // year
                   parseInt(parts[1], 10) - 1, // month

@@ -1,6 +1,24 @@
+<%=image_tag("cover-photo.jpg", :class=>"cover-photo" )%>
+  <!-- Begin page content -->
+<div class="container">
+  <div class="header">   
+    <p id="signin">
+      Have an account?<br />
+      <%=link_to("Sign In", new_diner_session_path, {:class=>"btn btn-sm btn-default", :id=>"signin-btn"}) %>
+    </p>
 
-<div class = "centered">
-	<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
-	<h2>Cost-splitting made easy</h2>
-	<%= link_to("join the community", "diners/sign_in", :class => 'btn btn-primary btn-large') %>
+  </div>
+  <div class="content">
+      <div class="splash">
+        <h1> Group finances made easy. </h1>
+        <p class="tagline"> Relax. Forget saving receipts and shared spreadsheets.</p>
+        <p class="tagline">Community brings all things food and finance related together in one place.</p>
+        <div class="landing-form-container">
+          <%= render :partial => "form" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<%= render :partial => 'footer'%>

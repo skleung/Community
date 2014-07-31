@@ -1,23 +1,166 @@
-.centered{
-	position: absolute;
-	left: 50%;
-	width: 300px;
-	margin-left: -150px;
-	top: 50%;
-	height: 200px;
-	text-align: center;
-	margin-top: -100px;
-	font-family: 'ubuntu', sans-serif;
+.cover-photo{
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: -1;
+  min-width: 100%;
+  min-height: 100%;
+}
+#logo_header {
+  width: 100%;
+  padding: 2.4rem 0 0;
+}
+#logo_header a{
+  text-decoration: none;
+}
+.section{
+  background-color: white;
+  background-position: center bottom, center top;
+  background-size: auto, cover;
+  height: 550px;
 }
 
-#animate-logo{
-	-webkit-animation-duration: 3s;
- 	-webkit-animation-delay: 2s;
- 	-webkit-animation-iteration-count: infinite;
- 	-moz-animation-duration: 3s;
- 	-moz-animation-delay: 2s;
- 	-moz-animation-iteration-count: infinite;
- 	-o-animation-duration: 3s;
- 	-o-animation-delay: 2s;
- 	-o-animation-iteration-count: infinite;
+.down-button{
+  background-position: center bottom,center top;
+}
+.grayscale{
+  -webkit-filter: grayscale(40%);
+  -moz-filter: grayscale(40%);
+  filter: grayscale(40%);
+}
+
+.blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+/*page flow styles*/
+
+#wrap{
+  min-height: 100%;
+}
+
+.footer {
+  position: relative;
+  margin-top: 70px;
+  height: 70px;
+  text-align: center;
+  clear: both;
+  font-weight: bold;
+  color: white;
+}
+
+
+.splash{
+  margin-top: 20%;
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+  color: white;
+  width: 100%;
+  z-index: 5;
+  font-family: 'ubuntu', sans-serif;
+  text-align: center;
+}
+
+.splash .tagline{
+  font-size: 20px;
+  font-weight: 400;
+  width: 60%;
+  margin: auto;
+  line-height: 120%;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.landing-form-container{
+  margin-top: 30px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 5px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  width: 600px;
+  padding: 16px 20px;
+}
+/*for the header on homepage*/
+.header {
+  position: relative;
+  top: 0;
+  right: 10%;
+  width: 100%;
+}
+/*for signin button on homepage*/
+#signin{
+  color: white;
+  font-size: .8rem;
+  line-height: 1.25rem;
+  font-weight: normal;
+  margin: 0;
+  position: absolute;
+  top: 1rem;
+  right: 30px;
+}
+#signin-btn{
+  background-color: transparent;
+  background-image: none;
+  font-weight: 700;
+  color: white;
+  border: 1px solid white;
+  -webkit-border-radius: .25rem;
+  -moz-border-radius: .25rem;
+  border-radius: .25rem;
+}
+
+/*for sign in form */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.landing-form-container .row{
+  margin: 0;
+}
+
+/*shared links style*/
+.shared-links{
+  margin: 0;
+  list-style-type: none;
+}
+
+.shared-links li{
+  margin-right: 10px;
+  display: inline-block;
+
 }

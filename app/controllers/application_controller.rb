@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_group, :current_group_ids
 
+  # def authenticate_diner_with_signup!
+  #   if current_diner
+  #     redirect_to dashboard_path
+  #   else
+  #     redirect_to root_path
+  #   end
+  # end
+
   def authenticate_admin!
     redirect_to root_path, alert: "You do not have permission to access that" unless (authenticate_diner! and current_diner.role == "admin")
   end

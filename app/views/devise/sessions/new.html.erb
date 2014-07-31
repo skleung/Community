@@ -1,67 +1,24 @@
-<header>
-	<div id="logo">
-		<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
-	</div>
-	<div id = "navbar">
-		<%= link_to("home", "/", :name=> "home", :class => 'navbar-item') %>
-		<%= link_to("learn more", "#about", :name=> "about", :class => 'navbar-item') %>
-		<%= link_to("team", "#team", :name=> "team", :class => 'navbar-item') %>
-		<%= link_to("contact", "#contact", :name=> "contact", :class => 'navbar-item') %>
-	</div>
-</header>
-
-<div class="container">
-	<section class = "selected" id="home">
-		<div class = "wrapper">
-			<h2>cost-splitting made easy</h2>
-			<p>Multiple dinners, inconsistent bills, and irregular schedules making finances a headache for you and your roommates? 				Community helps you manage group finances easily, whether it be food, chores, rent, or utilities.</p>
-		</div>
-		<%= link_to("Join the Community", "/signup", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
-	</section>
-
-	<!-- sign-in form -->
-	<%= render :partial => 'form'%>
-	
-	<section class = "hidden" id="about">
-		<div class = "wrapper">
-			<h2>What is community?</h2>
-			<p>We're not NBC's hit TV show, this is a cost-splitting web application that simplifies cost-sharing among friends</p>
-			<h2>How does it work?</h2>
-			<p>We make the basic assumption that everybody at a meal has an equal portion of whatever ingredients are used. Whenever an ingredient in a meal is completely used up
-				we backtrack through all the meals that the particular ingredient was used in and calculate the cost that each person owes to whoever bought that ingredient</p>
-		</div>
-		<%= link_to("Try it out!", "/signup", :id=> "sign_in_button", :class => 'btn btn-primary btn-large') %>
-	</section>
-
-	<section class = "hidden" id="team">
-		<div class = "wrapper">
-			<h2>SDK</h2>
-			<p>We're the swaggiest new SDK on the market: </p>
-			<p><b>SDK:</b> <i>noun(s)</i> Sherman, David, and Kevin.</p>
-		</div>
-	</section>
-
-	<section class = "hidden" id="contact">
-		<div class = "wrapper">
-			<p>Broke up with my ex-girl. here's her number: 555-234-5678.</p>
-			<p><b>SIKE</b> that's the wrong NUMBER!</p>
-			<a href = "http://www.youtube.com/watch?v=Iu90z9Akxgk">ref</a>
-		</div>
-	</section>
-
-	<footer>
-		made with awesomeness. 07/2014.
-	</footer>
+<!-- Begin page content -->
+<div id="logo_header">
+  <div class="container">
+    <a href="/"><h1>community</h1></a>
+    <hr />
+  </div>
 </div>
 
+<div class="container">
+  <p class="alert alert-notice align-left">Trying to create a new community? <a href="/" class="bold">Sign up on the home page</a> to get started.</p>
+	<%= render :partial => 'form'%>
+</div>
 
+<%= render :partial => 'welcome/footer'%>
 
 <% content_for :javascript do %>
 	<script>
 		$("#sign_in_button").click(function(){
 			$("section").hide();
-			$("#sign_in_form").show();
-			$("#sign_in_form").addClass("slideUp selected");
+			$("#sign_in_form").fadeIn();
+			$("#sign_in_form").addClass("selected");
 			return false;
 		});
 
@@ -74,9 +31,9 @@
 			e.preventDefault(); //prevents default
 			var sectionId = $(this).attr('name');
 			$(".selected").hide();
-			$("#"+sectionId).show();
+			$("#"+sectionId).fadeIn();
 
-			$("#"+sectionId).addClass("slideUp selected");
+			$("#"+sectionId).addClass("selected");
 		});
 
 	</script>

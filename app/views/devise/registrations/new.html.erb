@@ -1,8 +1,22 @@
-<header>
-	<div id="logo">
-		<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
-	</div>
-	<h1>Join the Community</h1>
-</header>
-
-<%= render :partial => 'form' %>
+<%=image_tag("cover-photo.jpg", :class=>"cover-photo" )%>
+  <!-- Begin page content -->
+<div class="container">
+  <div class="content">
+      
+      <div class="splash">
+        <h1> Group finances made easy. </h1>
+        <p class="tagline"> Relax. Forget saving receipts and shared spreadsheets.</p>
+        <p class="tagline">Community brings all things food and finance related together in one place.</p>
+        <div class="landing-form-container">
+          <%= render :partial => 'form'%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="push"></div>
+</div>
+<div id="footer">
+  <div class="container text-center">
+    made with code &lt;/&gt; 07/2014.
+  </div>
+</div>
