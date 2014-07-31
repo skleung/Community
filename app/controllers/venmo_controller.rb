@@ -1,7 +1,7 @@
 class VenmoController < ApplicationController
   def pay
     if current_diner.venmo_token.nil?
-      return setup_venmo_code
+      return link_venmo
     end
     diner = Diner.find(params[:to_diner_id])
     amount = current_diner.balance_between(diner.id, current_group.id).abs
@@ -21,7 +21,7 @@ class VenmoController < ApplicationController
     end
   end
 
-  def setup_venmo_code
+  def link
     url = "https://api.venmo.com/v1/oauth/authorize?client_id=#{ENV['VENMO_CLIENT_ID']}&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code"
     redirect_to url
   end
@@ -31,13 +31,8 @@ class VenmoController < ApplicationController
     code = params[:code]
     result_hash = exchange_code(code)
     current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])
-    # if we save state we can carry on what the user was trying to do here.
+    # if we save state in the request url we might be able to execute the payment that started this request
     redirect_to root_path, notice: 'Successfully linked venmo to your account'
-  end
-
-  def use_access_token(token)
-    url = "https://api.venmo.com/v1/me?access_token=#{token}"
-    JSON.parse(Net::HTTP.get(URI.parse(url)))
   end
 
   def exchange_code(code)
@@ -60,5 +55,10 @@ class VenmoController < ApplicationController
       "note" => "test community payment"
     }
     JSON.parse(Net::HTTP.post_form(URI.parse(url), params).body)
+  end
+
+  def unlink
+    current_diner.update_attributes(venmo_token: nil, venmo_refresh_token: nil)
+    redirect_to root_path, notice: 'Successfully unlinked your venmo account'
   end
 end
