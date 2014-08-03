@@ -39,4 +39,12 @@
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_meal_path,
-            :class => 'btn btn-primary' %>
+            :class => 'btn btn-primary', :id=>"new-meal-btn" %>
+<%= render :partial => "form" %>
+
+<script>
+  $("#new-meal-btn").click(function(event){
+    event.preventDefault();
+    $("#create-meal-form").modal('show');
+  });
+</script>

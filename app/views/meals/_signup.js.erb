@@ -1,20 +1,18 @@
 $(document).ready(function(){
   var MEAL_CLASS = "meal";
-  $("#create-meal-form").hide();
-  $("#signup-meal-form").hide();
   //EVENT BINDINGS  
   $(".calendar").click(function(event){
-    $("#create-meal-form").hide();
-    $("#signup-meal-form").hide();
+
     var $target = $(event.target);
     $(".alert-block").fadeIn();
     if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
       //selected a meal
-      $("#signup-meal-form").fadeIn();
       //make an ajax call to find out who signed up on that date
       $('#signup-date-display').html($target.attr('data-date'));
       $('#signup-date-param').val($target.attr('data-date'));
-      $("#signup-meal-form").fadeIn();
+      $("#join-meal-form").modal();
+      $("#create-meal-form").css("z-index","100");
+      $("#join-meal-form").css("z-index","9999");
 
       $.ajax({
         type: "POST",
@@ -30,6 +28,8 @@ $(document).ready(function(){
       });
 
     } else {
+      $("#create-meal-form").css("z-index","9999");
+      $("#join-meal-form").css("z-index","100");
       $("#create-meal-form").modal();
       var parts = $target.attr('data-date').split("-");
       var dt = new Date(parseInt(parts[0], 10), // year

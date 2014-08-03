@@ -1,6 +1,7 @@
 Community::Application.routes.draw do
   get 'dashboard' => "meals#signup", as: :dashboard
   get 'my_groups' => "groups#my_groups", as: :my_groups
+  get 'welcome' => "welcome#index", as: :welcome
   get 'group/attempt/:id' => "groups#attempt_to_join_group", as: :attempt_join_group
   post 'group/attempt/:id' => "groups#join_group", as: :attempt_join_group_post
   post 'welcome/check_group' => "welcome#check_group", as: :check_group

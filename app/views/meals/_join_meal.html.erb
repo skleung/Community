@@ -1,10 +1,24 @@
-<%= form_tag signup_meal_path, :class => "form-horizontal", :id =>"signup-meal-form" do %>
-  <h3>Signup for <span id="signup-date-display"></span></h3>
-  <%= hidden_field_tag(:date, :nil, id: 'signup-date-param') %>
-	<div id='fill-in-form-join'></div>
-  <div class="form-actions">
-    <%= submit_tag nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                root_path, :class => 'btn' %>
-  </div>
-<% end %>
+<div class="modal fade" id="join-meal-form" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Join a Meal</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag signup_meal_path, :class => "form" do %>
+          <h3>Signup for <span id="signup-date-display"></span></h3>
+          <%= hidden_field_tag(:date, :nil, id: 'signup-date-param') %>
+          <div id='fill-in-form-join'></div>
+
+            <div class="form-actions">
+              <%= submit_tag nil, :class => 'btn btn-primary' %>
+              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                          root_path, :class => 'btn' %>
+            </div>
+
+        <% end %>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

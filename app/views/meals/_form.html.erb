@@ -1,4 +1,4 @@
-<div class="modal fade" id="create-meal-form">
+<div class="modal fade" id="create-meal-form" aria-hidden="true" style="display:none;">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -67,7 +67,7 @@
         <div class="form-actions">
             <%= f.submit nil, :class => 'btn btn-primary' %>
             <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                        meals_path, :class => 'btn' %>
+                        dashboard_path, :class => 'btn' %>
           </div>
       </div>
     <% end %>

@@ -2,6 +2,7 @@
 class RegistrationsController < Devise::RegistrationsController
   before_filter :configure_parameters
   skip_before_filter :check_group!
+  skip_before_filter :authenticate_diner_with_signup!
 
   def configure_parameters
     devise_parameter_sanitizer.for(:sign_up) { |diner| diner.permit(:name, :email, :password, :password_confirmation, :remember_me) }

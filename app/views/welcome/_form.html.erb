@@ -1,9 +1,9 @@
 <%= form_tag({:action => "check_group"}, {:class=>"form-inline form-padding", :id =>"sign-up-form"}) do  %>
 
   <div class="form-group">
-      <%= email_field :email, :email, :placeholder => "Email Address", :class=> "form-control", autofocus: true %>
+      <%= email_field :email, "email", :placeholder => "Email Address", :class=> "form-control clearfix", autofocus: true %>
 
-      <%= text_field :group, :group, :placeholder => "Group Name", :class=> "form-control" , autocomplete: "off" %>
+      <%= text_field :group, "group", :placeholder => "Group Name", :class=> "form-control clearfix" , autocomplete: "off" %>
 
       <%= submit_tag "Sign in" , :class=> "btn btn-primary", :style=>"margin-top: 0" %>
   </div>

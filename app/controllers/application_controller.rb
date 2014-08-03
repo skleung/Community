@@ -1,19 +1,17 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  before_action :authenticate_diner!
+  before_action :authenticate_diner_with_signup!
   before_action :check_group!
   protect_from_forgery with: :exception
 
   helper_method :current_group, :current_group_ids
 
-  # def authenticate_diner_with_signup!
-  #   if current_diner
-  #     redirect_to dashboard_path
-  #   else
-  #     redirect_to root_path
-  #   end
-  # end
+  def authenticate_diner_with_signup!
+    unless current_diner
+      redirect_to welcome_path
+    end
+  end
 
   def authenticate_admin!
     redirect_to root_path, alert: "You do not have permission to access that" unless (authenticate_diner! and current_diner.role == "admin")

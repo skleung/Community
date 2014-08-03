@@ -1,3 +1,4 @@
+<%=image_tag("background.jpg", :class=>"grayscale cover-photo" )%>
 <!-- Begin page content -->
 <div id="logo_header">
   <div class="container">
@@ -7,7 +8,7 @@
 </div>
 
 <div class="container">
-  <p class="alert alert-notice align-left">Trying to create a new community? <a href="/" class="bold">Sign up on the home page</a> to get started.</p>
+  <p class="alert alert-info align-left">Trying to create a new community? <a href="/" class="bold">Sign up on the home page</a> to get started.</p>
 	<%= render :partial => 'form'%>
 </div>
 
@@ -15,26 +16,26 @@
 
 <% content_for :javascript do %>
 	<script>
-		$("#sign_in_button").click(function(){
-			$("section").hide();
-			$("#sign_in_form").fadeIn();
-			$("#sign_in_form").addClass("selected");
-			return false;
-		});
+		// $("#sign_in_button").click(function(){
+		// 	$("section").hide();
+		// 	$("#sign_in_form").fadeIn();
+		// 	$("#sign_in_form").addClass("selected");
+		// 	return false;
+		// });
 
-		<% if @load_login_form %>
-			$("#sign_in_button").click();
-		<% end %>
+		// <% if @load_login_form %>
+		// 	$("#sign_in_button").click();
+		// <% end %>
 
 
-		$(".navbar-item").click(function(e){
-			e.preventDefault(); //prevents default
-			var sectionId = $(this).attr('name');
-			$(".selected").hide();
-			$("#"+sectionId).fadeIn();
+		// $(".navbar-item").click(function(e){
+		// 	e.preventDefault(); //prevents default
+		// 	var sectionId = $(this).attr('name');
+		// 	$(".selected").hide();
+		// 	$("#"+sectionId).fadeIn();
 
-			$("#"+sectionId).addClass("selected");
-		});
+		// 	$("#"+sectionId).addClass("selected");
+		// });
 
 	</script>
 <% end %>

@@ -5,6 +5,8 @@ class MealsController < ApplicationController
   # GET /meals
   # GET /meals.json
   def index
+    @meal = Meal.new
+    @defaultDinerID = current_diner.id
     @meals = Meal.where(group: current_group).includes(:chef, :owner).all
   end
 
@@ -29,6 +31,7 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
+    # meal_params = Date.strptime(meal_params[:date], '%m/%d/%Y %I:%M %p')
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
 
@@ -159,6 +162,7 @@ class MealsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
       setup_ingredients_attributes
+      setup_date
       params.require(:meal).permit(:name, :chef_id, :date, :group_id, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
     end
 
@@ -173,5 +177,9 @@ class MealsController < ApplicationController
       end
 
       params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
+    end
+
+    def setup_date
+      params[:meal][:date] = DateTime.strptime(params[:meal][:date],"%m/%d/%Y")
     end
 end
