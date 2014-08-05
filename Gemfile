@@ -7,6 +7,7 @@ gem "twitter-bootstrap-rails"
 gem 'devise'
 
 gem 'annotate'
+gem 'jquery-turbolinks'
 
 # Use sqlite3 as the database for Active Record
 group :test, :development do

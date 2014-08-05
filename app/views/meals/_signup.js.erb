@@ -1,53 +1,48 @@
-$(document).ready(function(){
-  var MEAL_CLASS = "meal";
-  //EVENT BINDINGS  
-  $(".calendar").click(function(event){
+var MEAL_CLASS = "meal";
+//EVENT BINDINGS
+$(".calendar").click(function(event){
 
-    var $target = $(event.target);
-    $(".alert-block").fadeIn();
-    if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
-      //selected a meal
-      //make an ajax call to find out who signed up on that date
-      $('#signup-date-display').html($target.attr('data-date'));
-      $('#signup-date-param').val($target.attr('data-date'));
-      $("#join-meal-form").modal();
-      $("#create-meal-form").css("z-index","100");
-      $("#join-meal-form").css("z-index","9999");
+  var $target = $(event.target);
+  $(".alert-block").fadeIn();
+  if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
+    //selected a meal
+    //make an ajax call to find out who signed up on that date
+    $('#signup-date-display').html($target.attr('data-date'));
+    $('#signup-date-param').val($target.attr('data-date'));
+    $("#join-meal-form").modal();
+    $("#create-meal-form").css("z-index","100");
+    $("#join-meal-form").css("z-index","9999");
 
-      $.ajax({
-        type: "POST",
-        dataType: "html",
-        url: '<%= get_attendence_meal_path %>',
-        data: { "date": $target.attr('data-date')},
-        success: function(data){
-          $('#fill-in-form-join').html(data);
-        },
-        error: function(){
-          alert("Cannot sign up for meal!");
-        }
-      });
+    $.ajax({
+      type: "POST",
+      dataType: "html",
+      url: '<%= get_attendence_meal_path %>',
+      data: { "date": $target.attr('data-date')},
+      success: function(data){
+        $('#fill-in-form-join').html(data);
+      },
+      error: function(){
+        alert("Cannot sign up for meal!");
+      }
+    });
 
-    } else {
-      $("#create-meal-form").css("z-index","9999");
-      $("#join-meal-form").css("z-index","100");
-      $("#create-meal-form").modal();
-      var parts = $target.attr('data-date').split("-");
-      var dt = new Date(parseInt(parts[0], 10), // year
-                  parseInt(parts[1], 10) - 1, // month
-                  parseInt(parts[2], 10)); // day
-      $("#datepicker").datepicker("setDate", dt );
+  } else {
+    $("#create-meal-form").css("z-index","9999");
+    $("#join-meal-form").css("z-index","100");
+    $("#create-meal-form").modal();
+    var parts = $target.attr('data-date').split("-");
+    var dt = new Date(parseInt(parts[0], 10), // year
+                parseInt(parts[1], 10) - 1, // month
+                parseInt(parts[2], 10)); // day
+    $("#datepicker").datepicker("setDate", dt );
 
-    }
-  });
-
-  //Form submits
-  $("create").submit(function(event){
-    //make an ajax call to the server to create a meal on that date.
-    $.ajax({url: "create",
-          data: {type: '<%= params[:type] %>'},
-          type: "POST"});
-  });
+  }
 });
 
-
-
+//Form submits
+$("create").submit(function(event){
+  //make an ajax call to the server to create a meal on that date.
+  $.ajax({url: "create",
+        data: {type: '<%= params[:type] %>'},
+        type: "POST"});
+});
