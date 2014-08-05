@@ -40,8 +40,12 @@ class MealsController < ApplicationController
         format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meal }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @meal.errors, status: :unprocessable_entity }
+        format.html {
+          flash[:alert] = @meal.errors.full_messages.join(', ')
+          redirect_to meals_path
+        }
+        # format.html { render action: 'new' }
+        # format.json { render json: @meal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -59,7 +63,6 @@ class MealsController < ApplicationController
     end
     
     @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
-
     @meal = Meal.new
   end
 
@@ -180,6 +183,7 @@ class MealsController < ApplicationController
     end
 
     def setup_date
+      return if params[:meal][:date].empty?
       params[:meal][:date] = DateTime.strptime(params[:meal][:date],"%m/%d/%Y")
     end
 end
