@@ -16,15 +16,16 @@
     <div class = "col-md-4">
     <h3>Meal Summary</h3>
     <p> Highlighted days represent days that have meals. </p>
-    <%=calendar(:year => Date.today.year, :month => Date.today.month) do |day|
-            if @valid_dates.has_key?(day) 
-              data_meal_id_string = "#{@valid_dates[day].join(",")}"
-              [day.mday, {:class => "meal", :data_meal_ids => data_meal_id_string }]
-            else 
-              [day.mday]
-            end
-         end 
-      %>
+    <%=
+      calendar(:year => Date.today.year, :month => Date.today.month) do |day|
+        if @valid_dates.has_key?(day) 
+          data_meal_id_string = "#{@valid_dates[day].join(",")}"
+          [day.mday, {:class => "meal", :data_meal_ids => data_meal_id_string }]
+        else 
+          [day.mday]
+        end
+      end 
+    %>
 
     </div>
 
