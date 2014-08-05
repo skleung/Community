@@ -5,7 +5,11 @@ class MealsController < ApplicationController
   # GET /meals
   # GET /meals.json
   def index
+    index_setup
     @meal = Meal.new
+  end
+
+  def index_setup
     @defaultDinerID = current_diner.id
     @meals = Meal.where(group: current_group).includes(:chef, :owner).all
   end
@@ -40,13 +44,26 @@ class MealsController < ApplicationController
         format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meal }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @meal.errors, status: :unprocessable_entity }
+        @show_modal = true
+        if params[:signup]
+          signup_setup
+          format.html { render action: 'signup' }
+        else
+          index_setup
+          format.html { render action: 'index' }
+        end
+        #format.html { render action: 'new' }
+        #format.json { render json: @meal.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def signup
+    signup_setup
+    @meal = Meal.new
+  end
+
+  def signup_setup
     @meals = Meal.where(group: current_group).all
     @valid_dates = Hash.new #this is a hash of dates to an array of meal id's that are on that date
     @meals.each do |meal|
@@ -59,8 +76,6 @@ class MealsController < ApplicationController
     end
     
     @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
-
-    @meal = Meal.new
   end
 
   def signup_post
@@ -180,6 +195,6 @@ class MealsController < ApplicationController
     end
 
     def setup_date
-      params[:meal][:date] = DateTime.strptime(params[:meal][:date],"%m/%d/%Y")
+      params[:meal][:date] = DateTime.strptime(params[:meal][:date], "%m/%d/%Y")
     end
 end

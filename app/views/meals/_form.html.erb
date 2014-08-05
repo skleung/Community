@@ -29,7 +29,7 @@
 
         <div class="form-group">
           <%= f.label :date, :class => 'control-label' %>
-          <%= f.text_field :date, :id => 'datepicker' %>
+          <%= f.text_field :date, :id => 'datepicker', :value => Date.today.strftime('%m/%d/%Y') %>
         </div>
 
         <div class="form-group">
@@ -60,7 +60,7 @@
       </div>
         <div class="modal-footer">
         <div class="form-actions">
-          <%= f.submit nil, :class => 'btn btn-primary' %>
+          <%= f.submit nil, :class => 'btn btn-primary', name: "signup" %>
           <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                       dashboard_path, :class => 'btn' %>
         </div>
@@ -72,5 +72,14 @@
 
 <script>
   $("#datepicker").datepicker();
+  <% if @show_modal %>
+    $("#create-meal-form").modal();
+    var rubydate = "<%= @meal.date.strftime('%Y-%m-%d') %>"
+    var parts = rubydate.split("-");
+    var dt = new Date(parseInt(parts[0], 10), // year
+                parseInt(parts[1], 10) - 1, // month
+                parseInt(parts[2], 10)); // day
+    $("#datepicker").datepicker("setDate", dt );
+  <% end %>
 </script>
 
