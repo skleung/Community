@@ -61,8 +61,7 @@
         <div class="modal-footer">
         <div class="form-actions">
           <%= f.submit nil, :class => 'btn btn-primary', :id => 'create-meal-submit' %>
-          <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                      dashboard_path, :class => 'btn' %>
+          <button type="button" class="btn" data-dismiss="modal">Cancel</button>
         </div>
       </div>
       <% end %>
