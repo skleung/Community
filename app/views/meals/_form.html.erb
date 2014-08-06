@@ -60,7 +60,7 @@
       </div>
         <div class="modal-footer">
         <div class="form-actions">
-          <%= f.submit nil, :class => 'btn btn-primary', name: "signup" %>
+          <%= f.submit nil, :class => 'btn btn-primary', :id => 'create-meal-submit' %>
           <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                       dashboard_path, :class => 'btn' %>
         </div>
@@ -72,14 +72,16 @@
 
 <script>
   $("#datepicker").datepicker();
-  <% if @show_modal %>
-    $("#create-meal-form").modal();
+  <% if @meal.date %>
     var rubydate = "<%= @meal.date.strftime('%Y-%m-%d') %>"
     var parts = rubydate.split("-");
     var dt = new Date(parseInt(parts[0], 10), // year
                 parseInt(parts[1], 10) - 1, // month
                 parseInt(parts[2], 10)); // day
     $("#datepicker").datepicker("setDate", dt );
+  <% end %>
+  <% if @show_modal %>
+    $("#create-meal-form").modal();
   <% end %>
 </script>
 
