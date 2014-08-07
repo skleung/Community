@@ -24,6 +24,7 @@ class MealsController < ApplicationController
   # GET /meals/new
   def new
     @meal = Meal.new
+    @meal.date = Date.today()
     @defaultDinerID = current_diner.id
   end
 

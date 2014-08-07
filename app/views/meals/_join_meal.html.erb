@@ -13,8 +13,7 @@
 
             <div class="form-actions">
               <%= submit_tag nil, :class => 'btn btn-primary' %>
-              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                          root_path, :class => 'btn' %>
+              <button type="button" class="btn" data-dismiss="modal">Cancel</button>
             </div>
 
         <% end %>
