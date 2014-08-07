@@ -11,7 +11,8 @@
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
+      <%= f.text_field :name, :class => 'text_field', :value => @group_name
+      %>
     </div>
   </div>
   <div class="control-group">
@@ -33,9 +34,7 @@
   </div>
   <div>
     <%= 
-      f.collection_check_boxes :diner_ids, Diner.where.not(id: current_diner).all, :id, :name do |diner|
-        diner.label { diner.check_box + " " + diner.text }
-      end
+      f.collection_select :diner_ids, Diner.where.not(id: current_diner).all, :id, :name, :class=>"chosen"
     %>
   </div>
 
@@ -45,3 +44,7 @@
                 groups_path, :class => 'btn' %>
   </div>
 <% end %>
+
+<script>//for autocomplete search for diners
+  $(".chosen").chosen();
+</script>

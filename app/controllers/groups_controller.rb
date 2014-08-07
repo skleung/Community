@@ -11,6 +11,11 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
+    if session[:group_id]
+      redirect_to attempt_join_group_path(Group.find_by_id(session[:group_id]))
+    elsif session[:group_name]
+      redirect_to new_group_path
+    end
     @groups = Group.where.not(id: current_diner.groups)
   end
 
@@ -28,6 +33,8 @@ class GroupsController < ApplicationController
 
   # GET /groups/new
   def new
+    @group_name = session[:group_name]
+    session[:group_name] = nil #ensures this redirect only happens once
     @group = Group.new
   end
 
@@ -38,8 +45,7 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
-    @group = Group.new()
-
+    @group = Group.new
     @group.name = params[:group][:name]
 
     if params[:password] != params[:password_confirmation]
@@ -99,6 +105,7 @@ class GroupsController < ApplicationController
   end
 
   def attempt_to_join_group
+    session[:group_id] = nil #ensures that redirect happens just once (so they can click cancel)
   end
 
   def join_group

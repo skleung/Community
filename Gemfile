@@ -36,12 +36,11 @@ gem 'coffee-rails', '~> 4.0.0'
 
 gem 'calendar_helper', '~> 0.2.6'
 
-#figaro to hide sensitive password info
-gem 'figaro'
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+
+gem 'chosen-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'

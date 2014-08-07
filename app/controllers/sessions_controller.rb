@@ -2,6 +2,8 @@ class SessionsController < Devise::SessionsController
   skip_before_filter :check_group!
   skip_before_filter :authenticate_diner_with_signup!
   def new
+    session[:group_id] = nil;
+    session[:group_name] = nil;
     if params["login_button"] == "true" || params["action"] == "create"
       @load_login_form = true
     else
