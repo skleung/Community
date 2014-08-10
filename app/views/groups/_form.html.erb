@@ -31,12 +31,13 @@
 
   <div class="control-group">
     <%= f.label :diners_to_be_in_group, :class => 'control-label' %>
+    <div class="controls">
+      <%= 
+        f.collection_select :diner_ids, Diner.where.not(id: current_diner).all, :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+      %>
+    </div>
   </div>
-  <div>
-    <%= 
-      f.collection_select :diner_ids, Diner.where.not(id: current_diner).all, :id, :name, :class=>"chosen"
-    %>
-  </div>
+
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
@@ -46,5 +47,14 @@
 <% end %>
 
 <script>//for autocomplete search for diners
-  $(".chosen").chosen();
+  var config = {
+    '.chosen'                  : {},
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'}
+  }
+  for (var selector in config) {
+    $(selector).chosen(config[selector]);
+  }
 </script>

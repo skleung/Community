@@ -1,12 +1,12 @@
 <%- model_class = Group -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %>:<small> <%=@group.name %></smalL></h1>
 </div>
 
 <dl class="dl-horizontal">
   <dt><strong>Admin:</strong></dt>
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= link_to @group.admin, @group.admin %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @group.name %></dd>
   <dt>Diners:</dt>
   <% @diners.each do |diner| %>

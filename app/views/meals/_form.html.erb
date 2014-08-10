@@ -1,4 +1,4 @@
-<div class="modal fade" id="create-meal-form" aria-hidden="true" style="display:none;">
+<div class="modal fade" id="meal-form" aria-hidden="true" style="display:none;">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -18,51 +18,45 @@
 
         <div class="form-group">
           <%= f.label :name, :class => 'control-label' %>
-          <%= f.text_field(:name, placeholder: "(i.e. chicken fried rice)")%>
+          <%= f.text_field(:name, placeholder: "(i.e. chicken fried rice)", class: "form-control")%>
         </div>
 
         <!-- select chef from available diners -->
         <div class = "form-group">
           <%= f.label :chef_id, "Chef", :class => 'control-label' %>
-          <%= f.collection_select(:chef_id , Diner.all, :id, :name, {:selected => current_diner.id}) %>
+          <%= f.collection_select(:chef_id , Diner.all, :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
         </div>
 
         <div class="form-group">
           <%= f.label :date, :class => 'control-label' %>
-          <%= f.text_field :date, :id => 'datepicker', :value => Date.today.strftime('%m/%d/%Y') %>
+          <%= f.text_field :date, :id => 'datepicker', :value => Date.today.strftime('%m/%d/%Y'), class: "form-control" %>
         </div>
 
         <div class="form-group">
           <%= f.label :diners_attending, :class => 'control-label' %>
-        </div>
-        <div>
-          <%=
-            f.collection_check_boxes :diner_ids, Diner.where(id: current_group_ids).all, :id, :name do |diner|
-              diner.label { diner.check_box + " " + diner.text }
-            end
-          %>
+            <%= 
+              f.collection_select :diner_ids, Diner.where(id: current_group_ids).all, :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+            %>
         </div>
 
         <div class="form-group">
           <%= f.label :ingredients, :class => 'control-label' %>
+            <%= 
+              f.collection_select :ingredient_ids, Ingredient.where(group: current_group, finished: [false, nil]).all, :id, :name, {}, {:"data-placeholder"=>"Add ingredients used", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", :selected=>[8,9],  multiple: true}
+            %>
         </div>
 
-        <% Ingredient.where(group: current_group, finished: [false, nil]).all.each do |ingredient| %>
-          <%= check_box_tag "meal[ingredient_ids][]", ingredient.id, @meal.ingredients.include?(ingredient) %>
-          <span><%= ingredient.name %></span>
-          <%= hidden_field_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: false }" %>
-          <%= check_box_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: true }", ingredient.finished %>
-          <span>Finished?</span>
-          </br>
-        <% end %>
-          
-          
-      </div>
-        <div class="modal-footer">
-        <div class="form-actions">
-          <%= f.submit nil, :class => 'btn btn-primary', :id => 'create-meal-submit' %>
-          <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+        <div class="form-group">
+          <%= f.label :finished_ingredients, :class => 'control-label' %>
+            <%= 
+              collection_select nil, :finished_ingredient_ids, Ingredient.where(group: current_group, finished: [false, nil]).all, :id, :name, {}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", :selected=>@meal.ingredients.where(finished: true).ids, multiple: true}
+            %>
         </div>
+
+      </div>
+      <div class="form-actions">
+        <%= f.submit nil, :class => 'btn btn-primary', :id => 'meal-submit' %>
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
       </div>
       <% end %>
     </div><!-- /.modal-content -->
@@ -80,7 +74,11 @@
     $("#datepicker").datepicker("setDate", dt );
   <% end %>
   <% if @show_modal %>
-    $("#create-meal-form").modal();
+    console.log('show_modal true');
+    $("#meal-form").modal();
   <% end %>
+  $("#meal-form").on("shown.bs.modal", function(){
+    $(".chosen", this).chosen();
+  })
 </script>
 

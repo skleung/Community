@@ -40,6 +40,7 @@ class MealsController < ApplicationController
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
 
+
     respond_to do |format|
       if @meal.save
         format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
@@ -185,7 +186,6 @@ class MealsController < ApplicationController
     # ingredient_attributes needs to be an array of hashes
     def setup_ingredients_attributes
       params[:meal][:group_id] = current_group.id
-
       if params[:meal][:ingredients_attributes]
         params[:meal][:ingredients_attributes].map! do |str|
           str.kind_of?(String) ? eval(str) : str
@@ -193,6 +193,16 @@ class MealsController < ApplicationController
       end
 
       params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
+      
+      #check off the finished ingredients
+      finished_ids = params[:finished_ingredient_ids] & params[:meal][:ingredient_ids]
+      finished_ids.each do |id|
+        i = Ingredient.find_by_id(id)
+        if i
+          i.finished = true
+          i.save
+        end
+      end
     end
 
     def setup_date

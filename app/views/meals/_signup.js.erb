@@ -11,7 +11,7 @@ $(document).ready(function(){
       $('#signup-date-display').html($target.attr('data-date'));
       $('#signup-date-param').val($target.attr('data-date'));
       $("#join-meal-form").modal();
-      $("#create-meal-form").css("z-index","100");
+      $("#meal-form").css("z-index","100");
       $("#join-meal-form").css("z-index","9999");
 
       $.ajax({
@@ -28,10 +28,10 @@ $(document).ready(function(){
       });
 
     } else {
-      $("#create-meal-form").css("z-index","9999");
-      $("#create-meal-submit").attr('name', 'signup');
+      $("#meal-form").css("z-index","9999");
+      $("#meal-submit").attr('name', 'signup');
       $("#join-meal-form").css("z-index","100");
-      $("#create-meal-form").modal();
+      $("#meal-form").modal();
       var parts = $target.attr('data-date').split("-");
       var dt = new Date(parseInt(parts[0], 10), // year
                   parseInt(parts[1], 10) - 1, // month
