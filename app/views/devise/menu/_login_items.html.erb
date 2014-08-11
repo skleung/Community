@@ -1,9 +1,7 @@
-<ul class="nav navbar-right navbar-nav">
   <% if diner_signed_in? %>
-    <li><%= link_to('Edit Profile ' + current_diner.name, edit_diner_registration_path) %></li>
-    <li><%= link_to('Logout', destroy_diner_session_path, :method => :delete ) %></li>
+    <li class="login-items"><%= link_to('Edit Profile ' + current_diner.name, edit_diner_registration_path) %></li>
+    <li class="login-items"><%= link_to('Logout', destroy_diner_session_path, :method => :delete ) %></li>
   <% else %>
-    <li><%= link_to('Login', new_diner_session_path(login_button: 'true'), :id=>"sign_in_button") %></li>
-    <li><%= link_to('Sign up', new_diner_registration_path)  %></li>
+    <li class="login-items"><%= link_to('Login', new_diner_session_path(login_button: 'true'), :id=>"sign_in_button") %></li>
+    <li class="login-items"><%= link_to('Sign up', new_diner_registration_path)  %></li>
   <% end %>
-</ul>

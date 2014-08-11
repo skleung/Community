@@ -47,6 +47,7 @@ class Diner < ActiveRecord::Base
     ingredients.where(finished: true, group_id: group_id).each do |ingredient|
       total_payment += ingredient.payment_owed_by(another_diner_id)
     end
+
     total_payment
   end
 
@@ -60,7 +61,6 @@ class Diner < ActiveRecord::Base
   #if positive, another_diner owes the current diner
   def balance_between(another_diner_id, group_id)
     total_requested = request_amount_from(another_diner_id, group_id) - get_amount_owed(another_diner_id, group_id)
-    
     total_paid = 0.0
     #another_diner pays current diner
     Payment.where(to_id: id, from_id: another_diner_id, group_id: group_id).each do |payment|

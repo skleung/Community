@@ -7,6 +7,10 @@
 #nav > li:first-child a{
   font-weight: 400;
 }
+#nav .login-items a{
+  font-size: 14px;
+  font-weight: 300;
+}
 
 #logo-image{
   max-height: 30px;
