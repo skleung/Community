@@ -69,7 +69,7 @@ Ingredient.first.update_attribute(:finished, true)
 
 meals = [
   { name: 'Bread and Lettuce', chef: Diner.first, owner: Diner.first, date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
-  { name: 'Lettuce', chef: Diner.last, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
+  { name: 'Lettuce', chef_id: 3, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
 ]
 
 meals.each do |meal|

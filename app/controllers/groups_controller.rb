@@ -57,6 +57,8 @@ class GroupsController < ApplicationController
     @group.admin = current_diner
     @group.diner_ids = params[:group][:diner_ids] << current_diner.id
 
+    current_diner.update_attribute(:current_group_id, @group.id)
+
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group, notice: 'Group was successfully created.' }

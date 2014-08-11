@@ -76,7 +76,7 @@ class MealsController < ApplicationController
     Diner.where(id: current_group_ids).where.not(id: current_diner.id).each do |d|
       @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id, current_group.id)}
     end
-    
+
     @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
   end
 
@@ -180,26 +180,39 @@ class MealsController < ApplicationController
     def meal_params
       setup_ingredients_attributes
       setup_date
-      params.require(:meal).permit(:name, :chef_id, :date, :group_id, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+      params.require(:meal).permit(:name, :chef_id, :date, :group_id, :diner_ids => [], :ingredient_ids => [])
     end
 
     # ingredient_attributes needs to be an array of hashes
     def setup_ingredients_attributes
       params[:meal][:group_id] = current_group.id
-      if params[:meal][:ingredients_attributes]
-        params[:meal][:ingredients_attributes].map! do |str|
-          str.kind_of?(String) ? eval(str) : str
-        end
-      end
 
       params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
-      
+
+
+      ingredients_saw = Ingredient.where(group: current_group, finished: false)
+      if @meal
+        ingredients_saw |= @meal.ingredients
+      end
+
+      ingredients_saw_ids = ingredients_saw.collect { |i| i.id.to_s } # need them in string since params passes them in as string
+
       #check off the finished ingredients
       finished_ids = params[:finished_ingredient_ids] & params[:meal][:ingredient_ids]
       finished_ids.each do |id|
         i = Ingredient.find_by_id(id)
-        if i
+        if i && i.group == current_group
           i.finished = true
+          i.save
+        end
+      end
+
+      #uncheck unfinished ingredients
+      unfinished_ids = ingredients_saw_ids - finished_ids
+      unfinished_ids.each do |id|
+        i = Ingredient.find_by_id(id)
+        if i && i.group == current_group
+          i.finished = false
           i.save
         end
       end

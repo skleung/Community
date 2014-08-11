@@ -38,18 +38,6 @@ class Meal < ActiveRecord::Base
     end
   end
 
-  # TODO
-  # this function is terribly inefficient, luckily its only called
-  # on meal create/update.  Should see if there is a way to do this in
-  # single db tranaction
-  def ingredients_attributes=(attributes)
-    attributes.each do |hsh|
-      ingredient = Ingredient.find(hsh["id"])
-      return if ingredient.group_id != group_id # deny the update.
-      ingredient.update_attributes(hsh)
-    end
-  end
-
   def has_diners?
     errors.add(:base, "A meal must have at least one diner") if !self.diners.any?
   end

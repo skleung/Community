@@ -24,7 +24,7 @@
         <!-- select chef from available diners -->
         <div class = "form-group">
           <%= f.label :chef_id, "Chef", :class => 'control-label' %>
-          <%= f.collection_select(:chef_id , Diner.all, :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
+          <%= f.collection_select(:chef_id , Diner.where(id: current_group_ids).all, :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
         </div>
 
         <div class="form-group">
@@ -39,17 +39,19 @@
             %>
         </div>
 
+        <% ingredients_to_choose = @meal.ingredients | Ingredient.where(group: current_group, finished: false) %>
+
         <div class="form-group">
           <%= f.label :ingredients, :class => 'control-label' %>
             <%= 
-              f.collection_select :ingredient_ids, Ingredient.where(group: current_group, finished: [false, nil]).all, :id, :name, {}, {:"data-placeholder"=>"Add ingredients used", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", :selected=>[8,9],  multiple: true}
+              f.collection_select :ingredient_ids, ingredients_to_choose, :id, :name, {}, {:"data-placeholder"=>"Add ingredients used", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
         </div>
 
         <div class="form-group">
           <%= f.label :finished_ingredients, :class => 'control-label' %>
             <%= 
-              collection_select nil, :finished_ingredient_ids, Ingredient.where(group: current_group, finished: [false, nil]).all, :id, :name, {}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", :selected=>@meal.ingredients.where(finished: true).ids, multiple: true}
+              collection_select nil, :finished_ingredient_ids, ingredients_to_choose, :id, :name, {:selected => @meal.ingredients.where(finished: true).ids}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
         </div>
 
@@ -74,10 +76,10 @@
     $("#datepicker").datepicker("setDate", dt );
   <% end %>
   <% if @show_modal %>
-    console.log('show_modal true');
     $("#meal-form").modal();
+    $(".chosen").chosen();
   <% end %>
-  $("#meal-form").on("shown.bs.modal", function(){
+  $("#meal-form").on("shown.bs.modal", function() {
     $(".chosen", this).chosen();
   })
 </script>
