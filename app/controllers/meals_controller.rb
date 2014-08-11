@@ -189,6 +189,14 @@ class MealsController < ApplicationController
 
       params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
 
+
+      ingredients_saw = Ingredient.where(group: current_group, finished: false)
+      if @meal
+        ingredients_saw |= @meal.ingredients
+      end
+
+      ingredients_saw_ids = ingredients_saw.collect { |i| i.id.to_s } # need them in string since params passes them in as string
+
       #check off the finished ingredients
       finished_ids = params[:finished_ingredient_ids] & params[:meal][:ingredient_ids]
       finished_ids.each do |id|
@@ -200,7 +208,7 @@ class MealsController < ApplicationController
       end
 
       #uncheck unfinished ingredients
-      unfinished_ids = params[:meal][:ingredient_ids] - finished_ids
+      unfinished_ids = ingredients_saw_ids - finished_ids
       unfinished_ids.each do |id|
         i = Ingredient.find_by_id(id)
         if i && i.group == current_group
