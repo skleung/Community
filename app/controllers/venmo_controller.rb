@@ -6,6 +6,9 @@ class VenmoController < ApplicationController
       return link
     end
     diner = Diner.find(params[:to_diner_id])
+    unless current_group_ids.include? diner.id
+      return redirect_to root_path, alert: "Can't make payments across groups!"
+    end
     amount = current_diner.balance_between(diner.id, current_group.id).abs
     if diner.venmo_token
       result_hash = use_access_token(diner.venmo_token, diner.id)
@@ -46,6 +49,7 @@ class VenmoController < ApplicationController
     code = params[:code]
     result_hash = exchange_code(code)
     current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])
+    # TODO
     # if we save state in the request url we might be able to execute the payment that started this request
     redirect_to root_path, notice: 'Successfully linked venmo to your account'
   end
@@ -67,15 +71,15 @@ class VenmoController < ApplicationController
         "access_token" => current_diner.venmo_token,
         "user_id" => to_venmo_id,
         "amount" => amount,
-        "note" => "Community App Payment on #{Date.today.strftime('%m/%d/%Y')}",
+        "note" => "Community App Payment on #{Date.today}",
         "audience" => 'friends'
       }
     else
       url = "https://sandbox-api.venmo.com/v1/payments"
       params = {
         "access_token" => current_diner.venmo_token,
-        "user_id" => 145434160922624933,#to_venmo_id,
-        "amount" => 0.10,#amount,
+        "user_id" => 145434160922624933,
+        "amount" => 0.10,
         "note" => "test community payment"
       }
     end
