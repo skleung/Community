@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   skip_before_filter :check_group!
 
   def verify_yourself_or_admin!
-    @group.id == current_diner.id || authenticate_admin!
+    @group.admin.id == current_diner.id || authenticate_admin!
   end
 
   # GET /groups
@@ -16,7 +16,7 @@ class GroupsController < ApplicationController
     elsif session[:group_name]
       redirect_to new_group_path
     end
-    @groups = Group.where.not(id: current_diner.groups)
+    @groups = Group.where.not(id: current_diner.groups).includes(:admin)
   end
 
   def my_groups
@@ -73,12 +73,17 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json
   def update
-    if params[:password] != params[:password_confirmation]
+    if @group.password != params[:current_password][:current_password]
+      @group.errors.add(:base, "Current password was incorrect")
+      return render action: 'edit'
+    end
+    if params[:password] [:password]!= params[:password_confirmation][:password_confirmation]
       @group.errors.add(:base, 'Passwords do not match!')
       return render action: 'edit'
     end
+    @group.diner_ids = params[:group][:diner_ids] << current_diner.id
     respond_to do |format|
-      if @group.update(name: params[:group][:name], password: params[:group][:password])
+      if @group.update(name: params[:group][:name], password: params[:password][:password])
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { head :no_content }
       else
