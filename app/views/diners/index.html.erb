@@ -21,7 +21,6 @@
           <% end %>
           <% if is_admin? %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_diner_path(diner), :class => 'btn btn-mini' %>
-            <% end %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                         diner_path(diner),
                         :method => :delete,
