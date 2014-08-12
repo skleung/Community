@@ -1,7 +1,7 @@
 class VenmoController < ApplicationController
   def pay
     if current_diner.venmo_token.nil?
-      return link_venmo
+      return link
     end
     diner = Diner.find(params[:to_diner_id])
     amount = current_diner.balance_between(diner.id, current_group.id).abs
