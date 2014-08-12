@@ -9,8 +9,13 @@ class VenmoController < ApplicationController
     amount = current_diner.balance_between(diner.id, current_group.id).abs
     if diner.venmo_token
       result_hash = use_access_token(diner.venmo_token)
-      to_venmo_id = result_hash["data"]["id"]
+      to_venmo_id = result_hash["data"]["user"]["id"]
+      p result_hash
+      p to_venmo_id
       payment_result_hash = make_venmo_payment(to_venmo_id, amount)
+      if payment_result_hash["error"]
+        return redirect_to root_path, alert: "Venmo payment failed! #{payment_result_hash["error"]["message"]}"
+      end
       if payment_result_hash["data"]["payment"]["status"] != "failed"
         Payment.create!(from: current_diner, to: diner, amount: amount, group: current_group)
         redirect_to root_path, notice: "Venmo payment successful!"
