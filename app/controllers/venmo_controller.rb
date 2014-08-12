@@ -1,3 +1,5 @@
+require 'net/http'
+
 class VenmoController < ApplicationController
   def pay
     if current_diner.venmo_token.nil?
