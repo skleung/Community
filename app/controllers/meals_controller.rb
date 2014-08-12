@@ -30,6 +30,7 @@ class MealsController < ApplicationController
 
   # GET /meals/1/edit
   def edit
+    @edit = true
     @defaultDinerID = @meal.owner.id
   end
 
@@ -54,8 +55,6 @@ class MealsController < ApplicationController
           index_setup
           format.html { render action: 'index' }
         end
-        #format.html { render action: 'new' }
-        #format.json { render json: @meal.errors, status: :unprocessable_entity }
       end
     end
   end
