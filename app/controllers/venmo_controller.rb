@@ -59,7 +59,8 @@ class VenmoController < ApplicationController
         "access_token" => current_diner.venmo_token,
         "user_id" => to_venmo_id,
         "amount" => amount,
-        "note" => "Community App Payment"
+        "note" => "Community App Payment on #{Date.today.strftime('%m/%d/%Y')}",
+        "audience" => 'friends'
       }
     else
       url = "https://sandbox-api.venmo.com/v1/payments"
