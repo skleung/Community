@@ -89,7 +89,7 @@
         </tr>
       <% @payments.each do |p| %>
         <tr>
-          <td><%= p.created_at.to_date %></td>
+          <td><%= p.created_at %></td>
           <td> 
           <% if p.from_id != current_diner.id %>
           <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%=number_to_currency p.amount %>

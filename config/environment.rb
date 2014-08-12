@@ -7,3 +7,9 @@ load(app_env_vars) if File.exists?(app_env_vars)
 
 # Initialize the Rails application.
 Community::Application.initialize!
+
+#DateTime::DATE_FORMATS[:default]= "%m/%d/%Y %H:%M:%S"
+
+Time::DATE_FORMATS[:default] = "%m/%d/%Y %I:%M %p"
+
+Date::DATE_FORMATS[:default] = "%m/%d/%Y"

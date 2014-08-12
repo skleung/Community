@@ -32,10 +32,10 @@ $(document).ready(function(){
       $("#meal-submit").attr('name', 'signup');
       $("#join-meal-form").css("z-index","100");
       $("#meal-form").modal();
-      var parts = $target.attr('data-date').split("-");
-      var dt = new Date(parseInt(parts[0], 10), // year
-                  parseInt(parts[1], 10) - 1, // month
-                  parseInt(parts[2], 10)); // day
+      var parts = $target.attr('data-date').split("/");
+      var dt = new Date(parseInt(parts[2], 10), // year
+                  parseInt(parts[0], 10) - 1, // month
+                  parseInt(parts[1], 10)); // day
       $("#datepicker").datepicker("setDate", dt );
 
     }
