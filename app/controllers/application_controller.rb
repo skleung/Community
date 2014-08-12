@@ -5,7 +5,12 @@ class ApplicationController < ActionController::Base
   before_action :check_group!
   protect_from_forgery with: :exception
 
-  helper_method :current_group, :current_group_ids
+  helper_method :current_group, :current_group_ids, :use_access_token
+
+  def use_access_token(token)
+    url = "https://api.venmo.com/v1/me?access_token=#{token}"
+    JSON.parse(Net::HTTP.get(URI.parse(url)))
+  end
 
   def authenticate_diner_with_signup!
     unless current_diner

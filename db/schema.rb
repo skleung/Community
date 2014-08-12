@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20140811162527) do
     t.string   "last_sign_in_ip"
     t.string   "role"
     t.integer  "current_group_id"
+    t.string   "venmo_token"
+    t.string   "venmo_refresh_token"
   end
 
   add_index "diners", ["email"], name: "index_diners_on_email", unique: true

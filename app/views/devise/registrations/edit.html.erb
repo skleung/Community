@@ -22,6 +22,18 @@
     <%= link_to "Join a Group", my_groups_path, :class=>"btn btn-md btn-info" %>
   <% end %>
 
+  <% if resource.venmo_token %>
+    <% venmo_user_data = use_access_token(resource.venmo_token)['data']['user'] %>
+    <div>
+      <%= f.label :venmo_info %><br />
+      <%= 'Venmo Email: ' + venmo_user_data['email'] %><br />
+      <%= 'Venmo Name: ' + venmo_user_data['display_name'] %><br />
+      <%= link_to 'Unlink Venmo?', venmo_unlink_path %><br />
+    </div>
+  <% else %>
+    <%= link_to 'Link Venmo?', venmo_link_path %><br />
+  <% end %>
+
   <div><%= f.label :name %><br />
   <%= f.text_field :name, autofocus: true %></div>
 
