@@ -24,7 +24,7 @@ class MealsController < ApplicationController
   # GET /meals/new
   def new
     @meal = Meal.new
-    @meal.date = Date.today()
+    @meal.date = Date.today
     @defaultDinerID = current_diner.id
   end
 
@@ -149,7 +149,7 @@ class MealsController < ApplicationController
   #for the join meal modal form to retrieve the attendance record for each meal id
   def get_attendance
     #build a boolean attendance record that hashes to each meal date
-    date = DateTime.parse(params['date'])
+    date = Date.strptime(params['date'],"%m/%d/%Y").in_time_zone(Time.zone)
     meals = Meal.where(date: date, group: current_group)
     meals_html = []
     meals.each do |meal|
@@ -218,6 +218,6 @@ class MealsController < ApplicationController
 
     def setup_date
       return if params[:meal][:date].empty?
-      params[:meal][:date] = DateTime.strptime(params[:meal][:date],"%m/%d/%Y")
+      params[:meal][:date] = Date.strptime(params[:meal][:date],"%m/%d/%Y")
     end
 end
