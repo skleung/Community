@@ -25,6 +25,7 @@ class Group < ActiveRecord::Base
   end
 
   def password=(new_password)
+    return if new_password.blank? # don't set a blank password
     @password = Password.create(new_password)
     self.password_hash = @password
   end

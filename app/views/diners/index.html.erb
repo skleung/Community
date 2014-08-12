@@ -16,7 +16,10 @@
         <td><%= link_to diner.name, diner %></td>
         <td><%= diner.email %></td>
         <td>
-          <% if verify_yourself_or_admin(diner.id) %>
+          <% if current_diner.id == diner.id %>
+            <%= link_to 'Edit Profile', edit_diner_registration_path, :class => 'btn btn-mini' %>
+          <% end %>
+          <% if is_admin? %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
                         edit_diner_path(diner), :class => 'btn btn-mini' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
