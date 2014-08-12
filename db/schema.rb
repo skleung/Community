@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20140731014236) do
   create_table "ingredients", force: true do |t|
     t.string   "name"
     t.decimal  "cost"
-    t.boolean  "finished"
+    t.boolean  "finished",   default: false
     t.integer  "diner_id"
     t.datetime "created_at"
     t.datetime "updated_at"

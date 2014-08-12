@@ -1,70 +1,91 @@
-<%= form_for @meal, :html => { :class => 'form-horizontal', :id => "create-meal-form"} do |f| %>
-  <% if @meal.errors.any? %>
-    <div class = "alert alert-danger" role="alert">
-      <div><b>Error(s)</b></div>
-      <% @meal.errors.full_messages.each do |msg| %>
-        <li><%=msg%></li>
-      <% end %> 
-    </div> 
-  <% end %>
+<div class="modal fade" id="meal-form" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Create a Meal</h4>
+      </div>
+      <%= form_for @meal, :html => { :class => 'form'} do |f| %>
+      <div class="modal-body">
+        <% if @meal.errors.any? %>
+          <div class = "alert alert-danger" role="alert">
+            <div><b>Error(s)</b></div>
+            <% @meal.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </div>
+        <% end %>
 
-  <div class="control-group">
-    <%= f.label :name, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field(:name, placeholder: "(i.e. chicken fried rice)")%>
-    </div>
-  </div>
+        <div class="form-group">
+          <%= f.label :name, :class => 'control-label' %>
+          <%= f.text_field(:name, placeholder: "(i.e. chicken fried rice)", class: "form-control")%>
+        </div>
 
-  <!-- select chef from available diners -->
-  <div class = "control-group">
-    <%= f.label :chef_id, "Chef", :class => 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select(:chef_id , Diner.all, :id, :name, {:selected => current_diner.id}) %>
+        <!-- select chef from available diners -->
+        <div class = "form-group">
+          <%= f.label :chef_id, "Chef", :class => 'control-label' %>
+          <%= f.collection_select(:chef_id , Diner.where(id: current_group_ids).all, :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
+        </div>
 
-    </div>
-  </div>
+        <div class="form-group">
+          <%= f.label :date, :class => 'control-label' %>
+          <%= f.text_field :date, :id => 'datepicker', :value => Date.today.strftime('%m/%d/%Y'), class: "form-control" %>
+        </div>
 
-  <div class="control-group">
-    <%= f.label :date, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :date, :id => 'datepicker' %>
-    </div>
-  </div>
+        <div class="form-group">
+          <%= f.label :diners_attending, :class => 'control-label' %>
+            <%= 
+              f.collection_select :diner_ids, Diner.where(id: current_group_ids).all, :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+            %>
+        </div>
 
-  <div class="control-group">
-  <%= f.label :diners_attending, :class => 'control-label' %>
-  </div>
-  <div>
-    <%=
-      f.collection_check_boxes :diner_ids, Diner.where(id: current_group_ids).all, :id, :name do |diner|
-        diner.label { diner.check_box + " " + diner.text }
-      end
-    %>
-  </div>
+        <% ingredients_to_choose = @meal.ingredients | Ingredient.where(group: current_group, finished: false) %>
 
-  <div class="control-group">
-    <%= f.label :ingredients, :class => 'control-label' %>
-  </div>
+        <div class="form-group">
+          <%= f.label :ingredients, :class => 'control-label' %>
+            <%= 
+              f.collection_select :ingredient_ids, ingredients_to_choose, :id, :name, {}, {:"data-placeholder"=>"Add ingredients used", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+            %>
+        </div>
 
-  <% Ingredient.where(group: current_group, finished: [false, nil]).all.each do |ingredient| %>
-    <%= check_box_tag "meal[ingredient_ids][]", ingredient.id, @meal.ingredients.include?(ingredient) %>
-    <span><%= ingredient.name %></span>
-    <%= hidden_field_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: false }" %>
-    <%= check_box_tag "meal[ingredients_attributes][]", "{ id: #{ingredient.id}, finished: true }", ingredient.finished %>
-    <span>Finished?</span>
-    </br>
-  <% end %>
+        <div class="form-group">
+          <%= f.label :finished_ingredients, :class => 'control-label' %>
+            <%= 
+              collection_select nil, :finished_ingredient_ids, ingredients_to_choose, :id, :name, {:selected => @meal.ingredients.where(finished: true).ids}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+            %>
+        </div>
 
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                meals_path, :class => 'btn' %>
-  </div>
-<% end %>
+      </div>
+      <div class="form-actions">
+        <%= f.submit nil, :class => 'btn btn-primary', :id => 'meal-submit' %>
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+      </div>
+      <% end %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script>
-  $(function() {
-    $("#datepicker").datepicker();
-  });
+  $("#datepicker").datepicker();
+  <% if @meal.date %>
+    var rubydate = "<%= @meal.date.strftime('%Y-%m-%d') %>"
+    var parts = rubydate.split("-");
+    var dt = new Date(parseInt(parts[0], 10), // year
+                parseInt(parts[1], 10) - 1, // month
+                parseInt(parts[2], 10)); // day
+    $("#datepicker").datepicker("setDate", dt );
+  <% end %>
+  <% if @show_modal %>
+    $("#meal-form").modal();
+    $(".chosen").chosen();
+  <% end %>
+  <% if @edit %>
+    $("#meal-form").on('hidden', function () {
+      window.location.href = '<%= meals_path %>';
+    })
+  <% end %>
+  $("#meal-form").on("shown.bs.modal", function() {
+    $(".chosen", this).chosen();
+  })
 </script>
 

@@ -1,8 +1,21 @@
-<header>
-	<div id="logo">
-		<%= image_tag("community.png", :class => "bounce", :id => "animate-logo")%>
-	</div>
-	<h1>Join the Community</h1>
-</header>
+<%=image_tag("background.jpg", :class=>"grayscale cover-photo" )%>
+<div class="container">
+  <div class="header">
+    <p id="signin">
+      Have an account?<br />
+      <%=link_to("Sign In", new_diner_session_path, {:class=>"btn btn-md btn-default", :id=>"signin-btn"}) %>
+    </p>
+  </div>
+</div>
+<div id="logo_header">
+  <div class="container">
 
-<%= render :partial => 'form' %>
+    <h1>community</h1>
+  </div>
+</div>
+<div class="container text-center">
+  <p class='text-primary'>Sign up for a new account!</p>
+  <%= render :partial => 'form'%>
+</div>
+
+<%= render :partial => 'welcome/footer'%>

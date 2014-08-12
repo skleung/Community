@@ -1,20 +1,18 @@
 $(document).ready(function(){
   var MEAL_CLASS = "meal";
-  $("#create-meal-form").hide();
-  $("#signup-meal-form").hide();
   //EVENT BINDINGS  
   $(".calendar").click(function(event){
-    $("#create-meal-form").hide();
-    $("#signup-meal-form").hide();
+
     var $target = $(event.target);
     $(".alert-block").fadeIn();
     if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
       //selected a meal
-      $("#signup-meal-form").fadeIn();
       //make an ajax call to find out who signed up on that date
       $('#signup-date-display').html($target.attr('data-date'));
       $('#signup-date-param').val($target.attr('data-date'));
-      $("#signup-meal-form").fadeIn();
+      $("#join-meal-form").modal();
+      $("#meal-form").css("z-index","100");
+      $("#join-meal-form").css("z-index","9999");
 
       $.ajax({
         type: "POST",
@@ -30,7 +28,10 @@ $(document).ready(function(){
       });
 
     } else {
-      $("#create-meal-form").fadeIn();
+      $("#meal-form").css("z-index","9999");
+      $("#meal-submit").attr('name', 'signup');
+      $("#join-meal-form").css("z-index","100");
+      $("#meal-form").modal();
       var parts = $target.attr('data-date').split("-");
       var dt = new Date(parseInt(parts[0], 10), // year
                   parseInt(parts[1], 10) - 1, // month
@@ -39,15 +40,4 @@ $(document).ready(function(){
 
     }
   });
-
-  //Form submits
-  $("create").submit(function(event){
-    //make an ajax call to the server to create a meal on that date.
-    $.ajax({url: "create",
-          data: {type: '<%= params[:type] %>'},
-          type: "POST"});
-  });
 });
-
-
-

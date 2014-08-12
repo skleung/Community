@@ -1,5 +1,5 @@
 <%= form_for @group, :html => { :class => 'form-horizontal' } do |f| %>
-<% if @group.errors.any? %>
+  <% if @group.errors.any? %>
     <div class = "alert alert-danger" role="alert">
       <div><b>Error(s)</b></div>
       <% @group.errors.full_messages.each do |msg| %>
@@ -11,33 +11,41 @@
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
+      <%= f.text_field :name, :class => 'text_field', :value => (@group_name || @group.name) %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :password, :class => 'control-label' %>
     <div class="controls">
-      <%= password_field :password, nil %>
+      <%= password_field :password, :password %>
+      <i>(leave blank if you don't want to change it)</i>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :password_confirmation, :class => 'control-label' %>
     <div class="controls">
-      <%= password_field :password_confirmation, nil %>
+      <%= password_field :password_confirmation, :password_confirmation %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :current_password, :class => 'control-label' %>
+    <div class="controls">
+      <%= password_field :current_password, :current_password %>
+      <i>(we need your current password to confirm your changes)</i>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :diners_to_be_in_group, :class => 'control-label' %>
+    <div class="controls">
+      <%= 
+        f.collection_select :diner_ids, Diner.where.not(id: current_diner).all, :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+      %>
+    </div>
   </div>
-  <div>
-    <%= 
-      f.collection_check_boxes :diner_ids, Diner.where.not(id: current_diner).all, :id, :name do |diner|
-        diner.label { diner.check_box + " " + diner.text }
-      end
-    %>
-  </div>
+
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
@@ -45,3 +53,16 @@
                 groups_path, :class => 'btn' %>
   </div>
 <% end %>
+
+<script>//for autocomplete search for diners
+  var config = {
+    '.chosen'                  : {},
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'}
+  }
+  for (var selector in config) {
+    $(selector).chosen(config[selector]);
+  }
+</script>

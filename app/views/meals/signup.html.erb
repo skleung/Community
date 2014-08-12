@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>Dashboard</h1>
   <div class="alert alert-info" role="alert">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
+   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <b>Tip: </b>Create new meals and signup for existing meals by using the calendar.
   </div>
 
@@ -16,15 +16,16 @@
     <div class = "col-md-4">
     <h3>Meal Summary</h3>
     <p> Highlighted days represent days that have meals. </p>
-    <%=calendar(:year => Date.today.year, :month => Date.today.month) do |day|
-            if @valid_dates.has_key?(day) 
-              data_meal_id_string = "#{@valid_dates[day].join(",")}"
-              [day.mday, {:class => "meal", :data_meal_ids => data_meal_id_string }]
-            else 
-              [day.mday]
-            end
-         end 
-      %>
+    <%=
+      calendar(:year => Date.today.year, :month => Date.today.month) do |day|
+        if @valid_dates.has_key?(day) 
+          data_meal_id_string = "#{@valid_dates[day].join(",")}"
+          [day.mday, {:class => "meal", :data_meal_ids => data_meal_id_string }]
+        else 
+          [day.mday]
+        end
+      end 
+    %>
 
     </div>
 
@@ -103,10 +104,8 @@
   </div> <!-- end row -->
 
   <!-- forms -->
-  <div class="calendar-form">
-    <%= render :partial => "join_meal" %>
-    <%= render :partial => "form" %>
-  </div>
+  <%= render :partial => "join_meal" %>
+  <%= render :partial => "form" %>
 </div>
 <% content_for :javascript do %>
    <script>

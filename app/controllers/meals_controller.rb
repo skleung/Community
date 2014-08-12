@@ -5,6 +5,12 @@ class MealsController < ApplicationController
   # GET /meals
   # GET /meals.json
   def index
+    index_setup
+    @meal = Meal.new
+  end
+
+  def index_setup
+    @defaultDinerID = current_diner.id
     @meals = Meal.where(group: current_group).includes(:chef, :owner).all
   end
 
@@ -18,32 +24,47 @@ class MealsController < ApplicationController
   # GET /meals/new
   def new
     @meal = Meal.new
+    @meal.date = Date.today()
     @defaultDinerID = current_diner.id
   end
 
   # GET /meals/1/edit
   def edit
+    @edit = true
     @defaultDinerID = @meal.owner.id
   end
 
   # POST /meals
   # POST /meals.json
   def create
+    # meal_params = Date.strptime(meal_params[:date], '%m/%d/%Y %I:%M %p')
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
+
 
     respond_to do |format|
       if @meal.save
         format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meal }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @meal.errors, status: :unprocessable_entity }
+        @show_modal = true
+        if params[:signup]
+          signup_setup
+          format.html { render action: 'signup' }
+        else
+          index_setup
+          format.html { render action: 'index' }
+        end
       end
     end
   end
 
   def signup
+    signup_setup
+    @meal = Meal.new
+  end
+
+  def signup_setup
     @meals = Meal.where(group: current_group).all
     @valid_dates = Hash.new #this is a hash of dates to an array of meal id's that are on that date
     @meals.each do |meal|
@@ -54,10 +75,8 @@ class MealsController < ApplicationController
     Diner.where(id: current_group_ids).where.not(id: current_diner.id).each do |d|
       @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id, current_group.id), venmo_token: d.venmo_token}
     end
-    
-    @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
 
-    @meal = Meal.new
+    @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
   end
 
   def signup_post
@@ -158,19 +177,47 @@ class MealsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
       setup_ingredients_attributes
-      params.require(:meal).permit(:name, :chef_id, :date, :group_id, :diner_ids => [], :ingredient_ids => [], :ingredients_attributes => [:id, :finished])
+      setup_date
+      params.require(:meal).permit(:name, :chef_id, :date, :group_id, :diner_ids => [], :ingredient_ids => [])
     end
 
     # ingredient_attributes needs to be an array of hashes
     def setup_ingredients_attributes
       params[:meal][:group_id] = current_group.id
 
-      if params[:meal][:ingredients_attributes]
-        params[:meal][:ingredients_attributes].map! do |str|
-          str.kind_of?(String) ? eval(str) : str
+      params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
+
+
+      ingredients_saw = Ingredient.where(group: current_group, finished: false)
+      if @meal
+        ingredients_saw |= @meal.ingredients
+      end
+
+      ingredients_saw_ids = ingredients_saw.collect { |i| i.id.to_s } # need them in string since params passes them in as string
+
+      #check off the finished ingredients
+      finished_ids = params[:finished_ingredient_ids] & params[:meal][:ingredient_ids]
+      finished_ids.each do |id|
+        i = Ingredient.find_by_id(id)
+        if i && i.group == current_group
+          i.finished = true
+          i.save
         end
       end
 
-      params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
+      #uncheck unfinished ingredients
+      unfinished_ids = ingredients_saw_ids - finished_ids
+      unfinished_ids.each do |id|
+        i = Ingredient.find_by_id(id)
+        if i && i.group == current_group
+          i.finished = false
+          i.save
+        end
+      end
+    end
+
+    def setup_date
+      return if params[:meal][:date].empty?
+      params[:meal][:date] = DateTime.strptime(params[:meal][:date],"%m/%d/%Y")
     end
 end

@@ -24,7 +24,7 @@
         <td>
           <% if verify_yourself_or_group_admin(meal.owner.id) || verify_yourself_or_group_admin(meal.chef.id) %>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                        edit_meal_path(meal), :class => 'btn btn-mini' %>
+                        edit_meal_path(meal), :class => 'btn btn-mini edit-btn' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                         meal_path(meal),
                         :method => :delete,
@@ -39,4 +39,12 @@
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_meal_path,
-            :class => 'btn btn-primary' %>
+            :class => 'btn btn-primary', :id=>"new-meal-btn" %>
+<%= render :partial => "form" %>
+
+<script>
+  $("#new-meal-btn").click(function(event){
+    event.preventDefault();
+    $("#meal-form").modal('show');
+  });
+</script>

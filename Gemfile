@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.5'
@@ -7,6 +7,7 @@ gem "twitter-bootstrap-rails"
 gem 'devise'
 
 gem 'annotate'
+gem 'jquery-turbolinks'
 
 # Use sqlite3 as the database for Active Record
 group :test, :development do
@@ -38,6 +39,8 @@ gem 'calendar_helper', '~> 0.2.6'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+
+gem 'chosen-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'

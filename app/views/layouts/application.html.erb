@@ -2,28 +2,44 @@
 <html>
 <head>
   <title>Community</title>
-  <%= stylesheet_link_tag    "application", "http://fonts.googleapis.com/css?family=Ubuntu:400,700", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "application", "http://fonts.googleapis.com/css?family=Open+Sans", "http://fonts.googleapis.com/css?family=Ubuntu:300,400,700", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-
+  <%= favicon_link_tag 'favicon.ico' %>
+  <%= yield :head %>
   <%= csrf_meta_tags %>
-  <%= nav_bar :fixed => :top, :brand => "Community" do %>
-    <%= menu_group do %>
-      <%= menu_item "Meals", meals_path %>
-      <%= menu_item "Diners", diners_path %>
-      <%= menu_item "Ingredients", ingredients_path %>
-      <%= menu_item "Groups", groups_path %>
-      <% if current_diner && current_group %>
-        <%= menu_item "Current Group: #{current_group.name}", my_groups_path %>
-      <% else %>
-        <%= menu_item "Your Groups", my_groups_path %>
-      <% end %>
-    <% end %>
-    <%= render 'devise/menu/login_items' %>
-  <% end %>
 </head>
-<body style="padding-top: 50px;">
-<%= bootstrap_flash %>
-<%= yield %>
+<body>
+  <%if current_diner %>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav" id="nav">
+            <li><%=link_to image_tag("logo.png", :id=>"logo-image"), dashboard_path, :class=>"navbar-brand brand" %></li>
+            <li><%=link_to "Meals", meals_path %></li>
+            <li><%=link_to "Diners", diners_path %></li>
+            <li><%=link_to "Ingredients", ingredients_path %></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <%= render 'devise/menu/login_items' %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if current_diner %><div class="flash-push"> <% end %>
+    <%= bootstrap_flash %>
+  <% if current_diner %></div><%end%>
+
+  <% if current_diner %><div class="container"><% end %>
+      <%= yield %>
+  <% if current_diner %></div><% end %>
 
 <%= yield :javascript %>
 </body>
