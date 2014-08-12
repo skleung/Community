@@ -1,3 +1,5 @@
+require 'net/http'
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -7,7 +9,31 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_group, :current_group_ids, :use_access_token
 
-  def use_access_token(token)
+  def use_access_token(token, diner_id)
+    result_hash = helper(token)
+    if result_hash['error']
+      if result_hash['error']['code'] == 256 # access token expired
+        refresh_hash = refresh_token(diner_id)
+        current_diner.update_attributes(venmo_token: refresh_hash["access_token"], venmo_refresh_token: refresh_hash["refresh_token"])
+        result_hash = helper(current_diner.venmo_token)
+      else
+        flash[:alert] = "Something went wrong with Venmo #{result_hash['error']['message']}"
+      end
+    end
+    result_hash
+  end
+
+  def refresh_token(diner_id)
+    url = "https://api.venmo.com/v1/oauth/access_token"
+    params = {
+      "client_id" => ENV['VENMO_CLIENT_ID'],
+      "client_secret" => ENV['VENMO_CLIENT_SECRET'],
+      "refresh_token" => Diner.find_by_id(diner_id).venmo_refresh_token
+    }
+    JSON.parse(Net::HTTP.post_form(URI.parse(url), params).body)
+  end
+
+  def helper(token)
     url = "https://api.venmo.com/v1/me?access_token=#{token}"
     JSON.parse(Net::HTTP.get(URI.parse(url)))
   end

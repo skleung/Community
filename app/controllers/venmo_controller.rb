@@ -8,10 +8,11 @@ class VenmoController < ApplicationController
     diner = Diner.find(params[:to_diner_id])
     amount = current_diner.balance_between(diner.id, current_group.id).abs
     if diner.venmo_token
-      result_hash = use_access_token(diner.venmo_token)
+      result_hash = use_access_token(diner.venmo_token, diner.id)
       to_venmo_id = result_hash["data"]["user"]["id"]
-      p result_hash
-      p to_venmo_id
+      if to_venmo_id.nil?
+        return redirect_to root_path, alert: "Venmo payment failed! Couldn't find target user!"
+      end
       payment_result_hash = make_venmo_payment(to_venmo_id, amount)
       if payment_result_hash["error"]
         return redirect_to root_path, alert: "Venmo payment failed! #{payment_result_hash["error"]["message"]}"
@@ -29,12 +30,19 @@ class VenmoController < ApplicationController
   end
 
   def link
-    url = "https://api.venmo.com/v1/oauth/authorize?client_id=#{ENV['VENMO_CLIENT_ID']}&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code"
+    url = "https://api.venmo.com/v1/oauth/authorize?client_id=#{ENV['VENMO_CLIENT_ID']}&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code&state=#{CGI.escape form_authenticity_token}"
     redirect_to url
   end
 
   def oauth
-    # TODO CHECK CSRF HERE
+    state = params['state'].split('?')
+    if state[1]
+      error_message = state[1].split('=')[1]
+      return redirect_to root_path, alert: "Did not link venmo."
+    end
+    if form_authenticity_token != params[:state]
+      return redirect_to root_path, alert: "Invalid CSRF token. Venmo Link halted"
+    end
     code = params[:code]
     result_hash = exchange_code(code)
     current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])

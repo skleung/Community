@@ -23,7 +23,7 @@
   <% end %>
 
   <% if resource.venmo_token %>
-    <% venmo_user_data = use_access_token(resource.venmo_token)['data']['user'] %>
+    <% venmo_user_data = use_access_token(resource.venmo_token, resource.id)['data']['user'] %>
     <div>
       <%= f.label :venmo_info %><br />
       <%= 'Venmo Email: ' + venmo_user_data['email'] %><br />
