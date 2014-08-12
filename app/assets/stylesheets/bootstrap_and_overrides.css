@@ -4633,6 +4633,9 @@ a.thumbnail.active {
   right: 0px;
   color: inherit;
 }
+.alert button.close{
+  right: 0px;
+}
 .alert-success {
   background-color: #dff0d8;
   border-color: #d6e9c6;
@@ -5333,10 +5336,8 @@ a.list-group-item-danger.active:focus {
 }
 .close {
   float: right;
-  font-size: 21px;
   font-weight: bold;
   line-height: 1;
-  color: #000000;
   text-shadow: 0 1px 0 #ffffff;
   opacity: 0.2;
   filter: alpha(opacity=20);

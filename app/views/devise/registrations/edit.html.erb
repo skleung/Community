@@ -1,7 +1,26 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="page-header">
+  <div class-"container">
+    <div class="row">
+      <div class="col-md-9">
+        <h2>Edit <%= resource_name.to_s.humanize %></h2>
+      </div>
+      <div class="col-md-3">
+        <div class="btn-group">
+      <%= link_to "Delete account", registration_path(resource_name), :class=> "btn btn-md btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
 
+      <%= link_to "Back", :back, :class=>"btn btn-md btn-link"%>
+        </div>
+    </div>
+  </div>
+</div>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
+  
+  <% if current_diner && current_group %>
+    <%= link_to "Manage my groups", my_groups_path, :class=>"btn btn-md btn-info" %>
+  <% else %>
+    <%= link_to "Join a Group", my_groups_path, :class=>"btn btn-md btn-info" %>
+  <% end %>
 
   <div><%= f.label :name %><br />
   <%= f.text_field :name, autofocus: true %></div>
@@ -22,16 +41,6 @@
   <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "off" %></div>
 
-  <% if current_diner && current_group %>
-    <%= link_to "Manage my groups", my_groups_path, :class=>"btn btn-lg btn-default" %>
-  <% else %>
-    <%= link_to "Join a Group", my_groups_path, :class=>"btn btn-lg btn-default" %>
-  <% end %>
-</br>
-</br>
-  <div><%= f.submit "Update", :class => "btn btn-lg btn-primary" %></div>
+  <div><%= f.submit "Update Profile", :class => "btn btn-md btn-primary" %></div>
 <% end %>
-<%= button_to "Delete account", registration_path(resource_name), :class=> "btn btn-sm btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
 
-
-<%= link_to "Back", :back %>
