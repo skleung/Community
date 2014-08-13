@@ -28,6 +28,8 @@ class Meal < ActiveRecord::Base
 
   accepts_nested_attributes_for :ingredients, :diners
 
+  before_destroy :sanity_check_finished_ingredients
+
   def check_group_id_of_ingredients
     # TODO
     # this if statement should really be done at database level
@@ -56,5 +58,14 @@ class Meal < ActiveRecord::Base
 
   def all_ingredients_finished?
     !ingredients.where(finished: false).any?
+  end
+
+  def sanity_check_finished_ingredients
+    ingredients.each do |i|
+      if i.meals.count == 1
+        # ensure that no ingredient can be finished without being in any meals.
+        i.update_attribute(:finished, false)
+      end
+    end
   end
 end
