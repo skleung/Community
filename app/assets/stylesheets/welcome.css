@@ -15,6 +15,13 @@
   max-height: 30px;
   padding-bottom: 6px;
 }
+#venmo-signup{
+  font-weight: 400;
+}
+
+#venmo-signup img{
+  height: 70%;
+}
 .cover-photo{
   position: absolute;
   top:0;
