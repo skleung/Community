@@ -23,12 +23,20 @@
   <% end %>
 
   <% if resource.venmo_token %>
-    <% venmo_user_data = use_access_token(resource.venmo_token, resource.id)['data']['user'] %>
+    <% venmo_user_data = use_access_token(resource.venmo_token, resource.id).try(:[], 'data').try(:[], 'user') %>
     <div>
-      <%= f.label :venmo_info %><br />
-      <%= 'Venmo Email: ' + venmo_user_data['email'] %><br />
-      <%= 'Venmo Name: ' + venmo_user_data['display_name'] %><br />
-      <%= link_to 'Unlink Venmo?', venmo_unlink_path %><br />
+      <% if venmo_user_data %>
+        <%= f.label :venmo_info %><br />
+        <%= 'Venmo Email: ' + venmo_user_data['email'] %><br />
+        <%= 'Venmo Name: ' + venmo_user_data['display_name'] %><br />
+        <%= link_to 'Unlink Venmo?', venmo_unlink_path %><br />
+      <% else %>
+        <br>
+        <div class="alert alert-danger" role="alert" width>
+         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>Oh snap.</strong> Venmo API error. Please <%= link_to 'unlink Venmo', venmo_unlink_path, :class => "alert-link" %> and try to link again.<br />
+        </div>
+      <% end %>
     </div>
   <% else %>
     <%= link_to 'Link Venmo?', venmo_link_path %><br />
