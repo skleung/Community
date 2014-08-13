@@ -25,6 +25,7 @@ Community::Application.routes.draw do
   get 'venmo_oauth' => 'venmo#oauth', as: :venmo_oauth
   get 'venmo/unlink' => 'venmo#unlink', as: :venmo_unlink
   get 'venmo/link' => 'venmo#link', as: :venmo_link
+  get 'venmo/signup' => 'venmo#signup', as: :signup_with_venmo
 
   resources :diners
   # The priority is based upon order of creation: first created -> highest priority.

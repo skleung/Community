@@ -11,6 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     super
+    current_diner.update_attributes(venmo_token: session['venmo_access_token'], venmo_refresh_token: session['venmo_refresh_token'])
   end
 
   def destroy
