@@ -46,7 +46,16 @@ th{
 
 #payment-form > input{
 	margin: 0;
+	width: 70%;
+	height: 100%;
+	border: 0px;
+}
+
+#payment-form > input[type="submit"]{
+	margin: 0;
 	width: auto;
+	height: 100%;
+	border: 0px;
 }
 
 #payment-form-wrapper{

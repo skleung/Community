@@ -10,7 +10,7 @@
 </head>
 <body>
   <%if current_diner %>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
@@ -41,6 +41,7 @@
       <%= yield %>
   <% if current_diner %></div><% end %>
 
+<div class="flash-push"></div>
 <%= yield :javascript %>
 </body>
 </html>

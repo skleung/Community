@@ -11,10 +11,9 @@
   font-size: 14px;
   font-weight: 300;
 }
-
 #logo-image{
   max-height: 30px;
-  bottom: 10px;
+  padding-bottom: 6px;
 }
 .cover-photo{
   position: absolute;
@@ -42,9 +41,9 @@
   background-position: center bottom,center top;
 }
 .grayscale{
-  -webkit-filter: grayscale(90%);
-  -moz-filter: grayscale(90%);
-  filter: grayscale(90%);
+  -webkit-filter: grayscale(60%);
+  -moz-filter: grayscale(60%);
+  filter: grayscale(60%);
 }
 
 .darken{
@@ -86,6 +85,12 @@
   text-align: center;
 }
 
+.splash h1{
+  text-shadow: none;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  font-weight: 700;
+}
+
 .splash .tagline{
   font-size: 20px;
   font-weight: 400;
@@ -116,6 +121,9 @@
 /*for signin button on homepage*/
 .white-text{
   color: white;
+}
+.larger-text{
+  font-size: 16px;
 }
 
 .white-border{

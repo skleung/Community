@@ -56,9 +56,9 @@
               <div class="btn-group">
                 <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
                 <% if balance[:venmo_token] %>
-                  <%= link_to "Pay w/ Venmo", pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-info" %>
-                  <%= link_to "Pay", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-sm btn-warning", :method =>"post" %>
-                  <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown">
+                  <%= link_to "Pay w/ Venmo", pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-primary" %>
+                  <%= link_to "Pay", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-sm btn-danger", :method =>"post" %>
+                  <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu">
@@ -66,7 +66,7 @@
                       <%= form_tag pay_path, :id=>"payment-form" do %>
                       <%= number_field_tag :amount, nil, :min => 0, :class=>"form-control", step: 0.01 %>
                       <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
-                      <%= submit_tag nil, :class => 'btn btn-primary' %>
+                      <%= submit_tag "Pay", :class => 'btn btn-sm btn-danger' %>
                     <% end %>
                     </li>
                   </ul>
@@ -80,7 +80,7 @@
                       <%= form_tag pay_path, :id=>"payment-form" do %>
                       <%= number_field_tag :amount, nil, :min => 0, :class=>"form-control", step: 0.01 %>
                       <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
-                      <%= submit_tag nil, :class => 'btn btn-primary' %>
+                      <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
                     <% end %>
                     </li>
                   </ul>
