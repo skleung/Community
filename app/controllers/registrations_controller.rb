@@ -9,15 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.for(:account_update) { |diner| diner.permit(:name, :email, :password, :password_confirmation, :current_password) }
   end
 
-  def new
-    super
-  end
-
   def create
-   super
-  end
-
-  def update
     super
   end
 
