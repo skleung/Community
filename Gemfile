@@ -3,6 +3,8 @@ source 'http://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.5'
 
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+
 gem "twitter-bootstrap-rails"
 gem 'devise'
 
@@ -13,14 +15,13 @@ gem 'jquery-turbolinks'
 group :test, :development do
   gem 'byebug'
   gem 'sqlite3'
+  gem "bullet"
 end
 
 group :production do
   gem 'rails_12factor'
   gem 'pg'
 end
-
-gem "bullet", :group => "development"
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
