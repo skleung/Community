@@ -47,20 +47,19 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new
     @group.name = params[:group][:name]
-
-    if params[:password] != params[:password_confirmation]
+    if params[:password][:password] != params[:password_confirmation][:password_confirmation]
       @group.errors.add(:base, 'Passwords do not match!')
       return render action: 'new'
     end
 
-    @group.password = params[:password]
+    @group.password = params[:password][:password]
     @group.admin = current_diner
     @group.diner_ids = params[:group][:diner_ids] << current_diner.id
 
-    current_diner.update_attribute(:current_group_id, @group.id)
 
     respond_to do |format|
       if @group.save
+        current_diner.update_attribute(:current_group_id, @group.id)
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render action: 'show', status: :created, location: @group }
       else
@@ -77,7 +76,7 @@ class GroupsController < ApplicationController
       @group.errors.add(:base, "Current password was incorrect")
       return render action: 'edit'
     end
-    if params[:password] [:password]!= params[:password_confirmation][:password_confirmation]
+    if params[:password][:password] != params[:password_confirmation][:password_confirmation]
       @group.errors.add(:base, 'Passwords do not match!')
       return render action: 'edit'
     end

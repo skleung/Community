@@ -18,7 +18,7 @@
     <%= f.label :password, :class => 'control-label' %>
     <div class="controls">
       <%= password_field :password, :password %>
-      <i>(leave blank if you don't want to change it)</i>
+      <% if @group.id %><i>(leave blank if you don't want to change it)</i><% end %>
     </div>
   </div>
 
@@ -29,13 +29,15 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :current_password, :class => 'control-label' %>
-    <div class="controls">
-      <%= password_field :current_password, :current_password %>
-      <i>(we need your current password to confirm your changes)</i>
+  <% if @group.id %>
+    <div class="control-group">
+      <%= f.label :current_password, :class => 'control-label' %>
+      <div class="controls">
+        <%= password_field :current_password, :current_password %>
+        <i>(we need your current password to confirm your changes)</i>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="control-group">
     <%= f.label :diners_to_be_in_group, :class => 'control-label' %>
