@@ -1,6 +1,9 @@
 require 'net/http'
 
 class VenmoController < ApplicationController
+  skip_before_filter :check_group!
+  skip_before_filter :authenticate_diner_with_signup!
+
   def pay
     if current_diner.venmo_token.nil?
       return link
@@ -35,6 +38,13 @@ class VenmoController < ApplicationController
   end
 
   def link
+    session['venmo_signup'] = false # if they try to do a normal venmo link make sure it doesn't think they are signing up!
+    url = "https://api.venmo.com/v1/oauth/authorize?client_id=#{ENV['VENMO_CLIENT_ID']}&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code&state=#{CGI.escape form_authenticity_token}"
+    redirect_to url
+  end
+
+  def signup
+    session['venmo_signup'] = true
     url = "https://api.venmo.com/v1/oauth/authorize?client_id=#{ENV['VENMO_CLIENT_ID']}&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code&state=#{CGI.escape form_authenticity_token}"
     redirect_to url
   end
@@ -56,10 +66,19 @@ class VenmoController < ApplicationController
     if result_hash["error"]
       return redirect_to root_path, alert: result_hash["error"]["message"]
     end
-    current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])
-    # TODO
-    # if we save state in the request url we might be able to execute the payment that started this request
-    redirect_to root_path, notice: 'Successfully linked venmo to your account'
+
+    if session['venmo_signup']
+      session['name'] = result_hash['user']['display_name']
+      session['email'] = result_hash['user']['email']
+      session['venmo_access_token'] = result_hash["access_token"]
+      session['venmo_refresh_token'] = result_hash["refresh_token"]
+      redirect_to welcome_path, notice: 'Successfully linked venmo, please proceed to signup'
+    else
+      current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])
+      # TODO
+      # if we save state in the request url we might be able to execute the payment that started this request
+      redirect_to root_path, notice: 'Successfully linked venmo to your account'
+    end
   end
 
   def exchange_code(code)

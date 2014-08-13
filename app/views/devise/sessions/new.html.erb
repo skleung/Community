@@ -2,7 +2,7 @@
 <!-- Begin page content -->
 <div id="logo_header">
   <div class="container">
-    <a href="/"><h1>community</h1></a>
+    <a href="/"><h1 class="text-primary">community</h1></a>
     <hr />
   </div>
 </div>
@@ -13,32 +13,5 @@
 </div>
 
 <%= render :partial => 'welcome/footer'%>
-
-<% content_for :javascript do %>
-	<script>
-		// $("#sign_in_button").click(function(){
-		// 	$("section").hide();
-		// 	$("#sign_in_form").fadeIn();
-		// 	$("#sign_in_form").addClass("selected");
-		// 	return false;
-		// });
-
-		// <% if @load_login_form %>
-		// 	$("#sign_in_button").click();
-		// <% end %>
-
-
-		// $(".navbar-item").click(function(e){
-		// 	e.preventDefault(); //prevents default
-		// 	var sectionId = $(this).attr('name');
-		// 	$(".selected").hide();
-		// 	$("#"+sectionId).fadeIn();
-
-		// 	$("#"+sectionId).addClass("selected");
-		// });
-
-	</script>
-<% end %>
-
 
 

@@ -17,7 +17,7 @@
   <%= devise_error_messages! %>
   
   <% if current_diner && current_group %>
-    <%= link_to "Manage my groups", my_groups_path, :class=>"btn btn-md btn-info" %>
+    <%= link_to "Manage my groups", my_groups_path, :class=>"btn btn-md btn-default" %>
   <% else %>
     <%= link_to "Join a Group", my_groups_path, :class=>"btn btn-md btn-info" %>
   <% end %>
@@ -39,7 +39,9 @@
       <% end %>
     </div>
   <% else %>
-    <%= link_to 'Link Venmo?', venmo_link_path, :class=>"text-venmo" %><br />
+
+
+    <%= link_to ("link "+image_tag('venmo-white.png')).html_safe, venmo_link_path, :class => "btn btn-sm btn-venmo" %>
   <% end %>
 
   <div><%= f.label :name %><br />
