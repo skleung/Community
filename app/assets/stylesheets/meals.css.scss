@@ -6,7 +6,23 @@ th,td
 {
   padding:10px;
 }
-
+#btn-cash{
+	width: 100%;
+	margin-bottom: 4px;
+}
+.btn-venmo{
+	background-color: #3D95CE;
+	color: white;
+	width: auto;
+	height: 33px;
+}
+.btn-venmo img{
+	margin-left: 3px;
+	height: 60%;
+}
+.btn-venmo:hover{
+	background-color: #247CB5;
+}
 .meal{
 	background-color: #ccffff;
 }
