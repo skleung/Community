@@ -10,8 +10,15 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create
+    group = Group.find_by_name(params[:group][:group])
+    session[:group_name] = params[:group][:group]
+    unless group.nil?
+      session[:group_id] = group.id
+    end
     super
-    current_diner.update_attributes(venmo_token: session['venmo_access_token'], venmo_refresh_token: session['venmo_refresh_token'])
+    if current_diner
+      current_diner.update_attributes(venmo_token: session['venmo_access_token'], venmo_refresh_token: session['venmo_refresh_token'])
+    end
   end
 
   def destroy
