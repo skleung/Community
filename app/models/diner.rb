@@ -75,9 +75,12 @@ class Diner < ActiveRecord::Base
     total_requested-total_paid
   end
 
-  #this method determines how much you owe another diner and settles it by setting your 
   def to_s
     name
+  end
+
+  def soft_destroy
+    update_attributes(venmo_token: nil, venmo_refresh_token: nil, name: "DELETED")
   end
 
 end
