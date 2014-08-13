@@ -32,86 +32,93 @@
         <div class="red">Amount owed</div>
       </div>
       <table>
-      <tr>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Actions</th>
-      </tr>
-      <% @balances.each do |balance| %>
-          <% if balance[:balance] > 0 %>
-          <tr>  
-            <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-            <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
-            <td> <!--empty --> </td>
-          </tr>
-          <% elsif balance[:balance] < 0%>
+        <thead>
           <tr>
-            <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-            <td><span class="red"><%=number_to_currency -balance[:balance]%></span></td>
-            <td>
-              <div class="btn-group">
-                <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
-                <% if balance[:venmo_token] %>
-                  <%= link_to ("<small>Pay w/</small>"+image_tag('venmo-white.png')).html_safe, pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-venmo" %>
-                  
-                  <button type="button" class="btn btn-sm btn-venmo dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><%= button_to "Pay w/ cash", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-sm btn-primary", :id=>"btn-cash", :method =>"post" %></li>
-                    <li id="payment-form-wrapper">
-                      <%= form_tag pay_path, :id=>"payment-form" do %>
-                      <%= number_field_tag :amount, nil, :min => 0, :id=>"pay-amount-tooltip",:class=>"form-control", :data => {:placement=>"bottom", :toggle=>"tooltip"}, :title=>"Specify a particular amount to pay", step: 0.01 %>
-                      <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
-                      <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
-                    <% end %>
-                    </li>
-                  </ul>
-                <% else %>
-                  <%= link_to "Pay", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-md btn-primary", :method =>"post" %>
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li id="payment-form-wrapper">
-                      <%= form_tag pay_path, :id=>"payment-form" do %>
-                      <%= number_field_tag :amount, nil, :min => 0, :id=>"pay-amount-tooltip",:class=>"form-control", :data => {:placement=>"right", :toggle=>"tooltip"}, :title=>"Specify a particular amount to pay", step: 0.01 %>
-                      <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
-                      <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
-                    <% end %>
-                    </li>
-                    <li> <button type="button" class="btn btn-link" id="venmo-tooltip" data-toggle="tooltip" data-placement="right" title="Ask <%=balance[:diner_name]%> to setup venmo!">Pay w/ venmo</button></li>
-                  </ul>
-
-                <% end %>
-              </div>
-            </td>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Actions</th>
           </tr>
+        </thead>
+        <tbody>
+          <% @balances.each do |balance| %>
+            <% if balance[:balance] > 0 %>
+              <tr>  
+                <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
+                <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
+                <td> <!--empty --> </td>
+              </tr>
+            <% elsif balance[:balance] < 0%>
+              <tr>
+                <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
+                <td><span class="red"><%=number_to_currency -balance[:balance]%></span></td>
+                <td>
+                  <div class="btn-group">
+                    <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
+                    <% if balance[:venmo_token] %>
+                      <%= link_to ("<small>Pay w/</small>"+image_tag('venmo-white.png')).html_safe, pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-venmo" %>
+                      
+                      <button type="button" class="btn btn-sm btn-venmo dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><%= button_to "Pay w/ cash", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-sm btn-primary", :id=>"btn-cash", :method =>"post" %></li>
+                        <li id="payment-form-wrapper">
+                          <%= form_tag pay_path, :id=>"payment-form" do %>
+                          <%= number_field_tag :amount, nil, :min => 0, :id=>"pay-amount-tooltip",:class=>"form-control", :data => {:placement=>"bottom", :toggle=>"tooltip"}, :title=>"Specify a particular amount to pay", step: 0.01 %>
+                          <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
+                          <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
+                        <% end %>
+                        </li>
+                      </ul>
+                    <% else %>
+                      <%= link_to "Pay", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-md btn-primary", :method =>"post" %>
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li id="payment-form-wrapper">
+                          <%= form_tag pay_path, :id=>"payment-form" do %>
+                          <%= number_field_tag :amount, nil, :min => 0, :id=>"pay-amount-tooltip",:class=>"form-control", :data => {:placement=>"right", :toggle=>"tooltip"}, :title=>"Specify a particular amount to pay", step: 0.01 %>
+                          <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
+                          <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
+                        <% end %>
+                        </li>
+                        <li> <button type="button" class="btn btn-link" id="venmo-tooltip" data-toggle="tooltip" data-placement="right" title="Ask <%=balance[:diner_name]%> to setup venmo!">Pay w/ venmo</button></li>
+                      </ul>
+
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
-        </tr>
-      <%end%>
+        </tbody>
       </table>
     </div>
 
     <div class="col-md-4">
       <h3>Payment History</h3>
-      <table class="table-striped">
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-        </tr>
-      <% @payments.each do |p| %>
-        <tr>
-          <td><%= p.created_at %></td>
-          <td> 
-          <% if p.from_id != current_diner.id %>
-          <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%=number_to_currency p.amount %>
-          <% else %>
-          <%= link_to(current_diner.name, diner_path(current_diner.id)) %> paid <%=link_to(Diner.find(p.to_id).name, diner_path(p.to_id)) %>  <%=number_to_currency p.amount %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @payments.each do |p| %>
+            <tr>
+              <td><%= p.created_at %></td>
+              <td> 
+              <% if p.from_id != current_diner.id %>
+              <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%=number_to_currency p.amount %>
+              <% else %>
+              <%= link_to(current_diner.name, diner_path(current_diner.id)) %> paid <%=link_to(Diner.find(p.to_id).name, diner_path(p.to_id)) %>  <%=number_to_currency p.amount %>
+              <% end %>
+              </td>
+            </tr>
           <% end %>
-          </td>
-        </tr>
-      <%end%>
+        </tbody>
       </table>
     </div>
   </div> <!-- end row -->
