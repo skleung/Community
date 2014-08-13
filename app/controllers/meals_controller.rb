@@ -98,6 +98,9 @@ class MealsController < ApplicationController
     @payment = Payment.new(pay_params)
     @payment.from_id = current_diner.id
     @payment.group = current_group
+    unless current_group_ids.include? @payment.to_id
+      return redirect_to, alert: "Can't make payments across groups!"
+    end
     if @payment.save
       redirect_to root_path, notice: "Payment made."
     else
