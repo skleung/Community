@@ -2,10 +2,12 @@
   <%= devise_error_messages! %>
 
   <div><%= f.label :name %><br />
-  <%= f.text_field :name, autofocus: true %></div>
+    <%= f.text_field :name, autofocus: true, :value => resource.name ? resource.name : session[:name] %>
+  </div>
 
   <div><%= f.label :email %><br />
-  <%= f.email_field :email, :value => session[:email] %></div>
+    <%= f.email_field :email, :value => resource.email.empty? ? session[:email] : resource.email %>
+  </div>
 
   <div><%= f.label :password %><br />
     <%= f.password_field :password, autocomplete: "off" %></div>
