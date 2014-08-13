@@ -20,3 +20,4 @@
 //= require chosen-jquery
 //= require_tree .
 //= require turbolinks
+//= require dataTables/jquery.dataTables
