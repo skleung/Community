@@ -39,7 +39,7 @@
       <% end %>
     </div>
   <% else %>
-    <%= link_to 'Link Venmo?', venmo_link_path %><br />
+    <%= link_to 'Link Venmo?', venmo_link_path, :class=>"text-venmo" %><br />
   <% end %>
 
   <div><%= f.label :name %><br />

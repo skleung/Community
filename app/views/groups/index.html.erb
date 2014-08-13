@@ -18,7 +18,7 @@
         <% if current_diner.current_group_id == group.id %>
           <td><%= link_to 'Current Group', diners_path %></td>
         <% elsif @only_my_groups %>
-          <td><%= button_to 'View Group', change_current_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
+          <td><%= button_to 'Join Group', change_current_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
         <% else %>
           <td><%= link_to 'Join?', attempt_join_group_path(group), :class => 'btn btn-mini btn-primary' %></td>
         <% end %>
