@@ -53,6 +53,9 @@ class ApplicationController < ActionController::Base
   end
 
   def check_group!
+    return if current_group
+    return redirect_to attempt_join_group_path(session[:group_id]) if session[:group_id]
+    return redirect_to new_group_path if session[:group_name]
     redirect_to groups_path, alert: 'Oops your not in a group, join or create one' unless current_group
   end
 

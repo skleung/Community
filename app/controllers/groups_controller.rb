@@ -11,11 +11,6 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    if session[:group_id]
-      redirect_to attempt_join_group_path(Group.find_by_id(session[:group_id]))
-    elsif session[:group_name]
-      redirect_to new_group_path
-    end
     @groups = Group.where.not(id: current_diner.groups).includes(:admin)
   end
 

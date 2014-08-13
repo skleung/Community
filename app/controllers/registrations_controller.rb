@@ -9,16 +9,9 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.for(:account_update) { |diner| diner.permit(:name, :email, :password, :password_confirmation, :current_password) }
   end
 
-  def new
-    super
-  end
-
   def create
-   super
-  end
-
-  def update
     super
+    current_diner.update_attributes(venmo_token: session['venmo_access_token'], venmo_refresh_token: session['venmo_refresh_token'])
   end
 
   def destroy
