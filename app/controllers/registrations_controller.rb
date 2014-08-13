@@ -21,4 +21,11 @@ class RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def destroy
+    resource.soft_destroy
+    set_flash_message :notice, :destroyed
+    sign_out(resource)
+    redirect_to welcome_path
+  end
+
 end 

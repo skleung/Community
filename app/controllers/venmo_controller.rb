@@ -12,7 +12,7 @@ class VenmoController < ApplicationController
     amount = current_diner.balance_between(diner.id, current_group.id).abs
     if diner.venmo_token
       result_hash = use_access_token(diner.venmo_token, diner.id)
-      to_venmo_id = result_hash["data"]["user"]["id"]
+      to_venmo_id = result_hash.try(:[], 'data').try(:[], 'user').try(:[], 'id')
       if to_venmo_id.nil?
         return redirect_to root_path, alert: "Venmo payment failed! Couldn't find target user!"
       end
@@ -20,11 +20,13 @@ class VenmoController < ApplicationController
       if payment_result_hash["error"]
         return redirect_to root_path, alert: "Venmo payment failed! #{payment_result_hash["error"]["message"]}"
       end
-      if payment_result_hash["data"]["payment"]["status"] != "failed"
+
+      status = payment_result_hash.try(:[], 'data').try(:[], 'payment').try(:[], 'status')
+      if status && status != "failed"
         Payment.create!(from: current_diner, to: diner, amount: amount, group: current_group)
         redirect_to root_path, notice: "Venmo payment successful!"
       else
-        redirect_to root_path, alert: "Venmo payment failed!"
+        redirect_to root_path, alert: "Venmo payment failed. Please check your venmo balance."
       end
     else
       # send to email maybe?
@@ -38,6 +40,9 @@ class VenmoController < ApplicationController
   end
 
   def oauth
+    # params['state'] = token               # good response from venmo
+    # params['state'] = token?error=message # bad response from venmo
+    # params['state'] = nil                 # not response from venom.
     state = params['state'].split('?')
     if state[1]
       error_message = state[1].split('=')[1]
@@ -48,6 +53,9 @@ class VenmoController < ApplicationController
     end
     code = params[:code]
     result_hash = exchange_code(code)
+    if result_hash["error"]
+      return redirect_to root_path, alert: result_hash["error"]["message"]
+    end
     current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])
     # TODO
     # if we save state in the request url we might be able to execute the payment that started this request
