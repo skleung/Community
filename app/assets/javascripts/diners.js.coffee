@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 jQuery ->
-  $('table').dataTable
+  $('.table-striped').dataTable
     sPaginationType: "full_numbers"
