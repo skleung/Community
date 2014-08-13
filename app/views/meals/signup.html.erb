@@ -6,10 +6,6 @@
     <b>Tip: </b>Create new meals and signup for existing meals by using the calendar.
   </div>
 
-  <div class="alert alert-info" role="alert" id="pay-amount-notice" style="display: none;">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <b>Tip: </b>Use the dropdown payment to specify a particular amount to pay.
-  </div>
 </div>
 <div class="container">
   <div class="row">
@@ -56,7 +52,7 @@
               <div class="btn-group">
                 <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
                 <% if balance[:venmo_token] %>
-                  <%= link_to ("Pay w/"+image_tag('venmo-white.png')).html_safe, pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-venmo" %>
+                  <%= link_to ("<small>Pay w/</small>"+image_tag('venmo-white.png')).html_safe, pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-venmo" %>
                   
                   <button type="button" class="btn btn-sm btn-venmo dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
@@ -65,7 +61,7 @@
                     <li><%= button_to "Pay w/ cash", pay_path(to_id: balance[:diner_id], amount: amount), :class => "btn btn-sm btn-primary", :id=>"btn-cash", :method =>"post" %></li>
                     <li id="payment-form-wrapper">
                       <%= form_tag pay_path, :id=>"payment-form" do %>
-                      <%= number_field_tag :amount, nil, :min => 0, :class=>"form-control", step: 0.01 %>
+                      <%= number_field_tag :amount, nil, :min => 0, :id=>"pay-amount-tooltip",:class=>"form-control", :data => {:placement=>"bottom", :toggle=>"tooltip"}, :title=>"Specify a particular amount to pay", step: 0.01 %>
                       <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
                       <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
                     <% end %>
@@ -79,13 +75,14 @@
                   <ul class="dropdown-menu">
                     <li id="payment-form-wrapper">
                       <%= form_tag pay_path, :id=>"payment-form" do %>
-                      <%= number_field_tag :amount, nil, :min => 0, :class=>"form-control", step: 0.01 %>
+                      <%= number_field_tag :amount, nil, :min => 0, :id=>"pay-amount-tooltip",:class=>"form-control", :data => {:placement=>"right", :toggle=>"tooltip"}, :title=>"Specify a particular amount to pay", step: 0.01 %>
                       <%= hidden_field_tag :to_id, nil, :value => balance[:diner_id] %>
                       <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
                     <% end %>
                     </li>
+                    <li> <button type="button" class="btn btn-link" id="venmo-tooltip" data-toggle="tooltip" data-placement="right" title="Ask <%=balance[:diner_name]%> to setup venmo!">Pay w/ venmo</button></li>
                   </ul>
-                  <%= link_to 'Link Venmo?', venmo_link_path, :class=>"btn btn-link text-venmo" %>
+
                 <% end %>
               </div>
             </td>
@@ -126,12 +123,13 @@
 <% content_for :javascript do %>
    <script>
     $("#payment-form").click(function(e){
-      $("#pay-amount-notice").show();
+      $("#pay-amount-tooltip").tooltip("show");
       e.stopPropagation();
     });
      <%= render(:partial => "signup.js") %>
      $(".dropdown-menu").click(function(e){
         e.stopPropagation();//stops the dropdown menu from dissapearing
      });
+     $("#venmo-tooltip").tooltip()
    </script>
 <% end %>
