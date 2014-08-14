@@ -16,7 +16,7 @@
   <div class = "control-group">
     <%= f.label :diner_id, "Buyer", :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:diner_id , Diner.all, :id, :name, {:selected => @defaultDinerID}) %>
+      <%= f.collection_select(:diner_id , Diner.load, :id, :name, {:selected => @defaultDinerID}) %>
 
     </div>
   </div>

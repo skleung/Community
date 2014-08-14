@@ -5,7 +5,7 @@ class IngredientsController < ApplicationController
   # GET /ingredients
   # GET /ingredients.json
   def index
-    @ingredients = Ingredient.where(group: current_group).includes(:diner).all
+    @ingredients = Ingredient.where(group: current_group).includes(:diner)
   end
 
   # GET /ingredients/1

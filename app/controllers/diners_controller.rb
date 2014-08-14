@@ -5,12 +5,13 @@ class DinersController < ApplicationController
   # GET /diners
   # GET /diners.json
   def index
-    @diners = Diner.where(id: current_group_ids).all
+    @diners = Diner.where(id: current_group_ids)
   end
 
   # GET /diners/1
   # GET /diners/1.json
   def show
+    @payments = Payment.where(group: current_group).where('(from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)', current_diner.id, @diner.id, @diner.id, current_diner.id).order(:created_at)
   end
 
   # GET /diners/1/edit
