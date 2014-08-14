@@ -92,7 +92,7 @@ class VenmoController < ApplicationController
   end
 
   def make_venmo_payment(to_venmo_id, amount)
-    if ENV['VENMO_STATUS'] == 'ACTIVE'
+    if ENV['VENMO_STATUS'] == 'ACTIVE' && current_group.name != ENV['VENMO_TEST_GROUP']
       url = "https://api.venmo.com/v1/payments"
       params = {
         "access_token" => current_diner.venmo_token,
