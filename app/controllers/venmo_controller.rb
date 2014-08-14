@@ -72,7 +72,7 @@ class VenmoController < ApplicationController
       session['email'] = result_hash['user']['email']
       session['venmo_access_token'] = result_hash["access_token"]
       session['venmo_refresh_token'] = result_hash["refresh_token"]
-      redirect_to welcome_path, notice: 'Successfully linked venmo, please proceed to signup'
+      redirect_to check_group_path(email: { email: result_hash['user']['email']}), notice: 'Successfully linked venmo, please proceed to signup'
     else
       current_diner.update_attributes(venmo_token: result_hash["access_token"], venmo_refresh_token: result_hash["refresh_token"])
       # TODO

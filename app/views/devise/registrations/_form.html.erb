@@ -9,6 +9,10 @@
     <%= f.email_field :email, :value => resource.email.empty? ? session[:email] : resource.email %>
   </div>
 
+  <div><%= label :group, :group %>(optional)<br />
+    <%= text_field :group, :group, :value => session[:group_name] %>
+  </div>
+
   <div><%= f.label :password %><br />
     <%= f.password_field :password, autocomplete: "off" %></div>
 
