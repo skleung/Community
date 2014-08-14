@@ -19,10 +19,9 @@ class Meal < ActiveRecord::Base
   has_and_belongs_to_many :ingredients
   has_and_belongs_to_many :diners
 
-  validate :name, :owner, :chef, :date, presence: true
+  validates_presence_of :name, :owner, :chef, :date
   validate :has_diners?
-  # validate :has_ingredients?
-  validate :date, uniqueness: true
+  validate :has_ingredients?
 
   validate :check_group_id_of_ingredients
 
@@ -32,7 +31,7 @@ class Meal < ActiveRecord::Base
 
   def check_group_id_of_ingredients
     # TODO
-    # this if statement should really be done at database level
+    # this if statement should really be done at database level if possible
     if (ingredients.reject { |ing| ing.group_id == group_id }).any?
       errors.add(:base, "Group ID doesn't line up!")
       # nuke the relation
@@ -45,8 +44,8 @@ class Meal < ActiveRecord::Base
   end
 
   def has_ingredients?
-    # errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
-  end 
+    errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
+  end
 
   def cost
     ingredients.sum{|ing| ing.cost_for_number_of_diners(diners.count) }

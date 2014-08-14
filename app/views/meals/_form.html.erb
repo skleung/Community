@@ -79,11 +79,6 @@
     $("#meal-form").modal();
     $(".chosen").chosen();
   <% end %>
-  <% if @edit %>
-    $("#meal-form").on('hidden', function () {
-      window.location.href = '<%= meals_path %>';
-    })
-  <% end %>
   $("#meal-form").on("shown.bs.modal", function() {
     $(".chosen", this).chosen();
   })

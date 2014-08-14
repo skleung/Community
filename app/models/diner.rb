@@ -32,8 +32,9 @@ class Diner < ActiveRecord::Base
   has_many :ingredients, :dependent => :destroy
 
   belongs_to :current_group, class_name: "Group", foreign_key: "current_group_id"
+  validates_presence_of :name
 
-  after_create :set_default_name
+  before_validation :set_default_name
 
   def set_default_name
     update_attribute(:name, email) if name.empty?
