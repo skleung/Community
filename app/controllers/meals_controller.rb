@@ -11,7 +11,7 @@ class MealsController < ApplicationController
 
   def index_setup
     @defaultDinerID = current_diner.id
-    @meals = Meal.where(group: current_group).includes(:chef, :owner).all
+    @meals = Meal.where(group: current_group).includes(:chef, :owner)
   end
 
   # GET /meals/1
@@ -65,7 +65,7 @@ class MealsController < ApplicationController
   end
 
   def signup_setup
-    @meals = Meal.where(group: current_group).all
+    @meals = Meal.where(group: current_group)
     @valid_dates = Hash.new #this is a hash of dates to an array of meal id's that are on that date
     @meals.each do |meal|
       (@valid_dates[meal.date.to_date] ||= []) << meal.id
@@ -76,11 +76,11 @@ class MealsController < ApplicationController
       @balances << {diner_name: d.name, diner_id: d.id, balance: current_diner.balance_between(d.id, current_group.id), venmo_token: d.venmo_token}
     end
 
-    @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at)
+    @payments = Payment.where(group: current_group).where('from_id = ? OR to_id = ?', current_diner.id, current_diner.id).order(:created_at).includes(:from, :to)
   end
 
   def signup_post
-    date = DateTime.parse(params['date'])
+    date = Date.strptime(params['date'],"%m/%d/%Y")
     meals_saw = Meal.where(date: date, group: current_group).pluck(:id)
     meals_checked = params['meal_ids'] || [] # or nothing checked
     current_meals = current_diner.meal_ids
@@ -152,7 +152,7 @@ class MealsController < ApplicationController
   #for the join meal modal form to retrieve the attendance record for each meal id
   def get_attendance
     #build a boolean attendance record that hashes to each meal date
-    date = Date.strptime(params['date'],"%m/%d/%Y").in_time_zone(Time.zone)
+    date = Date.strptime(params['date'],"%m/%d/%Y")
     meals = Meal.where(date: date, group: current_group)
     meals_html = []
     meals.each do |meal|

@@ -42,15 +42,15 @@
         <tbody>
           <% @balances.each do |balance| %>
             <% if balance[:balance] > 0 %>
-              <tr>  
-                <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-                <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
+              <tr>
+                <td><%= link_to balance[:diner_name], diner_path(balance[:diner_id]) %></td>
+                <td><span class="green"><%= number_to_currency balance[:balance] %></span></td>
                 <td> <!--empty --> </td>
               </tr>
             <% elsif balance[:balance] < 0%>
               <tr>
-                <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-                <td><span class="red"><%=number_to_currency -balance[:balance]%></span></td>
+                <td><%= link_to balance[:diner_name], diner_path(balance[:diner_id]) %></td>
+                <td><span class="red"><%= number_to_currency -balance[:balance] %></span></td>
                 <td>
                   <div class="btn-group">
                     <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
@@ -109,12 +109,9 @@
           <% @payments.each do |p| %>
             <tr>
               <td><%= p.created_at %></td>
-              <td> 
-              <% if p.from_id != current_diner.id %>
-              <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%=number_to_currency p.amount %>
-              <% else %>
-              <%= link_to(current_diner.name, diner_path(current_diner.id)) %> paid <%=link_to(Diner.find(p.to_id).name, diner_path(p.to_id)) %>  <%=number_to_currency p.amount %>
-              <% end %>
+              <td>
+                <%= link_to p.from, p.from %> paid <%= link_to p.to, p.to %>
+                <%= number_to_currency p.amount %>
               </td>
             </tr>
           <% end %>

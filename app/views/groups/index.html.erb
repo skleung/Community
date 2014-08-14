@@ -24,7 +24,7 @@
         <% end %>
 
         <td><%= link_to group.name, group %></td>
-        <td><%= link_to group.admin, group.admin %></td>
+        <td><%= group.admin %></td>
         <td><%= group.created_at %></td>
         <td>
         <% if verify_yourself_or_admin(group.admin.id) %>
@@ -55,3 +55,9 @@
               my_groups_path,
               :class => 'btn btn-primary' %>
 <% end %>
+
+<script>
+  var oTable = $('#datatable').dataTable({sPaginationType: "full_numbers"});
+
+  oTable.fnSort( [1,'asc'] ); // sort by name
+</script>

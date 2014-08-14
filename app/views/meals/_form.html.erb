@@ -24,7 +24,7 @@
         <!-- select chef from available diners -->
         <div class = "form-group">
           <%= f.label :chef_id, "Chef", :class => 'control-label' %>
-          <%= f.collection_select(:chef_id , Diner.where(id: current_group_ids).all, :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
+          <%= f.collection_select(:chef_id , Diner.where(id: current_group_ids), :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
         </div>
 
         <div class="form-group">
@@ -35,7 +35,7 @@
         <div class="form-group">
           <%= f.label :diners_attending, :class => 'control-label' %>
             <%= 
-              f.collection_select :diner_ids, Diner.where(id: current_group_ids).all, :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+              f.collection_select :diner_ids, Diner.where(id: current_group_ids), :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
         </div>
 

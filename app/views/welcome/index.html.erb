@@ -1,10 +1,10 @@
-<%=image_tag("background.jpg", :class=>"grayscale cover-photo" )%>
+<%= image_tag("background.jpg", :class=>"grayscale cover-photo" )%>
   <!-- Begin page content -->
 <div class="container">
   <div class="header">
     <p class="white-text" id="signin">
       Have an account?<br />
-      <%=link_to("Sign In", new_diner_session_path, {:class=>"btn btn-md btn-default", :id=>"signin-btn"}) %>
+      <%= link_to("Sign In", new_diner_session_path, {:class=>"btn btn-md btn-default", :id=>"signin-btn"}) %>
     </p>
   </div>
   
@@ -12,7 +12,7 @@
       <div class="splash">
         <h1 class="text-primary"> Group finances made easy. </h1>
         <p class="tagline"> Relax. Forget saving receipts and shared spreadsheets.</p>
-        <p class="tagline">Community brings all things food and finance related together in one place.</p>
+        <p class="tagline">Community brings all things food and finance together in one place.</p>
 
         <%= render :partial => "form" %>
       </div>

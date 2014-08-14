@@ -15,25 +15,28 @@
     <dd><%= link_to diner, diner %></dd>
   <% end %>
   <h2>Ingredients in this Meal</h2>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Finished</th>
-      <th>Total Servings</th>
-      <th>Total Cost of Ingredient</th>
-      <th>Cost towards this meal</th>
-    </tr>
-    <% @ingredients.each do |ingredient| %>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= link_to ingredient, ingredient %></td>
-        <td><%= ingredient.finished ? 'yes' : 'no' %></td>
-        <td><%= ingredient.servings %></td>
-        <td><%= number_to_currency(ingredient.cost) %></td>
-        <td><%= ingredient.finished ? number_to_currency(ingredient.cost_for_number_of_diners(@diners.count)) : 'Ingredient not finished' %></td>
+        <th>Name</th>
+        <th>Finished</th>
+        <th>Total Servings</th>
+        <th>Total Cost of Ingredient</th>
+        <th>Cost towards this meal</th>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% @ingredients.each do |ingredient| %>
+        <tr>
+          <td><%= link_to ingredient, ingredient %></td>
+          <td><%= ingredient.finished ? 'yes' : 'no' %></td>
+          <td><%= ingredient.servings %></td>
+          <td><%= number_to_currency(ingredient.cost) %></td>
+          <td><%= ingredient.finished ? number_to_currency(ingredient.cost_for_number_of_diners(@diners.count)) : 'Ingredient not finished' %></td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
-
 </dl>
 
 <div class="form-actions">

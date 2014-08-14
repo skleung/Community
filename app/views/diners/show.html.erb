@@ -10,28 +10,58 @@
   <dd><%= @diner.email %></dd>
   <dt>Cost</dt>
   <dd><%= number_to_currency @diner.cost %></dd>
-  <h2>Meals <%= @diner.name %> is involved in</h2>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Chef</th>
-      <th>Cost of Meal</th>
-      <th>Cost for Single Diner</th>
-    </tr>
-    <% @diner.meals.where(group: current_group).includes(:chef).each do |meal| %>
-      <tr>
-        <td><%= link_to meal.name, meal %></td>
-        <td><%= link_to meal.chef, meal.chef %></td>
-        <% if meal.all_ingredients_finished? %>
-          <td><%= number_to_currency meal.cost %></td>
-          <td><%= number_to_currency meal.cost_for_single_diner %></td>
-        <% else %>
-          <td>Some ingredients are not finished</td>
-          <td>Some ingredients are not finished</td>
+  <div class="col-md-6">
+    <h3>Meals <%= @diner.name %> is involved in</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Chef</th>
+          <th>Cost of Meal</th>
+          <th>Cost for Single Diner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @diner.meals.where(group: current_group).includes(:chef).each do |meal| %>
+          <tr>
+            <td><%= link_to meal.name, meal %></td>
+            <td><%= link_to meal.chef, meal.chef %></td>
+            <% if meal.all_ingredients_finished? %>
+              <td><%= number_to_currency meal.cost %></td>
+              <td><%= number_to_currency meal.cost_for_single_diner %></td>
+            <% else %>
+              <td>Some ingredients are not finished</td>
+              <td>Some ingredients are not finished</td>
+            <% end %>
+          </tr>
         <% end %>
-      </tr>
-    <% end %>
-  </table>
+      </tbody>
+    </table>
+  </div>
+  <% if current_diner != @diner %>
+    <div class="col-md-6">
+      <h3>Your Payment History with <%= @diner.name %></h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @payments.each do |p| %>
+            <tr>
+              <td><%= p.created_at %></td>
+              <td>
+                <%= link_to p.from, p.from %> paid <%= link_to p.to, p.to %>
+                <%= number_to_currency p.amount %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </dl>
 
 <div class="form-actions">

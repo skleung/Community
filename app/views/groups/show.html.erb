@@ -5,12 +5,12 @@
 
 <dl class="dl-horizontal">
   <dt><strong>Admin:</strong></dt>
-  <dd><%= link_to @group.admin, @group.admin %></dd>
+  <dd><%= @group.admin %></dd>
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @group.name %></dd>
   <dt>Diners:</dt>
   <% @diners.each do |diner| %>
-    <dd><%= link_to diner, diner %></dd>
+    <dd><%= diner %></dd>
   <% end %>
 </dl>
 

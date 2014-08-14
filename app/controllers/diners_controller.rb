@@ -5,12 +5,16 @@ class DinersController < ApplicationController
   # GET /diners
   # GET /diners.json
   def index
-    @diners = Diner.where(id: current_group_ids).all
+    @diners = Diner.where(id: current_group_ids)
   end
 
   # GET /diners/1
   # GET /diners/1.json
   def show
+    @payments = Payment.where(group: current_group).
+                        where('(from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)', current_diner.id, @diner.id, @diner.id, current_diner.id).
+                        order(:created_at).
+                        includes(:from, :to)
   end
 
   # GET /diners/1/edit
@@ -45,7 +49,11 @@ class DinersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_diner
-      @diner = Diner.where(id: current_group_ids).find(params[:id])
+      @diner = Diner.where(id: current_group_ids).find_by_id(params[:id])
+      return if @diner
+      diner = Diner.find_by_id(params[:id])
+      redirect_to root_path, alert: "You must currently be in #{diner.name}'s group to access information about him" if diner
+      redirect_to root_path, alert: "Couldn't find that diner!"
     end
 
     def verify_yourself_or_admin!
