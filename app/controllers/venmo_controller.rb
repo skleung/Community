@@ -109,6 +109,7 @@ class VenmoController < ApplicationController
         "amount" => 0.10,
         "note" => "test community payment"
       }
+      flash[:alert] = "Venmo payments in the test group do not actually go through to your venmo account."
     end
     JSON.parse(Net::HTTP.post_form(URI.parse(url), params).body)
   end
