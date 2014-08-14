@@ -15,26 +15,30 @@
   <dt>Servings</dt>
   <dd><%= @ingredient.servings %></dd>
   <h2>Meals using this Ingredient</h2>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Chef</th>
-      <th>Cost</th>
-      <th>Cost to Meal</th>
-    </tr>
-    <% @ingredient.meals.includes(:chef).each do |meal| %>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= link_to meal.name, meal %></td>
-        <td><%= link_to meal.chef, meal.chef %></td>
-        <% if meal.all_ingredients_finished? %>
-          <td><%= number_to_currency(meal.cost) %></td>
-          <td><%= number_to_currency @ingredient.cost_for_number_of_diners(meal.diners.count) %></td>
-        <% else %>
-          <td>Some ingredients are not finished</td>
-          <td>Some ingredients are not finished</td>
-        <% end %>
+        <th>Name</th>
+        <th>Chef</th>
+        <th>Cost</th>
+        <th>Cost to Meal</th>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% @ingredient.meals.includes(:chef).each do |meal| %>
+        <tr>
+          <td><%= link_to meal.name, meal %></td>
+          <td><%= link_to meal.chef, meal.chef %></td>
+          <% if meal.all_ingredients_finished? %>
+            <td><%= number_to_currency(meal.cost) %></td>
+            <td><%= number_to_currency @ingredient.cost_for_number_of_diners(meal.diners.count) %></td>
+          <% else %>
+            <td>Some ingredients are not finished</td>
+            <td>Some ingredients are not finished</td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 </dl>
 

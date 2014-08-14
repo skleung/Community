@@ -11,7 +11,10 @@ class DinersController < ApplicationController
   # GET /diners/1
   # GET /diners/1.json
   def show
-    @payments = Payment.where(group: current_group).where('(from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)', current_diner.id, @diner.id, @diner.id, current_diner.id).order(:created_at)
+    @payments = Payment.where(group: current_group).
+                        where('(from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)', current_diner.id, @diner.id, @diner.id, current_diner.id).
+                        order(:created_at).
+                        includes(:from, :to)
   end
 
   # GET /diners/1/edit

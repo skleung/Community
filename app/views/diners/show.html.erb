@@ -11,27 +11,31 @@
   <dt>Cost</dt>
   <dd><%= number_to_currency @diner.cost %></dd>
   <div class="col-md-6">
-    <h2>Meals <%= @diner.name %> is involved in</h2>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Chef</th>
-        <th>Cost of Meal</th>
-        <th>Cost for Single Diner</th>
-      </tr>
-      <% @diner.meals.where(group: current_group).includes(:chef).each do |meal| %>
+    <h3>Meals <%= @diner.name %> is involved in</h3>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><%= link_to meal.name, meal %></td>
-          <td><%= link_to meal.chef, meal.chef %></td>
-          <% if meal.all_ingredients_finished? %>
-            <td><%= number_to_currency meal.cost %></td>
-            <td><%= number_to_currency meal.cost_for_single_diner %></td>
-          <% else %>
-            <td>Some ingredients are not finished</td>
-            <td>Some ingredients are not finished</td>
-          <% end %>
+          <th>Name</th>
+          <th>Chef</th>
+          <th>Cost of Meal</th>
+          <th>Cost for Single Diner</th>
         </tr>
-      <% end %>
+      </thead>
+      <tbody>
+        <% @diner.meals.where(group: current_group).includes(:chef).each do |meal| %>
+          <tr>
+            <td><%= link_to meal.name, meal %></td>
+            <td><%= link_to meal.chef, meal.chef %></td>
+            <% if meal.all_ingredients_finished? %>
+              <td><%= number_to_currency meal.cost %></td>
+              <td><%= number_to_currency meal.cost_for_single_diner %></td>
+            <% else %>
+              <td>Some ingredients are not finished</td>
+              <td>Some ingredients are not finished</td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
   </div>
   <% if current_diner != @diner %>
