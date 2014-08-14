@@ -13,11 +13,12 @@
 #
 
 class Ingredient < ActiveRecord::Base
-  validates :diner_id, :name, :cost, presence: true
+  validates_presence_of :diner_id, :name, :cost
   belongs_to :group
 
   before_create :check_duplicate_names
-    
+
+  validate :has_meals_if_finished
 
   has_and_belongs_to_many :meals
   belongs_to :diner
@@ -32,6 +33,10 @@ class Ingredient < ActiveRecord::Base
       end
       self.name = self.name + " (newest)"
     end
+  end
+
+  def has_meals_if_finished
+    errors.add(:base, "A finished ingredient must be part of some meal!") if finished && !meals.any?
   end
 
   def servings
