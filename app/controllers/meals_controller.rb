@@ -80,7 +80,7 @@ class MealsController < ApplicationController
   end
 
   def signup_post
-    date = DateTime.parse(params['date'])
+    date = Date.strptime(params['date'],"%m/%d/%Y")
     meals_saw = Meal.where(date: date, group: current_group).pluck(:id)
     meals_checked = params['meal_ids'] || [] # or nothing checked
     current_meals = current_diner.meal_ids
@@ -152,7 +152,7 @@ class MealsController < ApplicationController
   #for the join meal modal form to retrieve the attendance record for each meal id
   def get_attendance
     #build a boolean attendance record that hashes to each meal date
-    date = Date.strptime(params['date'],"%m/%d/%Y").in_time_zone(Time.zone)
+    date = Date.strptime(params['date'],"%m/%d/%Y")
     meals = Meal.where(date: date, group: current_group)
     meals_html = []
     meals.each do |meal|
