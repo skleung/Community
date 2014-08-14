@@ -42,15 +42,15 @@
         <tbody>
           <% @balances.each do |balance| %>
             <% if balance[:balance] > 0 %>
-              <tr>  
-                <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-                <td><span class="green"><%=number_to_currency balance[:balance]%></span></td>
+              <tr>
+                <td><%= link_to balance[:diner_name], diner_path(balance[:diner_id]) %></td>
+                <td><span class="green"><%= number_to_currency balance[:balance] %></span></td>
                 <td> <!--empty --> </td>
               </tr>
             <% elsif balance[:balance] < 0%>
               <tr>
-                <td><%=link_to balance[:diner_name], diners_path(balance[:diner_id]) %></td>
-                <td><span class="red"><%=number_to_currency -balance[:balance]%></span></td>
+                <td><%= link_to balance[:diner_name], diner_path(balance[:diner_id]) %></td>
+                <td><span class="red"><%= number_to_currency -balance[:balance] %></span></td>
                 <td>
                   <div class="btn-group">
                     <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
