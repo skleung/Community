@@ -1,3 +1,30 @@
+#error_explanation{
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  padding: 8px 35px 8px 14px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid #fbeed5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+#error_explanation h2{
+  display: none;
+}
+#error_explanation ul{
+  list-style-type: none;
+}
+#error_explanation li{
+  display: inline-block;
+}
+#error_explanation li+li:before{
+  content: ", ";
+}
+
+.modal{
+  display: none;
+}
 #nav > li a{
   font-family: 'Open Sans', Helvetica, serif;
   font-weight: 300;
