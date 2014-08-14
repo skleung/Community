@@ -110,11 +110,8 @@
             <tr>
               <td><%= p.created_at %></td>
               <td>
-              <% if p.from_id != current_diner.id %>
-              <%= link_to(Diner.find(p.from_id).name, diner_path(p.from_id)) %> paid  <%= link_to(current_diner.name, diner_path(current_diner.id)) %> <%= number_to_currency p.amount %>
-              <% else %>
-              <%= link_to(current_diner.name, diner_path(current_diner.id)) %> paid <%=link_to(Diner.find(p.to_id).name, diner_path(p.to_id)) %>  <%=number_to_currency p.amount %>
-              <% end %>
+                <%= link_to p.from, p.from %> paid <%= link_to p.to, p.to %> 
+                <%= number_to_currency p.amount %>
               </td>
             </tr>
           <% end %>
