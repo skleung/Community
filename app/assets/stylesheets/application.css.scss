@@ -21,3 +21,10 @@ body{
   margin-top: 40px;
   margin-bottom: -25px;
 }
+select[name="datatable_length"] {
+  width: 60px;
+}
+#datatable_paginate a.paginate_button {
+  background-color: aliceblue;
+  border: none;
+}

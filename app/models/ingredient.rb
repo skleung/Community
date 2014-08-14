@@ -24,10 +24,10 @@ class Ingredient < ActiveRecord::Base
 
   def check_duplicate_names
     #ensure that the name of the ingredient has an attached date if there's a duplicate name
-    ingredients_with_same_name = Ingredient.select{|ingredient| ingredient.name.downcase.include? self.name.downcase}
+    ingredients_with_same_name = Ingredient.where("lower(name) = ? AND group_id = ?", name.downcase, group_id)
     if (ingredients_with_same_name.length > 0)
       ingredients_with_same_name.each do |duplicate|
-        name_with_date = self.name + " (" + duplicate.created_at.to_date.to_s+")"
+        name_with_date = duplicate.name + " (" + duplicate.created_at.to_date.to_s+")"
         duplicate.update_attributes(name: name_with_date)
       end
       self.name = self.name + " (newest)"
