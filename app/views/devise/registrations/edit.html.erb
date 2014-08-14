@@ -19,7 +19,7 @@
   <% if current_diner && current_group %>
     <%= link_to "Manage my groups", my_groups_path, :class=>"btn btn-md btn-default" %>
   <% else %>
-    <%= link_to "Join a Group", my_groups_path, :class=>"btn btn-md btn-info" %>
+    <%= link_to "Join a Group", groups_path, :class=>"btn btn-md btn-info" %>
   <% end %>
 
   <% if resource.venmo_token %>

@@ -80,7 +80,7 @@
                       <%= submit_tag "Pay", :class => 'btn btn-sm btn-primary' %>
                     <% end %>
                     </li>
-                    <li> <button type="button" class="btn btn-link" id="venmo-tooltip" data-toggle="tooltip" data-placement="right" title="Ask <%=balance[:diner_name]%> to setup venmo!">Pay w/ venmo</button></li>
+                    <li> <button type="button" class="btn btn-link venmo-tooltip" data-toggle="tooltip" data-placement="right" title="Ask <%=balance[:diner_name]%> to setup venmo!">Pay w/ venmo</button></li>
                   </ul>
 
                 <% end %>
@@ -130,6 +130,6 @@
      $(".dropdown-menu").click(function(e){
         e.stopPropagation();//stops the dropdown menu from dissapearing
      });
-     $("#venmo-tooltip").tooltip()
+     $(".venmo-tooltip").tooltip()
    </script>
 <% end %>
