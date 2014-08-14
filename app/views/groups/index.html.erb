@@ -55,3 +55,9 @@
               my_groups_path,
               :class => 'btn btn-primary' %>
 <% end %>
+
+<script>
+  var oTable = $('#datatable').dataTable({sPaginationType: "full_numbers"});
+
+  oTable.fnSort( [1,'asc'] ); // sort by name
+</script>

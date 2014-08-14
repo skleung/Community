@@ -47,4 +47,8 @@
     event.preventDefault();
     $("#meal-form").modal('show');
   });
+
+  var oTable = $('#datatable').dataTable({sPaginationType: "full_numbers"});
+
+  oTable.fnSort( [4,'desc'] ); // show most recent at top
 </script>
