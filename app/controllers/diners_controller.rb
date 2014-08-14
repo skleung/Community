@@ -45,7 +45,11 @@ class DinersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_diner
-      @diner = Diner.where(id: current_group_ids).find(params[:id])
+      @diner = Diner.where(id: current_group_ids).find_by_id(params[:id])
+      return if @diner
+      diner = Diner.find_by_id(params[:id])
+      redirect_to root_path, alert: "You must currently be in #{diner.name}'s group to access information about him" if diner
+      redirect_to root_path, alert: "Couldn't find that diner!"
     end
 
     def verify_yourself_or_admin!
