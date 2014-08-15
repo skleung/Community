@@ -23,17 +23,18 @@
   <div class = "control-group">
     <%= f.label :diner_id, "Buyer", :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:diner_id , Diner.all, :id, :name, {:selected => @defaultDinerID}) %>
-
+      <%= f.collection_select(:diner_id , current_group.diners, :id, :name, {:selected => @ingredient.diner.id || current_diner.id}) %>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :finished, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :finished, :class => 'text_field' %>
+  <% if @ingredient.id %>
+    <div class="control-group">
+      <%= f.label :finished, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.check_box :finished, :class => 'text_field' %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>

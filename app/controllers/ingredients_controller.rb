@@ -15,13 +15,11 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/new
   def new
-    @defaultDinerID = current_diner.id
     @ingredient = Ingredient.new
   end
 
   # GET /ingredients/1/edit
   def edit
-    @defaultDinerID = @ingredient.diner.id
   end 
 
   # POST /ingredients
