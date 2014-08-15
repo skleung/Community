@@ -1,4 +1,16 @@
 # -*- encoding: utf-8 -*-
+# == Schema Information
+#
+# Table name: groups
+#
+#  id            :integer          not null, primary key
+#  admin_id      :integer
+#  password_hash :string(255)
+#  name          :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 
 require 'rails_helper'
 

@@ -3,7 +3,7 @@
 # Table name: meals
 #
 #  id         :integer          not null, primary key
-#  date       :datetime
+#  date       :date
 #  created_at :datetime
 #  updated_at :datetime
 #  owner_id   :integer

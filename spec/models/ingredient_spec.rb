@@ -1,4 +1,18 @@
 # -*- encoding: utf-8 -*-
+# == Schema Information
+#
+# Table name: ingredients
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  cost       :decimal(, )
+#  finished   :boolean          default(FALSE)
+#  diner_id   :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  group_id   :integer
+#
+
 
 require 'rails_helper'
 

@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  name       :string(255)
 #  cost       :decimal(, )
-#  finished   :boolean
+#  finished   :boolean          default(FALSE)
 #  diner_id   :integer
 #  created_at :datetime
 #  updated_at :datetime
