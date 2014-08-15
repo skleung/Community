@@ -18,6 +18,8 @@ class RegistrationsController < Devise::RegistrationsController
     super
     if current_diner
       current_diner.update_attributes(venmo_token: session['venmo_access_token'], venmo_refresh_token: session['venmo_refresh_token'])
+      session['venmo_access_token'] = nil
+      session['venmo_refresh_token'] = nil
     end
   end
 

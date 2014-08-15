@@ -16,6 +16,11 @@ group :test, :development do
   gem 'byebug'
   gem 'sqlite3'
   gem "bullet"
+  gem 'rspec-rails', '~> 3.0.0'
+end
+
+group :test do
+  gem 'factory_girl'
 end
 
 group :production do
@@ -48,9 +53,6 @@ gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
-
-group :test, :development do
-end
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

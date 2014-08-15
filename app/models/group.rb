@@ -16,6 +16,8 @@ class Group < ActiveRecord::Base
 
   validates :password_hash, :admin_id, :name, presence: true
 
+  validates_uniqueness_of :name
+
   has_and_belongs_to_many :diners
 
   belongs_to :admin, class_name: "Diner", foreign_key: "admin_id"

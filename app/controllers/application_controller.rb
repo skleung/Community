@@ -10,12 +10,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_group, :current_group_ids, :use_access_token
 
   def use_access_token(token, diner_id)
-    result_hash = helper(token)
+    result_hash = exchange_token(token)
     if result_hash['error']
       if result_hash['error']['code'] == 256 # access token expired
         refresh_hash = refresh_token(diner_id)
         current_diner.update_attributes(venmo_token: refresh_hash["access_token"], venmo_refresh_token: refresh_hash["refresh_token"])
-        result_hash = helper(current_diner.venmo_token)
+        result_hash = exchange_token(current_diner.venmo_token)
       else
         flash[:alert] = "Something went wrong with Venmo #{result_hash['error']['message']}"
       end
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     JSON.parse(Net::HTTP.post_form(URI.parse(url), params).body)
   end
 
-  def helper(token)
+  def exchange_token(token)
     url = "https://api.venmo.com/v1/me?access_token=#{token}"
     JSON.parse(Net::HTTP.get(URI.parse(url)))
   end
@@ -54,8 +54,13 @@ class ApplicationController < ActionController::Base
 
   def check_group!
     return if current_group
-    return redirect_to attempt_join_group_path(session[:group_id]) if session[:group_id]
-    return redirect_to new_group_path if session[:group_name]
+    if session[:group_name]
+      group = Group.find_by_name(session[:group_name])
+      unless group.nil?
+        return redirect_to attempt_join_group_path(group.id), notice: "Found group #{session[:group_name]}, please proceed to join the group"
+      end
+      return redirect_to new_group_path, notice: "Create your group"
+    end
     redirect_to groups_path, alert: 'Oops your not in a group, join or create one' unless current_group
   end
 

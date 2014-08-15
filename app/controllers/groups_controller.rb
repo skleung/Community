@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
   # GET /groups/new
   def new
     @group_name = session[:group_name]
-    session[:group_name] = nil #ensures this redirect only happens once
+    session[:group_name] = nil # served its purpose, clear it.
     @group = Group.new
   end
 
@@ -106,7 +106,6 @@ class GroupsController < ApplicationController
   end
 
   def attempt_to_join_group
-    session[:group_id] = nil #ensures that redirect happens just once (so they can click cancel)
   end
 
   def join_group
