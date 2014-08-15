@@ -5,6 +5,10 @@ $(document).ready(function(){
 
     var $target = $(event.target);
     $(".alert-block").fadeIn();
+    var clicked_class = $target.attr('class');
+    if (!clicked_class) {
+      return; // likely clicked on day (e.g. Mon) header.  Block the event.
+    }
     if ($target.attr('class').indexOf(MEAL_CLASS) > -1){
       //selected a meal
       //make an ajax call to find out who signed up on that date
@@ -28,11 +32,17 @@ $(document).ready(function(){
       });
 
     } else {
+      var date_attr = $target.attr('data-date');
+      if (!date_attr) {
+        return; // user likely clicked on month header.  Block the event.
+      }
+
       $("#meal-form").css("z-index","9999");
       $("#meal-submit").attr('name', 'signup');
       $("#join-meal-form").css("z-index","100");
       $("#meal-form").modal();
-      var parts = $target.attr('data-date').split("/");
+
+      var parts = date_attr.split("/");
       var dt = new Date(parseInt(parts[2], 10), // year
                   parseInt(parts[0], 10) - 1, // month
                   parseInt(parts[1], 10)); // day
