@@ -8,8 +8,19 @@
   <dd><%= @diner.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
   <dd><%= @diner.email %></dd>
-  <dt>Cost</dt>
-  <dd><%= number_to_currency @diner.cost %></dd>
+  <dt>Balance:</dt>
+  <dd>
+    <% if @diner != current_diner %>
+      <% balance = @diner.balance_between(current_diner.id, current_group.id) %>
+      <% if balance != 0 %>
+        <span class="<%= balance < 0 ? 'green' : 'red'%>"><%= number_to_currency balance.abs %></span>
+      <% else %>
+        <%= number_to_currency 0 %>
+      <% end %>
+    <% else %>
+      <%= number_to_currency 0 %>
+    <% end %>
+  </dd>
   <div class="col-md-6">
     <h3>Meals <%= @diner.name %> is involved in</h3>
     <table class="table table-striped">
