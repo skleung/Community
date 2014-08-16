@@ -65,8 +65,6 @@ ingredients.each do |ingredient|
   Ingredient.where(ingredient).first_or_create!
 end
 
-Ingredient.first.update_attribute(:finished, true)
-
 meals = [
   { name: 'Bread and Lettuce', chef: Diner.first, owner: Diner.first, date: Date.today, ingredient_ids: [1, 2], diner_ids: [1, 2] },
   { name: 'Lettuce', chef_id: 3, owner: Diner.first, date: Date.yesterday, ingredient_ids: [2], diner_ids: [2] }
@@ -85,3 +83,5 @@ Ingredient.where(group_id: 2, name: 'test_other_group', cost: 0.1, diner_id: 1).
 Payment.create(from_id: 1, to_id: 2, amount: 100, group: Group.first)
 Payment.create(from_id: 2, to_id: 3, amount: 200, group: Group.first)
 Payment.create(from_id: 3, to_id: 2, amount: 300, group: Group.first)
+
+Ingredient.first.update_attribute(:finished, true)
