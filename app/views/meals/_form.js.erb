@@ -1,0 +1,28 @@
+$(document).ready(function(){
+
+  $(document).bind('ajaxError', 'form#new_meal', function(event, jqxhr, settings, exception){
+    // note: jqxhr.responseJSON undefined, parsing responseText instead
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+
+  });
+
+  $("#datepicker").datepicker();
+  <% if @meal.date %>
+    var rubydate = "<%= @meal.date.strftime('%Y-%m-%d') %>"
+    var parts = rubydate.split("-");
+    var dt = new Date(parseInt(parts[0], 10), // year
+                parseInt(parts[1], 10) - 1, // month
+                parseInt(parts[2], 10)); // day
+    $("#datepicker").datepicker("setDate", dt );
+  <% end %>
+  $("#meal-form").on("shown.bs.modal", function() {
+    $(".chosen", this).chosen();
+    $('.chosen').on('chosen:showing_dropdown', function (evt, params) {
+      var absolute_position = $(this).closest('.modal-body').scrollTop() + $(this).closest('.form-group').position().top;
+      $('.modal-body').animate({
+        scrollTop: absolute_position - 150 // scroll to the middle of the chosen clicked
+      }, 1000);
+    });
+  })
+
+});

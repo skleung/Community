@@ -40,11 +40,11 @@ class Meal < ActiveRecord::Base
   end
 
   def has_diners?
-    errors.add(:base, "A meal must have at least one diner") if !self.diners.any?
+    errors.add(:diner_ids, "A meal must have at least one diner") if !self.diners.any?
   end
 
   def has_ingredients?
-    errors.add(:base, "A meal must have at least one ingredient") if !self.ingredients.any?
+    errors.add(:ingredient_ids, "A meal must have at least one ingredient") if !self.ingredients.any?
   end
 
   def cost

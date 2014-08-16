@@ -14,9 +14,8 @@
     <p> Highlighted days represent days that have meals. </p>
     <%=
       calendar(:year => Date.today.year, :month => Date.today.month) do |day|
-        if @valid_dates.has_key?(day) 
-          data_meal_id_string = "#{@valid_dates[day].join(",")}"
-          [day.mday, {:class => "meal", :data_meal_ids => data_meal_id_string }]
+        if @valid_dates.include?(day)
+          [day.mday, {:class => "meal" }]
         else 
           [day.mday]
         end
@@ -122,18 +121,18 @@
 
   <!-- forms -->
   <%= render :partial => "join_meal" %>
-  <%= render :partial => "form" %>
+  <%= render "form" %>
 </div>
 <% content_for :javascript do %>
-   <script>
+  <script type="text/javascript">
     $("#payment-form").click(function(e){
       $("#pay-amount-tooltip").tooltip("show");
       e.stopPropagation();
     });
-     <%= render(:partial => "signup.js") %>
-     $(".dropdown-menu").click(function(e){
-        e.stopPropagation();//stops the dropdown menu from dissapearing
-     });
-     $(".venmo-tooltip").tooltip()
-   </script>
+    <%= render :partial => "signup.js", :formats => [:js] %>
+    $(".dropdown-menu").click(function(e){
+      e.stopPropagation();//stops the dropdown menu from dissapearing
+    });
+    $(".venmo-tooltip").tooltip()
+  </script>
 <% end %>

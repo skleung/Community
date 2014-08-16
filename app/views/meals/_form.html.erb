@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Create a Meal</h4>
       </div>
-      <%= form_for @meal, :html => { :class => 'form'} do |f| %>
+      <%= form_for @meal, remote: true, :html => { role: :form, 'data-model' => 'meal', :class => 'form'} do |f| %>
       <div class="modal-body">
         <% if @meal.errors.any? %>
           <div class = "alert alert-danger" role="alert">
@@ -19,17 +19,20 @@
         <div class="form-group">
           <%= f.label :name, :class => 'control-label' %>
           <%= f.text_field(:name, placeholder: "(i.e. chicken fried rice)", class: "form-control")%>
+          <span class="help-block"></span>
         </div>
 
         <!-- select chef from available diners -->
         <div class = "form-group">
           <%= f.label :chef_id, "Chef", :class => 'control-label' %>
           <%= f.collection_select(:chef_id , Diner.where(id: current_group_ids), :id, :name, {:selected => current_diner.id}, {class: "form-control"}) %>
+          <span class="help-block"></span>
         </div>
 
         <div class="form-group">
           <%= f.label :date, :class => 'control-label' %>
           <%= f.text_field :date, :id => 'datepicker', :value => Date.today.strftime('%m/%d/%Y'), class: "form-control" %>
+          <span class="help-block"></span>
         </div>
 
         <div class="form-group">
@@ -37,6 +40,7 @@
             <%= 
               f.collection_select :diner_ids, Diner.where(id: current_group_ids), :id, :name, {}, {:"data-placeholder"=>"Add your friends", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
+          <span class="help-block"></span>
         </div>
 
         <% ingredients_to_choose = @meal.ingredients | Ingredient.where(group: current_group, finished: false) %>
@@ -46,6 +50,7 @@
             <%= 
               f.collection_select :ingredient_ids, ingredients_to_choose, :id, :name, {}, {:"data-placeholder"=>"Add ingredients used", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
+          <span class="help-block"></span>
         </div>
 
         <div class="form-group">
@@ -53,6 +58,7 @@
             <%= 
               collection_select nil, :finished_ingredient_ids, ingredients_to_choose, :id, :name, {:selected => @meal.ingredients.where(finished: true).ids}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
+          <span class="help-block"></span>
         </div>
 
       </div>
@@ -65,28 +71,8 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script>
-  $("#datepicker").datepicker();
-  <% if @meal.date %>
-    var rubydate = "<%= @meal.date.strftime('%Y-%m-%d') %>"
-    var parts = rubydate.split("-");
-    var dt = new Date(parseInt(parts[0], 10), // year
-                parseInt(parts[1], 10) - 1, // month
-                parseInt(parts[2], 10)); // day
-    $("#datepicker").datepicker("setDate", dt );
-  <% end %>
-  <% if @show_modal %>
-    $("#meal-form").modal();
-    $(".chosen").chosen();
-  <% end %>
-  $("#meal-form").on("shown.bs.modal", function() {
-    $(".chosen", this).chosen();
-    $('.chosen').on('chosen:showing_dropdown', function (evt, params) {
-      var absolute_position = $(this).closest('.modal-body').scrollTop() + $(this).closest('.form-group').position().top;
-      $('.modal-body').animate({
-        scrollTop: absolute_position - 150 // scroll to the middle of the chosen clicked
-      }, 1000);
-    });
-  })
-</script>
-
+<% content_for :javascript do %>
+  <script>
+    <%= render :partial => "form.js", :formats => [:js] %>
+  </script>
+<% end %>

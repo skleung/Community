@@ -37,24 +37,16 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
-    # meal_params = Date.strptime(meal_params[:date], '%m/%d/%Y %I:%M %p')
     @meal = Meal.new(meal_params)
     @meal.owner = current_diner #owner should always be the guy that's logged in
-
+    @meal.group = current_group
 
     respond_to do |format|
       if @meal.save
-        format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @meal }
+        flash[:notice] = 'Meal was successfully created.'
+        format.js { render action: 'meal_success', status: :created, location: @meal }
       else
-        @show_modal = true
-        if params[:signup]
-          signup_setup
-          format.html { render action: 'signup' }
-        else
-          index_setup
-          format.html { render action: 'index' }
-        end
+        format.js { render json: @meal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,10 +58,7 @@ class MealsController < ApplicationController
 
   def signup_setup
     @meals = Meal.where(group: current_group)
-    @valid_dates = Hash.new #this is a hash of dates to an array of meal id's that are on that date
-    @meals.each do |meal|
-      (@valid_dates[meal.date.to_date] ||= []) << meal.id
-    end
+    @valid_dates = @meals.pluck(:date) # array of dates
     
     @balances = []
     Diner.where(id: current_group_ids).where.not(id: current_diner.id).each do |d|
@@ -186,10 +175,7 @@ class MealsController < ApplicationController
 
     # ingredient_attributes needs to be an array of hashes
     def setup_ingredients_attributes
-      params[:meal][:group_id] = current_group.id
-
       params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
-
 
       ingredients_saw = Ingredient.where(group: current_group, finished: false)
       if @meal
@@ -220,6 +206,7 @@ class MealsController < ApplicationController
     end
 
     def setup_date
+      return if params[:meal][:date].is_a? Date
       return if params[:meal][:date].empty?
       params[:meal][:date] = Date.strptime(params[:meal][:date],"%m/%d/%Y")
     end
