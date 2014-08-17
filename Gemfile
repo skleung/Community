@@ -5,6 +5,8 @@ gem 'rails', '4.0.5'
 
 gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
+gem 'calendar_helper', github: 'lkol/calendar_helper'
+
 gem "twitter-bootstrap-rails"
 gem 'devise'
 
@@ -40,8 +42,6 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
-gem 'calendar_helper', '~> 0.2.6'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

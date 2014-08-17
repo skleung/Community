@@ -17,7 +17,7 @@
         if @valid_dates.include?(day)
           [day.mday, {:class => "meal" }]
         else 
-          [day.mday]
+          [day.mday, {} ]
         end
       end 
     %>

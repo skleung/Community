@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/lkol/calendar_helper.git
+  revision: adac1363ae91097b12d48e1e98b5834af20fcce9
+  specs:
+    calendar_helper (0.2.6)
+      open4
+
+GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
   revision: 55b7f9f0081fc32a340c85b854ca02d4e6401a8f
   specs:
@@ -45,8 +52,6 @@ GEM
     byebug (3.2.0)
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
-    calendar_helper (0.2.6)
-      open4
     chosen-rails (1.1.0)
       coffee-rails (>= 3.2)
       compass-rails (>= 1.1.2)
@@ -192,7 +197,7 @@ DEPENDENCIES
   annotate
   bullet
   byebug
-  calendar_helper (~> 0.2.6)
+  calendar_helper!
   chosen-rails
   coffee-rails (~> 4.0.0)
   devise
