@@ -124,7 +124,7 @@ footer{
   font-family: "Ubuntu", serif;
   font-size: 40px;
 }
-#details .btn-link{
+#details .btn-link, .splash .btn-link{
   text-decoration: underline;
   color: white;
   text-shadow: none;

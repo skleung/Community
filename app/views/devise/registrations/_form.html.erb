@@ -1,22 +1,22 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:id =>"sign-up-form"}) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :name %><br />
+  <div><%= f.label :name, :class=>"white-text"%><br />
     <%= f.text_field :name, autofocus: true, :value => resource.name ? resource.name : session[:name] %>
   </div>
 
-  <div><%= f.label :email %><br />
+  <div><%= f.label :email, :class=>"white-text"%><br />
     <%= f.email_field :email, :value => resource.email.empty? ? session[:email] : resource.email %>
   </div>
 
-  <div><%= label :group, :group %>(optional)<br />
+  <div><%= label :group, :group, :class=>"white-text" %>(optional)<br />
     <%= text_field :group, :group, :value => session[:group_name] %>
   </div>
 
-  <div><%= f.label :password %><br />
+  <div><%= f.label :password, :class=>"white-text" %><br />
     <%= f.password_field :password, autocomplete: "off" %></div>
 
-  <div><%= f.label :password_confirmation %><br />
+  <div><%= f.label :password_confirmation, :class=>"white-text"%><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
   <div><%= f.submit "Sign up", :class=> "btn btn-primary btn-medium"%></div>
