@@ -8,6 +8,7 @@ gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem 'calendar_helper', github: 'lkol/calendar_helper'
 
 gem "twitter-bootstrap-rails"
+gem "font-awesome-rails"
 gem 'devise'
 
 gem 'annotate'

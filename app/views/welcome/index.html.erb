@@ -1,23 +1,94 @@
-<%= image_tag("background.jpg", :class=>"grayscale cover-photo" )%>
+<%= image_tag("rain background.JPG", :class=>"cover-photo" )%>
   <!-- Begin page content -->
-<div class="container">
-  <div class="header">
-    <p class="white-text" id="signin">
-      Have an account?<br />
-      <%= link_to("Sign In", new_diner_session_path, {:class=>"btn btn-md btn-default", :id=>"signin-btn"}) %>
-    </p>
-  </div>
-  
-  <div class="content">
-      <div class="splash">
-        <h1 class="text-primary"> Group finances made easy. </h1>
-        <p class="tagline"> Relax. Forget saving receipts and shared spreadsheets.</p>
-        <p class="tagline">Community brings all things food and finance together in one place.</p>
+<header>
+  <div class="container">
+    <div class="header">
+      <p class="white-text" id="signin">
+        Have an account?<br />
+        <%= link_to("Sign In", new_diner_session_path, {:class=>"btn btn-md btn-default", :id=>"signin-btn"}) %>
+      </p>
+    </div>
+
+    <div class="splash">
+      <h1 class="white-text"> Group finances made easy. </h1>
+      <div class="splash-tagline">  
+        <p> Relax. Forget saving receipts and shared spreadsheets.</p>
+        <p> Community brings all things food and finance together in one place.</p>
 
         <%= render :partial => "form" %>
       </div>
     </div>
   </div>
-</div>
+</header>
 
-<%= render :partial => 'footer'%>
+
+
+<section id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 text-center">
+        <h2 class="text-muted subheading">We're your one-stop shop for managing ingredients, splitting meal costs, and paying back friends.</h2>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-lg-4">
+        <span class="fa-stack fa-4x">
+            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+            <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
+        </span>
+        <p class="text-muted subheading-description">Keep track of what ingredients you already have in stock so you don't buy duplicate ingredients with your friends. 
+          More than one bag of celery? No problem. 
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <span class="fa-stack fa-4x">
+            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+            <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+        </span>
+        <p class="text-muted subheading-description">
+          We understand the hassle of splitting costs and adjusting payments, so we make it dead simple by integrating 
+          meal costs with <strong>venmo</strong>. No need to break up the calculator, we do all the work for you behind the scenes.
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <span class="fa-stack fa-4x">
+            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+            <i class="fa fa-spoon fa-stack-1x fa-inverse"></i>
+        </span>
+        <p class="text-muted subheading-description">
+          We make meal management simple. Multiple diners, irregular meal attendance, changing chefs every night? 
+          We manage all that information and more!
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-primary" id="details">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 text-center">
+        <h2>How it works</h2>
+        <p class="subheading-description">Ingredients have buyers, meals have ingredients, and meals also have diners. So we keep track of
+          what ingredients are used in what meals, who attended each meal, and who bought the ingredient. When 
+          an ingredient is finished, we do all the necessary calculations to determine how much each diner owes the
+          original buyer of the ingredient.</p>
+        <p class="subheading-description"> Getting started is easy! join or make your group of friends by signing up for an account. Signup with
+          venmo now or later, and start inputting your ingredients and meals to start it all off!
+        </p>
+        <%= render :partial => "form" %>
+        </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row text-center">
+      Built with <a href="https://github.com/skleung/Community"><i class="fa fa-code"></i></a> by <a href="kevincasey.herokuapp.com">Kevin</a> and <a href="skleung.github.io">Sherman. &copy; 8/2014</a>
+    
+    </div>
+  </div>
+</footer>
+
+

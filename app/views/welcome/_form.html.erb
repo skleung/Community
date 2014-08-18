@@ -1,8 +1,7 @@
 <%= form_tag({:action => "check_group"}, {:class=>"form-inline form-padding", :id =>"sign-up-form"}) do  %>
-
   <div class="form-group">
     <%= email_field :email, "email", :placeholder => "Email Address", :class=> "form-control clearfix", :value => session['email'], autofocus: true %>
-    <%= link_to ("Signup with "+image_tag('venmo-white.png')).html_safe, signup_with_venmo_path, :class => "btn btn-lg btn-venmo", :id=>"venmo-signup" %>
-    <%= submit_tag "Signup with email" , :class=> "btn btn-link", :style=>"margin-top: 0" %>
+    <%= link_to ("Signup with "+image_tag('venmo-white.png')).html_safe, signup_with_venmo_path, :class => "form-control btn btn-lg btn-venmo", :id=>"venmo-signup" %>
+    <%= submit_tag "Signup with email" , :class=> "form-control btn btn-link", :style=>"margin-top: 0" %>
   </div>
 <% end %>
