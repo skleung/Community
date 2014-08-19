@@ -1,3 +1,6 @@
 abbr[title] {
   cursor: default;
 }
+.alert .close{
+  right: 0px;
+}

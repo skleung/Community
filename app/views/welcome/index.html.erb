@@ -21,8 +21,6 @@
   </div>
 </header>
 
-
-
 <section id="about">
   <div class="container">
     <div class="row">
@@ -69,26 +67,54 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 text-center">
         <h2>How it works</h2>
-        <p class="subheading-description">Ingredients have buyers, meals have ingredients, and meals also have diners. So we keep track of
-          what ingredients are used in what meals, who attended each meal, and who bought the ingredient. When 
-          an ingredient is finished, we do all the necessary calculations to determine how much each diner owes the
-          original buyer of the ingredient.</p>
-        <p class="subheading-description"> Getting started is easy! join or make your group of friends by signing up for an account. Signup with
-          venmo now or later, and start inputting your ingredients and meals to start it all off!
-        </p>
-        <%= render :partial => "form" %>
+        <div class="row">
+          <div class="col-lg-4">
+            <span class="fa-stack fa-4x">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-check-circle fa-stack-1x fa-inverse"></i>
+            </span>
+            <p>
+              Tally up the ingredients you use in each meal, and 
+              mark an ingredient as finished when you use the last of it in a meal.
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <span class="fa-stack fa-4x">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-cutlery fa-stack-1x fa-inverse"></i>
+            </span>
+            <p>
+              We go back through the meals and calculate how many times that ingredient was used and how many people ate
+              at that meal.
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <span class="fa-stack fa-4x">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-money fa-stack-1x fa-inverse"></i>
+            </span>
+            <p>
+              The amounts owed and expected each diner in your group instantly shows on the main page. Choose to settle debts
+              via cash or with venmo.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <p class="lead"> Getting started is easy! join or create your group of friends by signing up for an account. Signup with
+            venmo now or enable it later!
+          </p>
+          <%= render :partial => "form" %>
+          </div>
         </div>
     </div>
   </div>
 </section>
 
+
 <footer>
   <div class="container">
     <div class="row text-center">
       Built with <a href="https://github.com/skleung/Community"><i class="fa fa-code"></i></a> by <a href="kevincasey.herokuapp.com">Kevin</a> and <a href="skleung.github.io">Sherman. &copy; 8/2014</a>
-    
     </div>
   </div>
 </footer>
-
-
