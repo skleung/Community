@@ -102,8 +102,8 @@ class MealsController < ApplicationController
   def update
     respond_to do |format|
       if @meal.update(meal_params)
-        flash[:notice] = 'Meal was successfully created.'
-        format.js { redirect_to meals_path }
+        flash[:notice] = 'Meal was successfully updated.'
+        format.js { render action: 'meal_updated_success', status: :updated, location: @meal }
       else
         format.js { render json: @meal.errors, status: :unprocessable_entity }
       end
