@@ -19,17 +19,21 @@ $("#meal-form").on("shown.bs.modal", function() {
     var selected = params.selected;
     var $target = $('#_finished_ingredient_ids');
     if (selected) {
-      var option = $('#meal_ingredient_ids option[value=' + selected + ']');
-      $(option).attr('selected','selected'); // Somehow doesn't get selected..weird
-      debugger
+      var option = $('#meal_ingredient_ids option[value=' + selected + ']').clone();
       var opt = option[0];
       $target.append(opt);
       $target.find(opt).removeAttr("selected");
       $target.trigger("chosen:updated");
-      debugger
+
+      return;
     }
-    //$(this).trigger("chosen:updated");
-    return;
+
+    var deselected = params.deselected;
+    if (deselected) {
+      var option = $('#_finished_ingredient_ids option[value=' + deselected + ']');
+      option.remove();
+      $target.trigger("chosen:updated");
+    }
   });
   $('.chosen').on('chosen:showing_dropdown', function (evt, params) {
     var absolute_position = $(this).closest('.modal-body').scrollTop() + $(this).closest('.form-group').position().top;
