@@ -43,7 +43,7 @@
           <span class="help-block"></span>
         </div>
 
-        <div id="ingredient-form-insert"></div>
+        <div id="ingredient-form-insert" class='btn btn-primary'></div>
 
         <% ingredients_to_choose = @meal.ingredients | Ingredient.where(group: current_group, finished: false) %>
 

@@ -3,7 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #actual-ingredient-form {
-	margin-left: 30px;
+  margin-left: 30px;
+}
+
+#ingredient-form {
+  display: none;
 }
 
 th,td
@@ -11,100 +15,100 @@ th,td
   padding:10px;
 }
 .dataTables_info {
-	float: none;
+  float: none;
 }
 #btn-cash{
-	width: 100%;
-	margin-bottom: 4px;
+  width: 100%;
+  margin-bottom: 4px;
 }
 .text-venmo{
-	color: #3D95CE;
+  color: #3D95CE;
 }
 .btn-venmo{
-	background-color: #3D95CE;
-	color: white;
-	width: auto;
-	height: 33px;
-	font-weight: 700;
-	padding-top: 5px;
+  background-color: #3D95CE;
+  color: white;
+  width: auto;
+  height: 33px;
+  font-weight: 700;
+  padding-top: 5px;
 }
 .btn-venmo img{
-	position: relative;
-	height: 45%;
-	margin-left: 3px;
-	margin-bottom: 3px;
+  position: relative;
+  height: 45%;
+  margin-left: 3px;
+  margin-bottom: 3px;
 }
 .btn-venmo:hover{
-	background-color: #247CB5;
+  background-color: #247CB5;
 }
 .meal{
-	background-color: #ccffff;
+  background-color: #ccffff;
 }
 
 .col-md-4{
-	width: 32%;
-	display: inline-table;
+  width: 32%;
+  display: inline-table;
 }
 
 .calendar-form{
-	position: absolute;
-	left: 50%;
-	width: 500px;
-	margin-left: -250px;
-	top: 20%;
-	height: auto;
-	z-index: 10;
+  position: absolute;
+  left: 50%;
+  width: 500px;
+  margin-left: -250px;
+  top: 20%;
+  height: auto;
+  z-index: 10;
 }
 th{
-	width: auto;
+  width: auto;
 }
 
 #meal-form{
-	background-color: white;
+  background-color: white;
 }
 
 #signup-meal-form{
-	background-color: white;
+  background-color: white;
 }
 
 #payment-form{
-	margin: 0;
-	padding: 0;
-	left: 0;
-	width: auto;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  width: auto;
 }
 
 #payment-form > input{
-	margin: 0;
-	width: 70%;
-	height: 100%;
-	border: 0px;
+  margin: 0;
+  width: 70%;
+  height: 100%;
+  border: 0px;
 }
 
 #payment-form > input[type="submit"]{
-	margin: 0;
-	width: auto;
-	height: 100%;
-	border: 0px;
+  margin: 0;
+  width: auto;
+  height: 100%;
+  border: 0px;
 }
 
 #payment-form-wrapper{
-	margin: 0;
+  margin: 0;
 }
 
 .button_to{
-	padding: 0;
-	margin: 0;
-	border: none;
-	width: auto;
-	left: 0px;
-	box-shadow: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+  width: auto;
+  left: 0px;
+  box-shadow: none;
 }
 
 .green{
-	color: #BDECB6;
+  color: #BDECB6;
 }
 
 .red{
-	color: #FF7878;
+  color: #FF7878;
 }

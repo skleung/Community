@@ -6,7 +6,16 @@
 
     // clear form input elements
     // todo/note: handle textarea, select, etc
-    this.find('form input[type="text"]').val('');
+    this.find('input[type="text"]').val('');
+
+    // clear error state
+    this.clear_previous_errors();
+  };
+
+  $.fn.ajax_form_success = function(){
+    // clear form input elements
+    // todo/note: handle textarea, select, etc
+    this.find('input[type="text"]').val('');
 
     // clear error state
     this.clear_previous_errors();

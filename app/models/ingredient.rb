@@ -14,6 +14,7 @@
 
 class Ingredient < ActiveRecord::Base
   validates_presence_of :diner_id, :name, :cost
+  validates_numericality_of :cost, greater_than: 0
   belongs_to :group
 
   before_create :check_duplicate_names

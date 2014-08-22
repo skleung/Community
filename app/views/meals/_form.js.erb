@@ -11,6 +11,14 @@ $(document).bind('ajaxError', 'form#actual-meal-form', function(event, jqxhr, se
 
 });
 
+$(document).on('click', '#ingredient-form-insert', function () {
+  if ($('#ingredient-form').is(":visible")) {
+    $('#ingredient-form').hide();
+  } else {
+    $('#ingredient-form').show();
+  }
+});
+
 $("#meal-form").on("shown.bs.modal", function() {
   var config = {
     '.chosen'                  : {},
@@ -58,19 +66,18 @@ $('#actual-ingredient-form').submit(function (e) {
     url: "<%= ingredients_path(format: 'json') %>",
     type: 'POST',
     data: $(this).serialize()
-  }).fail(function (data) {
-    //debugger
-    //$('#actual-ingredient-form').render_form_errors( $.parseJSON(data.responseText) );
   }).done(function (data) {
-    console.log('done');
-    console.log(data);
+    $('#meal_ingredient_ids').append('<option selected="true" value=' + data.id + '>' + data.name + '</option>');
+    $('#meal_ingredient_ids').trigger("chosen:updated");
+    $('#meal_ingredient_ids').trigger('change', { 'selected': data.id });
+    $('#actual-ingredient-form').ajax_form_success();
   });
   e.preventDefault();
   return false;
 });
 
 $(document).ready(function(){
-  $('#ingredient-form').insertBefore('#ingredient-form-insert');
+  $('#ingredient-form').insertAfter('#ingredient-form-insert');
 
   $("#datepicker").datepicker();
   <% if @meal.date %>
