@@ -1,5 +1,8 @@
 $(document).bind('ajaxError', 'form#actual-meal-form', function(event, jqxhr, settings, exception){
   // note: jqxhr.responseJSON undefined, parsing responseText instead
+
+  // TODO this is sort of hacky, but distinguish between the external meal form and internal
+  // ingredient form failing
   if (settings.url == "/ingredients.json") {
     $('#actual-ingredient-form').render_form_errors( $.parseJSON(jqxhr.responseText) );
   } else {

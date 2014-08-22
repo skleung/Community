@@ -27,13 +27,13 @@ class MealsController < ApplicationController
     @meal = Meal.new
     @meal.date = Date.today
     @defaultDinerID = current_diner.id
-    @ingredient = Ingredient.new
   end
 
   # GET /meals/1/edit
   def edit
     @edit = true
     @defaultDinerID = @meal.owner.id
+    @ingredient = Ingredient.new
   end
 
   # POST /meals
@@ -56,6 +56,7 @@ class MealsController < ApplicationController
   def signup
     signup_setup
     @meal = Meal.new
+    @ingredient = Ingredient.new
   end
 
   def signup_setup
