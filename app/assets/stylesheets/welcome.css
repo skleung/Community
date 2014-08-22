@@ -26,10 +26,10 @@ html, body {
 #error_explanation li+li:before{
   content: ", ";
 }
-
-.modal{
-  display: none;
+.modal.fade.in{
+  top: 4%;
 }
+
 #nav > li a{
   font-family: 'Open Sans', Helvetica, serif;
   font-weight: 300;
