@@ -30,7 +30,7 @@ class IngredientsController < ApplicationController
     respond_to do |format|
       if @ingredient.save
         format.html { redirect_to @ingredient, notice: 'Ingredient was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @ingredient }
+        format.json { render json: { id: @ingredient.id, name: @ingredient.name } }
       else
         format.html { render action: 'new' }
         format.json { render json: @ingredient.errors, status: :unprocessable_entity }

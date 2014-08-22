@@ -43,6 +43,8 @@
           <span class="help-block"></span>
         </div>
 
+        <div id="ingredient-form-insert"></div>
+
         <% ingredients_to_choose = @meal.ingredients | Ingredient.where(group: current_group, finished: false) %>
 
         <div class="form-group">
@@ -70,6 +72,40 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div id="ingredient-form">
+  <h1>Quick Create Ingredient</h1>
+  <%= form_for @ingredient, remote: true, :html => { role: :form, 'data-model' => 'ingredient', :class => 'form', :id => 'actual-ingredient-form' } do |f| %>
+
+  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+
+    <div class="form-group">
+      <%= f.label :name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, autofocus: true, :class => 'text_field' %>
+      </div>
+      <span class="help-block"></span>
+    </div>
+    <div class="form-group">
+      <%= f.label :cost, :class => 'control-label' %>
+      <div class="controls">
+        $<%= f.text_field :cost, :class => 'text_field' %>
+      </div>
+      <span class="help-block"></span>
+    </div>
+
+    <!-- select a buyer from diners -->
+    <div class = "form-group">
+      <%= f.label :diner_id, "Buyer", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select(:diner_id , current_group.diners, :id, :name, {:selected => current_diner.id}) %>
+      </div>
+      <span class="help-block"></span>
+    </div>
+
+    <%= f.submit nil, :class => 'btn btn-primary', :id => 'ingredient-submit' %>
+  <% end %>
+<div>
 
 <% content_for :javascript do %>
   <script>
