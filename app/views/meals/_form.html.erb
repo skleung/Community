@@ -1,4 +1,4 @@
-<div class="modal fade" id="meal-form" aria-hidden="true" style="display:none;">
+<div class="modal fade modal-lg" id="meal-form" aria-hidden="true" style="display:none;">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -43,17 +43,22 @@
           <span class="help-block"></span>
         </div>
 
-        <div id="ingredient-form-insert" class='btn btn-primary'></div>
-
         <% ingredients_to_choose = @meal.ingredients | Ingredient.where(group: current_group, finished: false) %>
 
         <div class="form-group">
-          <%= f.label :ingredients, :class => 'control-label' %>
+          <%= f.label :ingredients, :class => 'control-label' %>        <a id="ingredient-form-insert" class="pull-right">Add new ingredient</a>
+
             <%= 
               f.collection_select :ingredient_ids, ingredients_to_choose, :id, :name, {}, {:"data-placeholder"=>"Add ingredients used", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
           <span class="help-block"></span>
         </div>
+
+    <!--     <span id="ingredient-form-insert" class='fa-stack fa-1x'>
+          <i class="fa fa-square fa-stack-2x text-primary"
+          ></i>
+          <i class="fa fa-plus fa-inverse fa-stack-1x"></i> 
+        </span> -->
 
         <div class="form-group">
           <%= f.label :finished_ingredients, :class => 'control-label' %>
@@ -64,46 +69,56 @@
         </div>
 
       </div>
-      <div class="form-actions">
-        <%= f.submit nil, :class => 'btn btn-primary', :id => 'meal-submit' %>
-        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-      </div>
+        <div class="form-actions">
+          <%= f.submit nil, :class => 'btn btn-primary', :id => 'meal-submit' %>
+          <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+        </div>
       <% end %>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <div id="ingredient-form">
-  <h1>Quick Create Ingredient</h1>
   <%= form_for @ingredient, remote: true, :html => { role: :form, 'data-model' => 'ingredient', :class => 'form', :id => 'actual-ingredient-form' } do |f| %>
-
-  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
-
-    <div class="form-group">
-      <%= f.label :name, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :name, autofocus: true, :class => 'text_field' %>
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="controls">
+              <%= f.text_field :name, autofocus: true, :placeholder=>"Ingredient name", :class => 'text_field' %>
+            </div>
+            <span class="help-block"></span>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <%= f.text_field :cost, :placeholder=>"cost (e.g. $4.30)", :class => 'form-control text_field' %>
+              <span class="help-block"></span>
+            </div>
+            
+          </div>
+        </div>
       </div>
-      <span class="help-block"></span>
-    </div>
-    <div class="form-group">
-      <%= f.label :cost, :class => 'control-label' %>
-      <div class="controls">
-        $<%= f.text_field :cost, :class => 'text_field' %>
-      </div>
-      <span class="help-block"></span>
-    </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class = "form-group">
+            <div class="input-group">
+              <div class="input-group-addon">Buyer</div>
+              <%= f.collection_select(:diner_id , current_group.diners, :id, :name, {:selected => current_diner.id}, {:class=>"form-control"}) %>
+            </div>
+            <span class="help-block"></span>
+          </div>
+        </div>
 
-    <!-- select a buyer from diners -->
-    <div class = "form-group">
-      <%= f.label :diner_id, "Buyer", :class => 'control-label' %>
-      <div class="controls">
-        <%= f.collection_select(:diner_id , current_group.diners, :id, :name, {:selected => current_diner.id}) %>
+        <div class="col-md-6">
+          <%= f.submit "Create ingredient", :class => 'btn btn-primary', :id => 'ingredient-submit' %>
+        </div>
       </div>
-      <span class="help-block"></span>
-    </div>
 
-    <%= f.submit nil, :class => 'btn btn-primary', :id => 'ingredient-submit' %>
+      <!-- select a buyer from diners -->
   <% end %>
 <div>
 

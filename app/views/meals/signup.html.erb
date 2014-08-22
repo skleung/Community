@@ -1,10 +1,6 @@
 
 <div class="page-header">
   <h1>Dashboard</h1>
-  <div class="alert alert-info" role="alert">
-   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <b>Tip: </b>Create new meals and signup for existing meals by using the calendar.
-  </div>
 
 </div>
 <div class="container">
@@ -39,14 +35,16 @@
           </tr>
         </thead>
         <tbody>
+          <% balanceCount = 0 %>
           <% @balances.each do |balance| %>
             <% if balance[:balance] > 0 %>
               <tr>
                 <td><%= link_to balance[:diner_name], diner_path(balance[:diner_id]) %></td>
-                <td><span class="green"><%= number_to_currency balance[:balance] %></span></td>
-                <td> <!--empty --> </td>
+                <td colspan="2"><span class="green"><%= number_to_currency balance[:balance] %></span></td>
               </tr>
-            <% elsif balance[:balance] < 0%>
+              <% balanceCount+=1 %>
+            <% elsif balance[:balance] < 0 %>
+              <% balanceCount+=1 %>
               <tr>
                 <td><%= link_to balance[:diner_name], diner_path(balance[:diner_id]) %></td>
                 <td><span class="red"><%= number_to_currency -balance[:balance] %></span></td>
@@ -90,6 +88,17 @@
                 </td>
               </tr>
             <% end %>
+          <% end %>
+          <% if balanceCount==0%>
+            <tr>
+              <td colspan="3">
+               <div class="alert alert-info" role="alert">
+               <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                You have no balance history with any members of your group. 
+              </br>Create new meals or signup for existing meals with the calendar.
+              </div>
+            </td>
+            </tr>
           <% end %>
         </tbody>
       </table>

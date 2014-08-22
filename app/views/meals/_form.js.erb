@@ -12,10 +12,11 @@ $(document).bind('ajaxError', 'form#actual-meal-form', function(event, jqxhr, se
 });
 
 $('#ingredient-form-insert').on('click', function () {
-  if ($('#ingredient-form').is(":visible")) {
-    $('#ingredient-form').hide();
-  } else {
-    $('#ingredient-form').show();
+  $('#ingredient-form').slideToggle();
+  if ($('#ingredient-form').is(":visible")){
+    $(this).html("Close ingredient form");
+  } else{
+    $(this).html("Add new ingredient");
   }
 });
 

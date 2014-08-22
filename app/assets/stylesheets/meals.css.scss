@@ -9,10 +9,18 @@
 #ingredient-form {
   display: none;
 }
+#ingredient-form-insert:hover{
+  cursor: pointer;
+}
 
 th,td
 {
   padding:10px;
+}
+.calendar td:hover{
+  cursor: pointer;
+  z-index: 99;
+  background-color: aliceblue;
 }
 .dataTables_info {
   float: none;
@@ -42,12 +50,10 @@ th,td
   background-color: #247CB5;
 }
 .meal{
-  background-color: #ccffff;
+  background-color: #FFD5C1;
 }
-
-.col-md-4{
-  width: 32%;
-  display: inline-table;
+.calendar .meal:hover{
+  background-color: #FF705C;
 }
 
 .calendar-form{
