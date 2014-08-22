@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812222513) do
+ActiveRecord::Schema.define(version: 20140822212758) do
 
   create_table "diners", force: true do |t|
     t.string   "name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140812222513) do
     t.string   "venmo_refresh_token"
   end
 
+  add_index "diners", ["current_group_id"], name: "index_diners_on_current_group_id"
   add_index "diners", ["email"], name: "index_diners_on_email", unique: true
   add_index "diners", ["reset_password_token"], name: "index_diners_on_reset_password_token", unique: true
 
@@ -60,6 +61,8 @@ ActiveRecord::Schema.define(version: 20140812222513) do
     t.datetime "updated_at"
   end
 
+  add_index "groups", ["admin_id"], name: "index_groups_on_admin_id"
+
   create_table "ingredients", force: true do |t|
     t.string   "name"
     t.decimal  "cost"
@@ -69,6 +72,9 @@ ActiveRecord::Schema.define(version: 20140812222513) do
     t.datetime "updated_at"
     t.integer  "group_id"
   end
+
+  add_index "ingredients", ["diner_id"], name: "index_ingredients_on_diner_id"
+  add_index "ingredients", ["group_id"], name: "index_ingredients_on_group_id"
 
   create_table "ingredients_meals", id: false, force: true do |t|
     t.integer "ingredient_id", null: false
@@ -88,6 +94,10 @@ ActiveRecord::Schema.define(version: 20140812222513) do
     t.integer  "group_id"
   end
 
+  add_index "meals", ["chef_id"], name: "index_meals_on_chef_id"
+  add_index "meals", ["group_id"], name: "index_meals_on_group_id"
+  add_index "meals", ["owner_id"], name: "index_meals_on_owner_id"
+
   create_table "payments", force: true do |t|
     t.integer  "from_id"
     t.integer  "to_id"
@@ -96,5 +106,9 @@ ActiveRecord::Schema.define(version: 20140812222513) do
     t.datetime "updated_at"
     t.integer  "group_id"
   end
+
+  add_index "payments", ["from_id"], name: "index_payments_on_from_id"
+  add_index "payments", ["group_id"], name: "index_payments_on_group_id"
+  add_index "payments", ["to_id"], name: "index_payments_on_to_id"
 
 end
