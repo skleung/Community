@@ -6,7 +6,9 @@
 
 <script>
   // turbolinks don't use document on ready
-  $("#meal-form").modal('show');
+  $(document).ready(function () {
+    $("#meal-form").modal('show');
+  });
   $("#meal-form").on('hidden', function () {
     window.location.href = '<%= meals_path %>';
   })

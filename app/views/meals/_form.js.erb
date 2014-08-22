@@ -1,10 +1,49 @@
-$(document).ready(function(){
+$(document).bind('ajaxError', 'form#actual-meal-form', function(event, jqxhr, settings, exception){
+  // note: jqxhr.responseJSON undefined, parsing responseText instead
+  $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
 
-  $(document).bind('ajaxError', 'form#actual-meal-form', function(event, jqxhr, settings, exception){
-    // note: jqxhr.responseJSON undefined, parsing responseText instead
-    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+});
 
+$("#meal-form").on("shown.bs.modal", function() {
+  var config = {
+    '.chosen'                  : {},
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'}
+  }
+  for (var selector in config) {
+    $(".chosen").chosen(config[selector]);
+  }
+  $('#meal_ingredient_ids').on('change', function(e, params) {
+    var selected = params.selected;
+    var $target = $('#_finished_ingredient_ids');
+    if (selected) {
+      var option = $('#meal_ingredient_ids option[value=' + selected + ']').clone();
+      var opt = option[0];
+      $target.append(opt);
+      $target.find(opt).removeAttr("selected");
+      $target.trigger("chosen:updated");
+
+      return;
+    }
+
+    var deselected = params.deselected;
+    if (deselected) {
+      var option = $('#_finished_ingredient_ids option[value=' + deselected + ']');
+      option.remove();
+      $target.trigger("chosen:updated");
+    }
   });
+  $('.chosen').on('chosen:showing_dropdown', function (evt, params) {
+    var absolute_position = $(this).closest('.modal-body').scrollTop() + $(this).closest('.form-group').position().top;
+    $('.modal-body').animate({
+      scrollTop: absolute_position - 150 // scroll to the middle of the chosen clicked
+    }, 1000);
+  });
+});
+
+$(document).ready(function(){
 
   $("#datepicker").datepicker();
   <% if @meal.date %>
@@ -15,14 +54,5 @@ $(document).ready(function(){
                 parseInt(parts[2], 10)); // day
     $("#datepicker").datepicker("setDate", dt );
   <% end %>
-  $("#meal-form").on("shown.bs.modal", function() {
-    $(".chosen", this).chosen();
-    $('.chosen').on('chosen:showing_dropdown', function (evt, params) {
-      var absolute_position = $(this).closest('.modal-body').scrollTop() + $(this).closest('.form-group').position().top;
-      $('.modal-body').animate({
-        scrollTop: absolute_position - 150 // scroll to the middle of the chosen clicked
-      }, 1000);
-    });
-  })
 
 });

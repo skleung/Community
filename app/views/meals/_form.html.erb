@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Create a Meal</h4>
+        <h4 class="modal-title"><%= @meal.id ? 'Edit Meal' : 'Create a Meal' %></h4>
       </div>
       <%= form_for @meal, remote: true, :html => { role: :form, 'data-model' => 'meal', :class => 'form', :id => 'actual-meal-form' } do |f| %>
       <div class="modal-body">
@@ -56,7 +56,7 @@
         <div class="form-group">
           <%= f.label :finished_ingredients, :class => 'control-label' %>
             <%= 
-              collection_select nil, :finished_ingredient_ids, ingredients_to_choose, :id, :name, {:selected => @meal.ingredients.where(finished: true).ids}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
+              collection_select nil, :finished_ingredient_ids, @meal.ingredients, :id, :name, {:selected => @meal.ingredients.where(finished: true).ids}, {:"data-placeholder"=>"Add finished ingredients", :class=>"form-control chosen chosen-select chosen-select-no-results chosen-select-no-single chosen-select-deselect", multiple: true}
             %>
           <span class="help-block"></span>
         </div>
