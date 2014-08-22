@@ -11,7 +11,7 @@ $(document).bind('ajaxError', 'form#actual-meal-form', function(event, jqxhr, se
 
 });
 
-$(document).on('click', '#ingredient-form-insert', function () {
+$('#ingredient-form-insert').on('click', function () {
   if ($('#ingredient-form').is(":visible")) {
     $('#ingredient-form').hide();
   } else {
