@@ -1,4 +1,5 @@
-== Community
+Community
+==========
 
 Community is a Ruby on Rails application that facilitates splitting costs for food and utilities among members of a community that lives together (i.e. a commune). This application is flexible for multiple users and varying ingredients and fixed costs that come with a dynamic community. We are currently alpha testing with a group of 7 people.
 
