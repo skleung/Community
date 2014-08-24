@@ -26,7 +26,7 @@
         <div class="green">Amount expected</div>
         <div class="red">Amount owed</div>
       </div>
-      <table>
+      <table id="balances">
         <thead>
           <tr>
             <th>Name</th>
@@ -51,7 +51,7 @@
                 <td>
                   <div class="btn-group">
                     <% amount = -balance[:balance] #we have to negate the balance they're paying if they're in debt %>
-                    <% if balance[:venmo_token] %>
+                    <% unless balance[:venmo_token] %>
                       <%= link_to ("<small>Pay w/</small>"+image_tag('venmo-white.png')).html_safe, pay_with_venmo_path(to_diner_id: balance[:diner_id]), :method =>"post", :class => "btn btn-sm btn-venmo" %>
                       
                       <button type="button" class="btn btn-sm btn-venmo dropdown-toggle" data-toggle="dropdown">

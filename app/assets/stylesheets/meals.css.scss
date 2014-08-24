@@ -17,6 +17,9 @@ th,td
 {
   padding:10px;
 }
+#balances td{
+  padding: 10px 0;
+}
 .calendar td:hover{
   cursor: pointer;
   z-index: 99;
