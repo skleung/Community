@@ -15,7 +15,10 @@
   <div class="control-group">
     <%= f.label :cost, :class => 'control-label' %>
     <div class="controls">
-      $<%= f.text_field :cost, :class => 'text_field' %>
+      <div class="input-group">
+        <div class="input-group-addon">$</div>
+        <%= f.text_field :cost, :class => 'text_field', value: number_to_currency(@ingredient.cost, unit: '') %>
+      </div>
     </div>
   </div>
 
