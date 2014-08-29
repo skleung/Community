@@ -41,12 +41,10 @@ class Ingredient < ActiveRecord::Base
     errors.add(:base, "A finished ingredient must be part of some meal!") if finished && !meals.any?
   end
 
-  # def servings
-  #   # detemines how many 'servings' this ingredient has been split into.
-  #   DinersMeals.where(meal_id: meals).count
-  # end
-
-  # detemines how many 'servings' this ingredient has been split into.
+  # raw calculates how many 'servings' this ingredient has been split into.
+  # could cache counter this better
+  # this should be called whenever a meal is saved
+  # and when the meal ingredients join table changes
   def update_servings
     update_attribute(:servings, DinersMeals.where(meal_id: meals).count)
   end
