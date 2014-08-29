@@ -29,6 +29,32 @@ class Meal < ActiveRecord::Base
 
   before_destroy :sanity_check_finished_ingredients
 
+  after_save :update_ingredient_servings
+
+  def update_ingredient_servings
+    # just update all the ingredients servings since likely changed after save
+    ingredients.each do |i|
+      i.update_servings
+    end
+  end
+
+  def new_ingredient_ids=(ids)
+    # we need to collect all the dropped ingredient ids so that we can update their servings
+    dropped_ids = ingredient_ids - ids
+
+    # execute the join table modify so that update_servings will work properly
+    original_ingredient_ids(ids) # this is the original def of ingredient_ids=
+    dropped_ids.each do |id|
+      i = Ingredient.find(id)
+      i.update_servings
+    end
+  end
+
+  # alias method chain to handle attribute=
+  alias_method :original_ingredient_ids, :ingredient_ids=
+  alias_method :ingredient_ids=, :new_ingredient_ids=
+
+
   def check_group_id_of_ingredients
     # TODO
     # this if statement should really be done at database level if possible
