@@ -156,12 +156,13 @@ class MealsController < ApplicationController
   end
 
   def update_ingredients_after_save
-    ingredients_saw = Ingredient.where(group: current_group, finished: false)
+    ingredients_saw_ids = Ingredient.where(group: current_group, finished: false).pluck(:id)
     if @meal
-      ingredients_saw |= @meal.ingredients
+      ingredients_saw_ids |= @meal.ingredients.pluck(:id)
     end
 
-    ingredients_saw_ids = ingredients_saw.collect { |i| i.id.to_s } # need them in string since params passes them in as string
+    params[:finished_ingredient_ids].delete("") # purge empty string if chosen creates
+    params[:finished_ingredient_ids].map!(&:to_i) # easier to work with all ints
 
     #check off the finished ingredients
     finished_ids = params[:finished_ingredient_ids] & params[:meal][:ingredient_ids]
