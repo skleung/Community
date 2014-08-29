@@ -12,7 +12,7 @@ class MealsController < ApplicationController
 
   def index_setup
     @defaultDinerID = current_diner.id
-    @meals = Meal.where(group: current_group).includes(:chef, :owner)
+    @meals = Meal.where(group: current_group).includes(:chef, :owner, :ingredients)
   end
 
   # GET /meals/1
@@ -146,7 +146,7 @@ class MealsController < ApplicationController
   def get_attendance
     #build a boolean attendance record that hashes to each meal date
     date = Date.strptime(params['date'],"%m/%d/%Y")
-    meals = Meal.where(date: date, group: current_group)
+    meals = Meal.where(date: date, group: current_group).includes(:diners, :chef)
     meals_html = []
     meals.each do |meal|
       meals_html << generate_html(meal)
