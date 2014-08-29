@@ -210,9 +210,7 @@ class MealsController < ApplicationController
     def setup_ingredients_attributes
       params[:meal][:ingredient_ids] = [] unless params[:meal][:ingredient_ids] # set ids to empty if no ingredients selected
       params[:meal][:ingredient_ids].delete("") # purge empty string if chosen creates
-      byebug
-      1
-      #params[:meal][:ingredient_ids].map!(&:to_i) # easier to work with all ints
+      params[:meal][:ingredient_ids].map!(&:to_i) # easier to work with all ints
     end
 
     def setup_date

@@ -40,13 +40,17 @@ class Meal < ActiveRecord::Base
 
   def new_ingredient_ids=(ids)
     # we need to collect all the dropped ingredient ids so that we can update their servings
-    dropped_ids = ingredient_ids - ids.map(&:to_i)
+    dropped_ids = ingredient_ids - ids
+
+    # execute the join table modify so that update_servings will work properly
+    original_ingredient_ids(ids) # this is the original def of ingredient_ids=
     dropped_ids.each do |id|
       i = Ingredient.find(id)
       i.update_servings
     end
-    original_ingredient_ids(ids) # this is the original def of ingredient ids
   end
+
+  # alias method chain to handle attribute=
   alias_method :original_ingredient_ids, :ingredient_ids=
   alias_method :ingredient_ids=, :new_ingredient_ids=
 
