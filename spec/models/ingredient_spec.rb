@@ -11,8 +11,8 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  group_id   :integer
+#  servings   :integer          default(0)
 #
-
 
 require 'rails_helper'
 

@@ -16,7 +16,7 @@ class Meal < ActiveRecord::Base
   belongs_to :owner, class_name: "Diner", foreign_key: "owner_id"
   belongs_to :chef, class_name: "Diner", foreign_key: "chef_id"
   belongs_to :group
-  has_and_belongs_to_many :ingredients
+  has_and_belongs_to_many :ingredients, before_remove: :before_remove_for_meals_ingredients
   has_and_belongs_to_many :diners
 
   validates_presence_of :name, :owner, :chef, :date
@@ -28,6 +28,36 @@ class Meal < ActiveRecord::Base
   accepts_nested_attributes_for :ingredients, :diners
 
   before_destroy :sanity_check_finished_ingredients
+
+  after_save :update_ingredient_servings
+
+  def update_ingredient_servings
+    byebug
+    ingredients.each do |i|
+      i.update_servings
+    end
+  end
+
+  # def ingredient_ids_with_dropped_ids(ids)
+  #   dropped_ids = ingredient_ids - ids
+  #   dropped_ids.each do |id|
+  #     i = Ingredient.find(id)
+  #     i.update_servings
+  #   end
+  #   association(:ingredients).ids_writer(ids)
+  # end
+
+  def new_ingredient_ids=(ids)
+    dropped_ids = ingredient_ids - ids.map(&:to_i)
+    dropped_ids.each do |id|
+      i = Ingredient.find(id)
+      i.update_servings
+    end
+    original_ingredient_ids(ids) # this is the original def of ingredient ids
+  end
+  #alias_method :original_ingredient_ids, :ingredient_ids=
+  #alias_method :ingredient_ids=, :new_ingredient_ids=
+
 
   def check_group_id_of_ingredients
     # TODO
